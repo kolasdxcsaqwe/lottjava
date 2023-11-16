@@ -1,6 +1,7 @@
 package com.example.tt.dao;
 
 import com.example.tt.Bean.ChatBean;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface ChatBeanMapper {
 
     int updateByPrimaryKey(ChatBean record);
 
-    List<ChatBean> last50Row(String roomid,String game);
+    List<ChatBean> last50Row(@Param("roomid") String roomid, @Param("game")String game);
 
     List<ChatBean> selectNewChat(String roomid,Integer chatid,String game);
 }

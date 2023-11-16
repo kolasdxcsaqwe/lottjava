@@ -45,7 +45,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from fn_chat roomid where roomid = #{roomid,jdbcType=VARCHAR} and game = #{game,jdbcType=VARCHAR} limit 50
+    from fn_chat where roomid = #{roomid} and game = #{game} limit 50
   </select>
 
   <select id="selectNewChat" resultMap="ResultMapWithBLOBs">
@@ -53,7 +53,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from fn_chat  where id > #{chatid,jdbcType=INTEGER} and roomid = #{roomid,jdbcType=INTEGER} and game = #{game,jdbcType=VARCHAR} order by id asc
+    from fn_chat  where id > #{chatid,jdbcType=INTEGER} and roomid = #{roomid,jdbcType=VARCHAR} and game = #{game,jdbcType=VARCHAR} order by id asc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

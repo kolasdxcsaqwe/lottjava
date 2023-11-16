@@ -1,5 +1,8 @@
 package com.example.tt.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReturnDataBuilder {
 
     public enum  GameListNameEnum {
@@ -40,17 +43,13 @@ public class ReturnDataBuilder {
         return jsonObject;
     }
 
-    public static JSONObject makeBaseJSON(Object object)
+    public static Map makeBaseJSON(Object object)
     {
-        JSONObject jsonObject=new JSONObject();
-        try {
-            jsonObject.put("msg","操作成功");
-            jsonObject.put("code",0);
-            jsonObject.put("datas",object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
+        Map map=new HashMap();
+        map.put("msg","操作成功");
+        map.put("code",0);
+        map.put("datas",object);
+        return map;
     }
 
 }

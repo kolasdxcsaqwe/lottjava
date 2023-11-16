@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="utf8">
+<head>
+    <title>大屏A</title>
+</head>
+
+<body>
+Welcome<br/>
+<input id="text" type="text" /><button οnclick="send()">Send</button>    <button οnclick="closeWebSocket()">Close</button>
+<div id="message">
+</div>
+</body>
+
+<script type="text/javascript">
+    var websocket = null;
+    var wsGroupId = "c91c2a3c-2e8b-a524-be38-43734f76cb19";
+    var game = "ny28"
+    var url = "ws://localhost:8653/chat/10029/" + game + "/" + wsGroupId;
+    var tt;
+    //判断当前浏览器是否支持WebSocket
+    if('WebSocket' in window){
+        websocket = new WebSocket(url);
+    }
+    else{
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function(){
+        // setMessageInnerHTML("error");
+        console.log(getNowTime() +' onerror');
+        reconnect(url);
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function(event){
+        //setMessageInnerHTML("open");
+        console.log(getNowTime() +" Socket is On");
+        send("heartbeat");
+        //心跳检测重置
+        heartCheck.start()
+    }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function(event){
+        //websocket.setMessageInnerHTML(event.data);
+        // 维持心跳
+        heartCheck.start();
+        if(event.data !='heartbeat'){
+            document.getElementById("text").value=event.data;
+            console.log(event.data)
+        }
+        //window.location.href="http://www.jb51.net";
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function(){
+        // websocket.setMessageInnerHTML("close");
+        console.log(getNowTime() +" Socket closed");
+        reconnect(url)
+    }
+
+    //    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    //     window.onbeforeunload = function(){
+    //         websocket.close();
+    //     }
+
+    //将消息显示在网页上
+    //    function setMessageInnerHTML(innerHTML){
+    //        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    //    }
+
+    //关闭连接
+    //    function closeWebSocket(){
+    //        websocket.close();
+    //         lockReconnect= false;
+    //         reconnect(url);
+    //     }
+
+    function createWebSocket() {
+        try {
+            ws = new WebSocket(url);
+            init();
+        } catch(e) {
+            console.log('catch');
+            reconnect(url);
+        }
+    }
+
+    function init() {
+        ws.onclose = function () {
+            console.log('onclose');
+            reconnect(url);
+        };
+        ws.onerror = function() {
+            console.log('onerror');
+            reconnect(url);
+        };
+        ws.onopen = function () {
+            //心跳检测重置
+            heartCheck.start();
+        };
+        ws.onmessage = function (event) {
+            //拿到任何消息都说明当前连接是正常的
+            console.log('onmessage');
+            heartCheck.start();
+        }
+    }
+
+    //发送消息
+    function send(message){
+        // var message = document.getElementById('text').value;
+        websocket.send(message);
+    }
+
+    var lockReconnect = false;//避免重复连接
+    //重试连接socket
+    function reconnect(url) {
+        if(lockReconnect) {
+            return;
+        };
+        lockReconnect = true;
+        //没连接上会一直重连，设置延迟避免请求过多
+        clearTimeout(tt);
+        tt = setTimeout(function () {
+            createWebSocket(url);
+            lockReconnect = false;
+        }, 10000);
+    }
+
+
+    //心跳检测
+    var heartCheck = {
+        timeout: 5000,
+        timeoutObj: null,
+        serverTimeoutObj: null,
+        start: function(){
+            console.log(getNowTime() +" Socket heart");
+            var self = this;
+            this.timeoutObj && clearTimeout(this.timeoutObj);
+            this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj);
+            this.timeoutObj = setTimeout(function(){
+                //这里发送一个心跳，后端收到后，返回一个心跳消息，
+                //onmessage拿到返回的心跳就说明连接正常
+                console.log(getNowTime() +' Socket send heartbeat');
+                send("heartbeat");
+                self.serverTimeoutObj = setTimeout(function() {
+                    console.log(this);
+                    close();
+                }, self.timeout);
+            }, this.timeout)
+        }
+    }
+
+    /**
+     * 获取系统当前时间
+     * @returns
+     */
+    function p(s) {
+        return s < 10 ? '0' + s : s;
+    }
+    function getNowTime() {
+        var myDate = new Date();
+        //获取当前年
+        var year = myDate.getFullYear();
+        //获取当前月
+        var month = myDate.getMonth() + 1;
+        //获取当前日
+        var date = myDate.getDate();
+        var h = myDate.getHours();       //获取当前小时数(0-23)
+        var m = myDate.getMinutes();     //获取当前分钟数(0-59)
+        var s = myDate.getSeconds();
+        return year + '-' + p(month) + "-" + p(date) + " " + p(h) + ':' + p(m) + ":" + p(s);
+    }
+
+</script>
+</html>

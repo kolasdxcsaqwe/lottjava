@@ -3,12 +3,15 @@ package com.example.tt.Controller;
 import com.example.tt.Bean.ChatBean;
 import com.example.tt.dao.ChatBeanMapper;
 import com.example.tt.utils.*;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ChatController {
@@ -18,20 +21,20 @@ public class ChatController {
 
     @ResponseBody
     @RequestMapping(value = "/NewChats",method = RequestMethod.POST)
-    public JSONObject NewChats(@RequestParam(name ="userid")String userid,
-                                   @RequestParam(name ="game")String game,
-                                   @RequestParam(name ="roomid")String roomid)
+    public Object NewChats(@RequestParam(name ="userid")String userid,
+                        @RequestParam(name ="game")String game,
+                        @RequestParam(name ="roomid")String roomid)
     {
         if(Strings.isNullAmongOf(userid,game,roomid))
         {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2).toString();
         }
 
         List<ChatBean> list=chatBeanMapper.last50Row(roomid,game);
         int nowTerm=GameIndex.getLotteryIndex(game);
         if(nowTerm < 1)
         {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1).toString();
         }
 
         for (int i = 0; i < list.size(); i++) {
@@ -41,20 +44,17 @@ public class ChatController {
             }
         }
 
-        JSONObject jsonObject=new JSONObject();
-        try {
-            jsonObject.put("betTerm",game);
-            jsonObject.put("list",list);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        return ReturnDataBuilder.makeBaseJSON(jsonObject);
+        Map<String,Object> map=new HashMap<>();
+        map.put("betTerm",game);
+        map.put("list",list);
+
+        return ReturnDataBuilder.makeBaseJSON(map);
     }
 
     @ResponseBody
     @RequestMapping(value = "/UpdateChats",method = RequestMethod.POST)
-    public JSONObject UpdateChats(@RequestParam(name ="userid")String userid,
+    public Object UpdateChats(@RequestParam(name ="userid")String userid,
                                   @RequestParam(name ="chatid")String chatid,
                                @RequestParam(name ="game")String game,
                                @RequestParam(name ="roomid")String roomid)
