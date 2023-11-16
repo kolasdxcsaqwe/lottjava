@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.ChatBeanMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.ChatBean">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="chatid" jdbcType="VARCHAR" property="chatid" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="betterm" jdbcType="VARCHAR" property="betterm" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.ChatBean">
+    <result column="userid" jdbcType="LONGVARCHAR" property="userid" />
+    <result column="username" jdbcType="LONGVARCHAR" property="username" />
+    <result column="headimg" jdbcType="LONGVARCHAR" property="headimg" />
+    <result column="chat_term" jdbcType="LONGVARCHAR" property="chatTerm" />
+    <result column="term" jdbcType="LONGVARCHAR" property="term" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="mingci" jdbcType="LONGVARCHAR" property="mingci" />
+    <result column="neirong" jdbcType="LONGVARCHAR" property="neirong" />
+    <result column="jine" jdbcType="LONGVARCHAR" property="jine" />
+    <result column="status" jdbcType="LONGVARCHAR" property="status" />
+    <result column="chat_status" jdbcType="LONGVARCHAR" property="chatStatus" />
+    <result column="addtime" jdbcType="LONGVARCHAR" property="addtime" />
+    <result column="time" jdbcType="LONGVARCHAR" property="time" />
+    <result column="game" jdbcType="LONGVARCHAR" property="game" />
+    <result column="type" jdbcType="LONGVARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, chatid, roomid, betterm
+  </sql>
+  <sql id="Blob_Column_List">
+    userid, username, headimg, chat_term, term, content, mingci, neirong, jine, status, 
+    chat_status, addtime, 'time', game, 'type'
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_chat
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="last50Row" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_chat roomid where roomid = #{roomid,jdbcType=VARCHAR} and game = #{game,jdbcType=VARCHAR} limit 50
+  </select>
+
+  <select id="selectNewChat" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_chat  where id > #{chatid,jdbcType=INTEGER} and roomid = #{roomid,jdbcType=INTEGER} and game = #{game,jdbcType=VARCHAR} order by id asc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_chat
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.ChatBean">
+    insert into fn_chat (id, chatid, roomid, 
+      betterm, userid, username, 
+      headimg, chat_term, term, 
+      content, mingci, neirong, 
+      jine, status, chat_status, 
+      addtime, time, game, 
+      type)
+    values (#{id,jdbcType=INTEGER}, #{chatid,jdbcType=VARCHAR}, #{roomid,jdbcType=INTEGER}, 
+      #{betterm,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, 
+      #{headimg,jdbcType=LONGVARCHAR}, #{chatTerm,jdbcType=LONGVARCHAR}, #{term,jdbcType=LONGVARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR}, #{mingci,jdbcType=LONGVARCHAR}, #{neirong,jdbcType=LONGVARCHAR}, 
+      #{jine,jdbcType=LONGVARCHAR}, #{status,jdbcType=LONGVARCHAR}, #{chatStatus,jdbcType=LONGVARCHAR}, 
+      #{addtime,jdbcType=LONGVARCHAR}, #{time,jdbcType=LONGVARCHAR}, #{game,jdbcType=LONGVARCHAR}, 
+      #{type,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.ChatBean">
+    insert into fn_chat
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chatid != null">
+        chatid,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="betterm != null">
+        betterm,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="headimg != null">
+        headimg,
+      </if>
+      <if test="chatTerm != null">
+        chat_term,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="mingci != null">
+        mingci,
+      </if>
+      <if test="neirong != null">
+        neirong,
+      </if>
+      <if test="jine != null">
+        jine,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="chatStatus != null">
+        chat_status,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="game != null">
+        game,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chatid != null">
+        #{chatid,jdbcType=VARCHAR},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="betterm != null">
+        #{betterm,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chatTerm != null">
+        #{chatTerm,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mingci != null">
+        #{mingci,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="neirong != null">
+        #{neirong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jine != null">
+        #{jine,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chatStatus != null">
+        #{chatStatus,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        #{game,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.ChatBean">
+    update fn_chat
+    <set>
+      <if test="chatid != null">
+        chatid = #{chatid,jdbcType=VARCHAR},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="betterm != null">
+        betterm = #{betterm,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        headimg = #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chatTerm != null">
+        chat_term = #{chatTerm,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mingci != null">
+        mingci = #{mingci,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="neirong != null">
+        neirong = #{neirong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jine != null">
+        jine = #{jine,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chatStatus != null">
+        chat_status = #{chatStatus,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        game = #{game,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.ChatBean">
+    update fn_chat
+    set chatid = #{chatid,jdbcType=VARCHAR},
+      roomid = #{roomid,jdbcType=INTEGER},
+      betterm = #{betterm,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=LONGVARCHAR},
+      username = #{username,jdbcType=LONGVARCHAR},
+      headimg = #{headimg,jdbcType=LONGVARCHAR},
+      chat_term = #{chatTerm,jdbcType=LONGVARCHAR},
+      term = #{term,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      mingci = #{mingci,jdbcType=LONGVARCHAR},
+      neirong = #{neirong,jdbcType=LONGVARCHAR},
+      jine = #{jine,jdbcType=LONGVARCHAR},
+      status = #{status,jdbcType=LONGVARCHAR},
+      chat_status = #{chatStatus,jdbcType=LONGVARCHAR},
+      addtime = #{addtime,jdbcType=LONGVARCHAR},
+      time = #{time,jdbcType=LONGVARCHAR},
+      game = #{game,jdbcType=LONGVARCHAR},
+      type = #{type,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.ChatBean">
+    update fn_chat
+    set chatid = #{chatid,jdbcType=VARCHAR},
+      roomid = #{roomid,jdbcType=INTEGER},
+      betterm = #{betterm,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.LotteryOpenBeanMapper">
+    <resultMap id="BaseResultMap" type="com.example.tt.Bean.LotteryOpenBean">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="term" jdbcType="VARCHAR" property="term"/>
+        <result column="next_term" jdbcType="VARCHAR" property="nextTerm"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="next_time" jdbcType="TIMESTAMP" property="nextTime"/>
+        <result column="roomid" jdbcType="VARCHAR" property="roomid"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.LotteryOpenBean">
+        <result column="code" jdbcType="LONGVARCHAR" property="code"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, type, term, next_term, time, next_time, roomid
+  </sql>
+    <sql id="Blob_Column_List">
+    code
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from fn_open
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getOpenByTerm" resultType="java.lang.String">
+    select
+    next_term
+    from fn_open
+    where type = #{type,jdbcType=INTEGER} order by next_term desc limit 1
+  </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_open
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.example.tt.Bean.LotteryOpenBean">
+    insert into fn_open (id, type, term, 
+      next_term, time, next_time, 
+      roomid, code)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}, 
+      #{nextTerm,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{nextTime,jdbcType=TIMESTAMP}, 
+      #{roomid,jdbcType=VARCHAR}, #{code,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.tt.Bean.LotteryOpenBean">
+        insert into fn_open
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="term != null">
+                term,
+            </if>
+            <if test="nextTerm != null">
+                next_term,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="nextTime != null">
+                next_time,
+            </if>
+            <if test="roomid != null">
+                roomid,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="term != null">
+                #{term,jdbcType=VARCHAR},
+            </if>
+            <if test="nextTerm != null">
+                #{nextTerm,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextTime != null">
+                #{nextTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="roomid != null">
+                #{roomid,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.LotteryOpenBean">
+        update fn_open
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="term != null">
+                term = #{term,jdbcType=VARCHAR},
+            </if>
+            <if test="nextTerm != null">
+                next_term = #{nextTerm,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextTime != null">
+                next_time = #{nextTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="roomid != null">
+                roomid = #{roomid,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.LotteryOpenBean">
+    update fn_open
+    set type = #{type,jdbcType=INTEGER},
+      term = #{term,jdbcType=VARCHAR},
+      next_term = #{nextTerm,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=VARCHAR},
+      code = #{code,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.LotteryOpenBean">
+    update fn_open
+    set type = #{type,jdbcType=INTEGER},
+      term = #{term,jdbcType=VARCHAR},
+      next_term = #{nextTerm,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
