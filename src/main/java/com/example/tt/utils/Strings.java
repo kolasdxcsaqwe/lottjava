@@ -18,6 +18,22 @@ public class Strings {
         return false;
     }
 
+    public static boolean isEmptyOrNullAmongOf(String ... args)
+    {
+        if(args==null)
+        {
+            return true;
+        }
+        for (int i = 0; i <args.length ; i++) {
+            if(args[i]==null || args[i].length()==0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean isDigitOnly(String string) {
         if (isNullAmongOf(string)) return false;
         for (int i = 0; i < string.length(); i++) {

@@ -32,23 +32,38 @@ public class SocketTest {
 
     @ResponseBody
     @RequestMapping(value = "/sendChat", method = RequestMethod.POST)
-    public String sendChat() {
-        for (int i = 0; i < sessionStorage.getAllSession().size(); i++) {
-            try {
-                sessionStorage.getAllSession().get(i).getBasicRemote().sendText("3434");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public String sendChat(@RequestParam(name = "content") String content,
+                           @RequestParam(name = "chat_term",defaultValue = "") String chat_term,
+                           @RequestParam(name = "chat_status",defaultValue = "") String chat_status,
+                           @RequestParam(name = "userid") String userid,
+                           @RequestParam(name = "chatType") String chatType,
+                           @RequestParam(name = "roomid") String roomid,
+                           @RequestParam(name = "game") String game,
+                           @RequestParam(name = "betTerm") String betTerm,
+                           @RequestParam(name = "chatid") String chatid,
+                           @RequestParam(name = "imgType",defaultValue = "") String imgType
+                           ) {
+
+
+
+//        for (int i = 0; i < sessionStorage.getAllSession().size(); i++) {
+//            try {
+//                sessionStorage.getAllSession().get(i).getBasicRemote().sendText("3434");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         return "sadsad";
     }
+
+
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomid") String roomid,
                        @PathParam("game") String game,
                        @PathParam("userid") String userid) throws IOException {
 
-        chatBeanMapper= TtApplication.context.getBean(ChatBeanMapper.class);
+        chatBeanMapper= TtApplication.getContext().getBean(ChatBeanMapper.class);
         session.getBasicRemote().sendText(new Gson().toJson(NewChats(userid, game, roomid)));
         session.setMaxIdleTimeout(30*1000);
         sessionStorage.putSession(session,userid,roomid);

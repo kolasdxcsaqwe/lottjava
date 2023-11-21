@@ -13,9 +13,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 @MapperScan(value = "com.example.tt.dao")
 public class TtApplication extends SpringBootServletInitializer {
 
-	public static ConfigurableApplicationContext context;
+	static ConfigurableApplicationContext context;
 
 
+	public static ConfigurableApplicationContext getContext() {
+		return context;
+	}
 
 	public static void main(String[] args) {
 		context= SpringApplication.run(TtApplication.class, args);

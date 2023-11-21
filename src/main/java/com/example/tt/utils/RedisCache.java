@@ -2,11 +2,25 @@ package com.example.tt.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 public class RedisCache {
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    static RedisCache redisCache;
+    public static RedisCache getInstance()
+    {
+        if(redisCache==null)
+        {
+            redisCache=new RedisCache();
+        }
+        return redisCache;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static RedisTemplate<String, String> redisTemplate = SpringUtils.getBean(StringRedisTemplate.class);
 
     /**
      * 读取缓存
@@ -25,6 +39,21 @@ public class RedisCache {
         boolean result = false;
         try {
             redisTemplate.opsForValue().set(key, value);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 写入缓存
+     */
+    public boolean set(final String key, String value,long expire) {
+        boolean result = false;
+        try {
+            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.expire(key,expire,TimeUnit.MILLISECONDS);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
