@@ -8,7 +8,8 @@ public class ReturnDataBuilder {
     public enum  GameListNameEnum {
         S0(0, "操作成功"),
         S1(-1, "彩种错误"),
-        S2(-2, "参数错误");
+        S2(-2, "参数错误"),
+        S3(-3, "无此用户");
 
         private int code;
         private String msg;

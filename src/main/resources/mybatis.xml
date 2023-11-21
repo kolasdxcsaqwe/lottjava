@@ -90,6 +90,103 @@
         <!--                       enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--                       enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
+        <!--        <table schema="" tableName="fn_lottery19" domainObjectName="Lottery19Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery18" domainObjectName="Lottery18Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery17" domainObjectName="Lottery17Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery16" domainObjectName="Lottery16Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery15" domainObjectName="Lottery15Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery14" domainObjectName="Lottery14Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery13" domainObjectName="Lottery13Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery12" domainObjectName="Lottery12Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery11" domainObjectName="Lottery11Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery10" domainObjectName="Lottery10Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery9" domainObjectName="Lottery9Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery8" domainObjectName="Lottery8Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery7" domainObjectName="Lottery7Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery6" domainObjectName="Lottery6Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery5" domainObjectName="Lottery5Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery4" domainObjectName="Lottery4Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery3" domainObjectName="Lottery3Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery2" domainObjectName="Lottery2Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <!--        <table schema="" tableName="fn_lottery1" domainObjectName="Lottery1Setting"-->
+        <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+<!--        <table schema="" tableName="fn_pcorder" domainObjectName="PCOrderBean"-->
+<!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+<!--        <table schema="" tableName="fn_jssscorder" domainObjectName="JSSSCOrderBean"-->
+<!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+<!--        <table schema="" tableName="fn_twk3order" domainObjectName="TWK3OrderBean"-->
+<!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+<!--        <table schema="" tableName="fn_jslhcorder" domainObjectName="JSLHCOrderBean"-->
+<!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+<!--        <table schema="" tableName="fn_order" domainObjectName="PK10OrderBean"-->
+<!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+
         <!--是否使用实际列名,默认为false-->
         <!--<property name="useActualColumnNames" value="false" />-->
     </context>

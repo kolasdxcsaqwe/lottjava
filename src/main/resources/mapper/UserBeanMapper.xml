@@ -46,6 +46,14 @@
     from fn_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    headimg,username
+    from fn_user
+    where userid = #{userid,jdbcType=VARCHAR} limit 1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_user
     where id = #{id,jdbcType=INTEGER}

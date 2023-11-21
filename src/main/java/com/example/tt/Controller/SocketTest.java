@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
@@ -23,15 +22,26 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@RestController
 @ServerEndpoint(value = "/chat/{roomid}/{game}/{userid}")
 public class SocketTest {
-
-
 
     ChatBeanMapper chatBeanMapper;
 
     static SessionStorage sessionStorage=SessionStorage.getInstance();
 
+    @ResponseBody
+    @RequestMapping(value = "/sendChat", method = RequestMethod.POST)
+    public String sendChat() {
+        for (int i = 0; i < sessionStorage.getAllSession().size(); i++) {
+            try {
+                sessionStorage.getAllSession().get(i).getBasicRemote().sendText("3434");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "sadsad";
+    }
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomid") String roomid,
@@ -72,11 +82,11 @@ public class SocketTest {
     public Object NewChats(String userid,
                                String game,
                                String roomid) {
-        if (Strings.isNullAmongOf(userid, game, roomid)) {
+        if (Strings.isNullAmongOf(userid, game, roomid) && Strings.isDigitOnly(roomid)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
         }
 
-        List<ChatBean> list = chatBeanMapper.last50Row(roomid, game);
+        List<ChatBean> list = chatBeanMapper.last50Row(Integer.valueOf(roomid), game);
         int nowTerm = GameIndex.getLotteryIndex(game);
         if (nowTerm < 1) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);

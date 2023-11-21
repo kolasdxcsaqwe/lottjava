@@ -15,6 +15,8 @@ public class TtApplication extends SpringBootServletInitializer {
 
 	public static ConfigurableApplicationContext context;
 
+
+
 	public static void main(String[] args) {
 		context= SpringApplication.run(TtApplication.class, args);
 	}

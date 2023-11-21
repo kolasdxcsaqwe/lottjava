@@ -35,6 +35,7 @@ public class SiteConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/lll/**").permitAll()
                 .antMatchers("/NewChats/**").permitAll()
                 .antMatchers("/UpdateChats/**").permitAll()
+                .antMatchers("/sendChat/**").permitAll()
                 .anyRequest().authenticated();
     }
 }
