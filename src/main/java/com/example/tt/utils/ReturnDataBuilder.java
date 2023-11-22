@@ -9,7 +9,9 @@ public class ReturnDataBuilder {
         S0(0, "操作成功"),
         S1(-1, "彩种错误"),
         S2(-2, "参数错误"),
-        S3(-3, "无此用户");
+        S3(-3, "无此用户"),
+        S4(-4, "缺少头像"),
+        S5(-3, "发送失败");
 
         private int code;
         private String msg;
@@ -32,16 +34,24 @@ public class ReturnDataBuilder {
         return jsonObject;
     }
 
-    public static JSONObject error(int code ,String msg)
+    public static Map error(int code ,String msg)
     {
-        JSONObject jsonObject=new JSONObject();
-        try {
-            jsonObject.put("msg",msg);
-            jsonObject.put("code",code);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        Map map=new HashMap();
+        map.put("msg",msg);
+        map.put("code",code);
+        return map;
+    }
+
+    public static Map error(int code ,String msg,Object object)
+    {
+        Map map=new HashMap();
+        map.put("msg",msg);
+        map.put("code",code);
+        if(object!=null)
+        {
+            map.put("datas",object);
         }
-        return jsonObject;
+        return map;
     }
 
     public static Map makeBaseJSON(Object object)
@@ -49,7 +59,10 @@ public class ReturnDataBuilder {
         Map map=new HashMap();
         map.put("msg","操作成功");
         map.put("code",0);
-        map.put("datas",object);
+        if(object!=null)
+        {
+            map.put("datas",object);
+        }
         return map;
     }
 

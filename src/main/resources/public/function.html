@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="jquery3.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/dist/switch.css">
+    <script src="/dist/switch.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        var switchView=null;
+        window.onload=function () {
+            switchView=new Switch(document.getElementById("switchview"),{onChange:function (obj,check) {
+                    console.log(obj+check)
+                }})
+
+            switchView.disable()
+
+            $.post('/checkTaskStatus',{
+            },function(data){
+                if (data.code === 0) {
+                    console.log(data.datas.status)
+                    if(data.datas.status>0)
+                    {
+                        switchView.on();
+                    }
+                    else
+                    {
+                        switchView.off();
+                    }
+                }
+            })
+        }
+
+        function switchStatus(status) {
+            $.post('/changeTaskStatus',{
+                changeStatus:status?1:0,
+                configPath:document.getElementById("configPath").value
+            },function(data){
+
+                if(data.datas.status>0)
+                {
+                    switchView.on();
+                }
+                else
+                {
+                    switchView.off();
+                }
+
+                if(data.code!=0)
+                {
+                    alert(data.msg);
+                }
+
+            })
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <div>
+        <span>设置配置文件目录：</span>
+        <input type="text" id="configPath" value="/www/admin/localhost_8123/wwwroot/lottjava/config" style="width: 35rem"/>
+    </div>
+
+    <P>
+        <span>开启任务</span>
+        <input type="checkbox" id="switchview" style="margin-left: 3rem">
+        <input type="button" id="open" style="margin-left: 3rem;color: red" value="打开" onclick="switchStatus(true)">
+        <input type="button" id="close" style="margin-left: 3rem;color: black" value="关闭" onclick="switchStatus(false)">
+    </P>
+</body>
+</html>

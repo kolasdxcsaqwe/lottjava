@@ -1,13 +1,12 @@
 package com.example.tt;
 
-import com.example.tt.Controller.SocketTest;
-import com.example.tt.dao.ChatBeanMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 @SpringBootApplication
 @MapperScan(value = "com.example.tt.dao")
@@ -22,6 +21,8 @@ public class TtApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		context= SpringApplication.run(TtApplication.class, args);
+		System.err.println(new ClassPathResource("/public/ConfigJson/urls.json").getPath()+"<---- --->"+TtApplication.class.getResourceAsStream("/public/ConfigJson/urls.json"));
+
 	}
 
 	@Override

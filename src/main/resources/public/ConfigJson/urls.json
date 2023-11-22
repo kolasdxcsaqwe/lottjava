@@ -1,0 +1,37 @@
+[{
+		"url": "http://localhost:8123/abcaiji/bjpk10.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/bjkl8.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/jslhc.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/lhc.php",
+		"sec": 60
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/jsssc.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/twk3.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/jnd28.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/abcaiji/ny28.php",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8123/clearCache.php",
+		"sec": 3600
+	}
+]

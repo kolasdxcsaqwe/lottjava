@@ -186,6 +186,10 @@
 <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
+                <table schema="" tableName="fn_setting" domainObjectName="LotteryRoomSetting"
+                       enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+                       enableUpdateByExample="false" selectByExampleQueryId="false"/>
+
 
         <!--是否使用实际列名,默认为false-->
         <!--<property name="useActualColumnNames" value="false" />-->

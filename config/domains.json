@@ -1,0 +1,14 @@
+{
+	"domains": ["http://xy.ng1-ue8395bnc92jh-cmwr.top",
+		"http://xy.ng5-oi5-cxb43217-ysaq.top",
+		"http://xy.yu2-o2jgt595bd21lns-nck.top",
+		"http://xyz.yu2-o2jgt595bd21lns-nck.top",
+		"http://bb.yu2-o2jgt595bd21lns-nck.top",
+		"http://xy.yu1-o2jgt59zqmcvilns-93k.top",
+		"http://bb.yu1-o2jgt59zqmcvilns-93k.top",
+		"http://xyz.yu1-o2jgt59zqmcvilns-93k.top"
+	],
+	"gap": 600,
+	"checkDomainUrl": "http://localhost:8123/testdomain.php?url=",
+	"AvailableDomainsDirectory": "/www/admin/localhost_8123/wwwroot/lottjava/"
+}

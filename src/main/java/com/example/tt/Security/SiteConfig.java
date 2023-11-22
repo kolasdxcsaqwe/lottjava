@@ -19,7 +19,8 @@ public class SiteConfig extends WebSecurityConfigurerAdapter{
     @Override
     public void configure(WebSecurity web) throws Exception {
 //        super.configure(web);
-        web.ignoring().antMatchers("/css/**", "/images/**", "/js/**", "/plugins/**", "/**.ico","/chat/**","/**.html");
+        web.ignoring().anyRequest();
+//        web.ignoring().antMatchers( "/public/**","/**.ico","/chat/**","/**.html","/**.css","/**.js");
     }
 
     @Override
@@ -36,6 +37,8 @@ public class SiteConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/NewChats/**").permitAll()
                 .antMatchers("/UpdateChats/**").permitAll()
                 .antMatchers("/sendChat/**").permitAll()
+                .antMatchers("/changeTaskStatus/**").permitAll()
+                .antMatchers("/checkTaskStatus/**").permitAll()
                 .anyRequest().authenticated();
     }
 }
