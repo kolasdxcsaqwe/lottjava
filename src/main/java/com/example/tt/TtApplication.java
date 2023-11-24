@@ -21,8 +21,6 @@ public class TtApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		context= SpringApplication.run(TtApplication.class, args);
-		System.err.println(new ClassPathResource("/public/ConfigJson/urls.json").getPath()+"<---- --->"+TtApplication.class.getResourceAsStream("/public/ConfigJson/urls.json"));
-
 	}
 
 	@Override

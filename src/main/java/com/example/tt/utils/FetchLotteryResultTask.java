@@ -41,7 +41,7 @@ public class FetchLotteryResultTask {
 
 
         File mainFile = new File(path);
-        if (!mainFile.exists()) {
+        if (!mainFile.exists() && !mOpen) {
             map.put("status", FetchLotteryResultTask.isOpen && FetchLotteryResultTask.isInit ? 1:0);
             return ReturnDataBuilder.error(-999, "路径不存在",map);
         }
@@ -144,6 +144,7 @@ public class FetchLotteryResultTask {
         }, 0L, 1L, TimeUnit.SECONDS);
 
         isInit = true;
+        map.put("status", FetchLotteryResultTask.isOpen && FetchLotteryResultTask.isInit ? 1:0);
         return ReturnDataBuilder.makeBaseJSON(map);
     }
 
@@ -215,7 +216,7 @@ public class FetchLotteryResultTask {
             conn.disconnect();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            writeFile(pathLog, pathUrl+"--->"+e.getMessage(), true);
         } finally {
             try {
                 if (out != null) {
@@ -253,6 +254,7 @@ public class FetchLotteryResultTask {
                     "application/json;charset=utf-8");
 
             // DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
+            conn.setUseCaches(false);
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setConnectTimeout(3000);

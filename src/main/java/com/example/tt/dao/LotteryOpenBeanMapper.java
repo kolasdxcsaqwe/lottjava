@@ -17,5 +17,5 @@ public interface LotteryOpenBeanMapper {
 
     int updateByPrimaryKey(LotteryOpenBean record);
 
-    LotteryOpenBean getOpenByTerm(Integer type);
+    String getOpenByTerm(Integer type);
 }

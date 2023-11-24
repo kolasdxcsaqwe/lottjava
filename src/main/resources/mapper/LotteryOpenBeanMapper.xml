@@ -32,7 +32,7 @@
     select
     next_term
     from fn_open
-    where 'type' = #{type,jdbcType=INTEGER} order by next_term desc limit 1
+    where type = #{type,jdbcType=INTEGER} order by next_term desc limit 1
   </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

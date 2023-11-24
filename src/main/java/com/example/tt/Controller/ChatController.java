@@ -22,6 +22,9 @@ public class ChatController {
     ChatBeanMapper chatBeanMapper;
 
     @Autowired(required = false)
+    LotteryOpenBeanMapper lotteryOpenBeanMapper;
+
+    @Autowired(required = false)
     UserBeanMapper userBeanMapper;
 
     @Autowired(required = false)
@@ -88,7 +91,7 @@ public class ChatController {
     public Object NewChats(@RequestParam(name = "userid") String userid,
                            @RequestParam(name = "game") String game,
                            @RequestParam(name = "roomid") String roomid) {
-        if (Strings.isNullAmongOf(userid, game, roomid) && Strings.isDigitOnly(roomid)) {
+        if (Strings.isNullAmongOf(userid, game, roomid) || !Strings.isDigitOnly(roomid)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2).toString();
         }
 
@@ -105,8 +108,13 @@ public class ChatController {
             }
         }
 
+        String betTerm=lotteryOpenBeanMapper.getOpenByTerm(nowTerm);
+        if(betTerm==null)
+        {
+            betTerm="";
+        }
         Map<String, Object> map = new HashMap<>();
-        map.put("betTerm", game);
+        map.put("betTerm", betTerm);
         map.put("list", list);
 
         return ReturnDataBuilder.makeBaseJSON(map);
@@ -118,7 +126,7 @@ public class ChatController {
                               @RequestParam(name = "chatid") String chatid,
                               @RequestParam(name = "game") String game,
                               @RequestParam(name = "roomid") String roomid) {
-        if (Strings.isNullAmongOf(userid, game, roomid, chatid) && Strings.isDigitOnly(chatid)) {
+        if (Strings.isNullAmongOf(userid, game, roomid, chatid) || !Strings.isDigitOnly(chatid)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
         }
 

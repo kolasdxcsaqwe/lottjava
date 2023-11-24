@@ -42,10 +42,8 @@
 
   <select id="last50Row" resultMap="ResultMapWithBLOBs">
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from fn_chat where roomid = #{roomid} and game = #{game} limit 50
+    *
+    from fn_chat where roomid = #{roomid} and game = #{game} order by id desc limit 50
   </select>
 
   <select id="selectNewChat" resultMap="ResultMapWithBLOBs">
