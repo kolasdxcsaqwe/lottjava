@@ -33,12 +33,13 @@ public class SiteConfig extends WebSecurityConfigurerAdapter{
                 .addFilterBefore(authorizationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/chat/**").permitAll()
-                .antMatchers("/lll/**").permitAll()
+                .antMatchers("/hello/**").permitAll()
                 .antMatchers("/NewChats/**").permitAll()
                 .antMatchers("/UpdateChats/**").permitAll()
                 .antMatchers("/sendChat/**").permitAll()
                 .antMatchers("/changeTaskStatus/**").permitAll()
                 .antMatchers("/checkTaskStatus/**").permitAll()
+                .antMatchers("/robotBet/**").permitAll()
                 .anyRequest().authenticated();
     }
 }

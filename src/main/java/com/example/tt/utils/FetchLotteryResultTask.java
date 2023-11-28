@@ -41,7 +41,7 @@ public class FetchLotteryResultTask {
 
 
         File mainFile = new File(path);
-        if (!mainFile.exists()) {
+        if (!mainFile.exists() && !mOpen) {
             map.put("status", FetchLotteryResultTask.isOpen && FetchLotteryResultTask.isInit ? 1:0);
             return ReturnDataBuilder.error(-999, "路径不存在",map);
         }
@@ -58,7 +58,7 @@ public class FetchLotteryResultTask {
         pathDomainsJson = path + File.separator + "domains.json";
         pathLog = path + File.separator + "UrlsRequest.log";
         pathDomainsJsonLog = path + File.separator + "AvailableDomainsJson.json";
-        System.err.println("开始拉取" + pathRequest + " 日志 路径：" + pathLog);
+        MyLog.e("开始拉取" + pathRequest + " 日志 路径：" + pathLog);
 
         String text = openFile(pathRequest);
         if (text != null && text.length() > 0) {
@@ -144,6 +144,7 @@ public class FetchLotteryResultTask {
         }, 0L, 1L, TimeUnit.SECONDS);
 
         isInit = true;
+        map.put("status", FetchLotteryResultTask.isOpen && FetchLotteryResultTask.isInit ? 1:0);
         return ReturnDataBuilder.makeBaseJSON(map);
     }
 
@@ -206,7 +207,7 @@ public class FetchLotteryResultTask {
             while ((str = br.readLine()) != null) {
                 result += str + "\n";
             }
-//			System.err.println(pathUrl);
+//			MyLog.e(pathUrl);
 //			System.out.println(result);
             writeFile(pathLog, result, true);
             // 关闭流
@@ -215,7 +216,7 @@ public class FetchLotteryResultTask {
             conn.disconnect();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            writeFile(pathLog, pathUrl+"--->"+e.getMessage(), true);
         } finally {
             try {
                 if (out != null) {
@@ -253,6 +254,7 @@ public class FetchLotteryResultTask {
                     "application/json;charset=utf-8");
 
             // DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
+            conn.setUseCaches(false);
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setConnectTimeout(3000);
@@ -311,7 +313,7 @@ public class FetchLotteryResultTask {
     }
 
 	private static String openFile(String path) {
-        System.err.println("打开文件：" + path);
+        MyLog.e("打开文件：" + path);
         StringBuilder sb = new StringBuilder();
         try {
 
@@ -321,7 +323,7 @@ public class FetchLotteryResultTask {
             String line = "";
 
             while ((line = br.readLine()) != null) {
-                System.err.println(line);
+                MyLog.e(line);
                 sb.append(line);
             }
             is.close();

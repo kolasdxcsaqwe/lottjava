@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.PCOrderBeanMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.PCOrderBean">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="chatid" jdbcType="VARCHAR" property="chatid" />
+    <result column="gamename" jdbcType="VARCHAR" property="gamename" />
+    <result column="gamtype" jdbcType="INTEGER" property="gamtype" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.PCOrderBean">
+    <result column="userid" jdbcType="LONGVARCHAR" property="userid" />
+    <result column="username" jdbcType="LONGVARCHAR" property="username" />
+    <result column="headimg" jdbcType="LONGVARCHAR" property="headimg" />
+    <result column="term" jdbcType="LONGVARCHAR" property="term" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="status" jdbcType="LONGVARCHAR" property="status" />
+    <result column="jia" jdbcType="LONGVARCHAR" property="jia" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, money, addtime, roomid, chatid, gamename, gamtype
+  </sql>
+  <sql id="Blob_Column_List">
+    userid, username, headimg, term, content, status, jia
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_pcorder
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByStatus" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_pcorder
+    where status = #{status,jdbcType=VARCHAR}
+  </select>
+
+  <select id="sumMoneyByTerm"  resultMap="ResultMapWithBLOBs">
+    select
+    'sum(`money`)'
+    from fn_pcorder
+    where status = #{status,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_pcorder
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.PCOrderBean">
+    insert into fn_pcorder (id, money, addtime, 
+      roomid, chatid, gamename, 
+      gamtype, userid, username, 
+      headimg, term, content, 
+      status, jia)
+    values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{roomid,jdbcType=INTEGER}, #{chatid,jdbcType=VARCHAR}, #{gamename,jdbcType=VARCHAR}, 
+      #{gamtype,jdbcType=INTEGER}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, 
+      #{headimg,jdbcType=LONGVARCHAR}, #{term,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
+      #{status,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.PCOrderBean">
+    insert into fn_pcorder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="chatid != null">
+        chatid,
+      </if>
+      <if test="gamename != null">
+        gamename,
+      </if>
+      <if test="gamtype != null">
+        gamtype,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="headimg != null">
+        headimg,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="jia != null">
+        jia,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="chatid != null">
+        #{chatid,jdbcType=VARCHAR},
+      </if>
+      <if test="gamename != null">
+        #{gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="gamtype != null">
+        #{gamtype,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jia != null">
+        #{jia,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.PCOrderBean">
+    update fn_pcorder
+    <set>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="chatid != null">
+        chatid = #{chatid,jdbcType=VARCHAR},
+      </if>
+      <if test="gamename != null">
+        gamename = #{gamename,jdbcType=VARCHAR},
+      </if>
+      <if test="gamtype != null">
+        gamtype = #{gamtype,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        headimg = #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jia != null">
+        jia = #{jia,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.PCOrderBean">
+    update fn_pcorder
+    set money = #{money,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=INTEGER},
+      chatid = #{chatid,jdbcType=VARCHAR},
+      gamename = #{gamename,jdbcType=VARCHAR},
+      gamtype = #{gamtype,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=LONGVARCHAR},
+      username = #{username,jdbcType=LONGVARCHAR},
+      headimg = #{headimg,jdbcType=LONGVARCHAR},
+      term = #{term,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      status = #{status,jdbcType=LONGVARCHAR},
+      jia = #{jia,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.PCOrderBean">
+    update fn_pcorder
+    set money = #{money,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=INTEGER},
+      chatid = #{chatid,jdbcType=VARCHAR},
+      gamename = #{gamename,jdbcType=VARCHAR},
+      gamtype = #{gamtype,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

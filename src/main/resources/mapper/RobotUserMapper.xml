@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.RobotUserMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.RobotUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="rare" jdbcType="INTEGER" property="rare" />
+    <result column="runstatus" jdbcType="INTEGER" property="runstatus" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.RobotUser">
+    <result column="headimg" jdbcType="LONGVARCHAR" property="headimg" />
+    <result column="name" jdbcType="LONGVARCHAR" property="name" />
+    <result column="plan" jdbcType="LONGVARCHAR" property="plan" />
+    <result column="game" jdbcType="LONGVARCHAR" property="game" />
+    <result column="roomid" jdbcType="LONGVARCHAR" property="roomid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userid, rare, runstatus
+  </sql>
+  <sql id="Blob_Column_List">
+    headimg, name, plan, game, roomid
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_robots
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectRobotsByGame"  resultMap="ResultMapWithBLOBs">
+    select
+    *
+    from fn_robots
+    where roomid = #{roomid,jdbcType=VARCHAR} and game =  #{game,jdbcType=VARCHAR} and runstatus = '1' limit 30
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_robots
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.RobotUser">
+    insert into fn_robots (id, userid, rare, 
+      runstatus, headimg, name, 
+      plan, game, roomid
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{rare,jdbcType=INTEGER}, 
+      #{runstatus,jdbcType=INTEGER}, #{headimg,jdbcType=LONGVARCHAR}, #{name,jdbcType=LONGVARCHAR}, 
+      #{plan,jdbcType=LONGVARCHAR}, #{game,jdbcType=LONGVARCHAR}, #{roomid,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.RobotUser">
+    insert into fn_robots
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="rare != null">
+        rare,
+      </if>
+      <if test="runstatus != null">
+        runstatus,
+      </if>
+      <if test="headimg != null">
+        headimg,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="plan != null">
+        plan,
+      </if>
+      <if test="game != null">
+        game,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="rare != null">
+        #{rare,jdbcType=INTEGER},
+      </if>
+      <if test="runstatus != null">
+        #{runstatus,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="plan != null">
+        #{plan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        #{game,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.RobotUser">
+    update fn_robots
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="rare != null">
+        rare = #{rare,jdbcType=INTEGER},
+      </if>
+      <if test="runstatus != null">
+        runstatus = #{runstatus,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null">
+        headimg = #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="plan != null">
+        plan = #{plan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        game = #{game,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.RobotUser">
+    update fn_robots
+    set userid = #{userid,jdbcType=VARCHAR},
+      rare = #{rare,jdbcType=INTEGER},
+      runstatus = #{runstatus,jdbcType=INTEGER},
+      headimg = #{headimg,jdbcType=LONGVARCHAR},
+      name = #{name,jdbcType=LONGVARCHAR},
+      plan = #{plan,jdbcType=LONGVARCHAR},
+      game = #{game,jdbcType=LONGVARCHAR},
+      roomid = #{roomid,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.RobotUser">
+    update fn_robots
+    set userid = #{userid,jdbcType=VARCHAR},
+      rare = #{rare,jdbcType=INTEGER},
+      runstatus = #{runstatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

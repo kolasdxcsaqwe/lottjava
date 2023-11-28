@@ -186,9 +186,18 @@
 <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
-                <table schema="" tableName="fn_setting" domainObjectName="LotteryRoomSetting"
-                       enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-                       enableUpdateByExample="false" selectByExampleQueryId="false"/>
+<!--                <table schema="" tableName="fn_setting" domainObjectName="LotteryRoomSetting"-->
+<!--                       enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                       enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+
+        <table schema="" tableName="fn_robots" domainObjectName="RobotUser"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" selectByExampleQueryId="false"/>
+
+        <table schema="" tableName="fn_robotplan" domainObjectName="RobotPlans"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" selectByExampleQueryId="false"/>
+
 
 
         <!--是否使用实际列名,默认为false-->

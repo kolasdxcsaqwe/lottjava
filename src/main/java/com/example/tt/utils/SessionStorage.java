@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.StringUtils;
 
+import javax.websocket.CloseReason;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,15 +52,26 @@ public class SessionStorage {
      * &#64;date    2019/9/19
      * &#64;throws
      */
-    public void putSession(Session session, String wsGroupId, String type) {
-        if(session != null) {
-            Map<String, Session> sessionGroup = this.sessionStore.get(wsGroupId);
-            if (sessionGroup == null) {
-                sessionGroup = new ConcurrentHashMap<>(16);
-                this.sessionStore.put(wsGroupId, sessionGroup);
+    public  void putSession(Session session, String userId, String roomId) {
+        synchronized(SessionStorage.class) {
+            if(session != null) {
+                Map<String, Session> sessionGroup = this.sessionStore.get(roomId);
+                if (sessionGroup == null) {
+                    sessionGroup = new ConcurrentHashMap<>(16);
+                    this.sessionStore.put(roomId, sessionGroup);
+                }
+                else
+                {
+                    if(sessionGroup.get(userId)!=null)
+                    {
+                        removeSession(roomId,userId,"renewSocket");
+                    }
+                }
+                sessionGroup.put(userId, session);
+                MyLog.e("putSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
             }
-            sessionGroup.put(type, session);
         }
+
     }
 
     /**
@@ -71,12 +83,28 @@ public class SessionStorage {
      * &#64;date    2019/9/19
      * &#64;throws
      */
-    public void removeSession(String wsGroupId, String type) {
-        Map<String, Session> sessionGroup = sessionStore.get(wsGroupId);
-        sessionGroup.remove(type);
-        if (sessionGroup.isEmpty()) {
-            this.sessionStore.remove(wsGroupId);
+    public void removeSession(String roomId, String userId,String msg) {
+        synchronized(SessionStorage.class) {
+            Map<String, Session> sessionGroup = sessionStore.get(roomId);
+            if(sessionGroup.get(userId)!=null)
+            {
+                try {
+                    sessionGroup.get(userId).close(new CloseReason(CloseReason.CloseCodes.GOING_AWAY,msg));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else
+            {
+                return;
+            }
+            sessionGroup.remove(userId);
+            if (sessionGroup.isEmpty()) {
+                this.sessionStore.remove(userId);
+            }
+            MyLog.e("removeSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
         }
+
     }
 
     /**

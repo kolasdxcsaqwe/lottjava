@@ -6,12 +6,20 @@ import com.example.tt.dao.*;
 import com.example.tt.utils.RedisCache;
 import com.example.tt.utils.Strings;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LotteryConfigGetter {
 
     private final int roomId = 10029;
 
     private long expireTime=10*60*1000;
+
+    RobotPlansMapper robotPlansMapper;
 
     LotteryOpenBeanMapper lotteryOpenBeanMapper;
 
@@ -88,6 +96,7 @@ public class LotteryConfigGetter {
         lottery18SettingMapper = TtApplication.getContext().getBean(Lottery18SettingMapper.class);
         lottery19SettingMapper = TtApplication.getContext().getBean(Lottery19SettingMapper.class);
         lotteryRoomSettingMapper = TtApplication.getContext().getBean(LotteryRoomSettingMapper.class);
+        robotPlansMapper = TtApplication.getContext().getBean(RobotPlansMapper.class);
         gson = new Gson();
     }
 
@@ -309,6 +318,31 @@ public class LotteryConfigGetter {
             return lotteryRoomSetting;
         }
         return gson.fromJson(lotteryRoomSettingStr, LotteryRoomSetting.class);
+    }
+
+    public Map<Integer,RobotPlans> getRobotPlans() {
+        List<RobotPlans> robotPlans=null;
+        Map<Integer,RobotPlans> map=new HashMap<>();
+        String robotPlansStr = RedisCache.getInstance().get("RobotPlans");
+        if (Strings.isEmptyOrNullAmongOf(robotPlansStr)) {
+            robotPlans = robotPlansMapper.selectAll();
+            robotPlansStr = gson.toJson(robotPlans);
+            RedisCache.getInstance().set("RobotPlans", robotPlansStr,1800*1000);
+        }
+        else
+        {
+            Type type = new TypeToken<List<RobotPlans>>() {}.getType();
+            robotPlans=gson.fromJson(robotPlansStr, type);
+        }
+
+        if(robotPlans!=null && robotPlans.size()>0)
+        {
+            for (int i = 0; i < robotPlans.size(); i++) {
+                map.put(robotPlans.get(i).getId(),robotPlans.get(i));
+            }
+        }
+
+        return map;
     }
 
 }

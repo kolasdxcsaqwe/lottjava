@@ -25,8 +25,8 @@ public class hello {
     private RedisTemplate<String, String> redisTemplate;
 
     @ResponseBody
-    @RequestMapping("/lll")
-    public String hello()
+    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    public String hello(@RequestParam(name = "param") String param)
     {
 //        redisTemplate.opsForValue().set("ccc","123",2000, TimeUnit.SECONDS);
 //        redisTemplate.opsForValue().set("ccc","5454",2000, TimeUnit.SECONDS);
@@ -50,14 +50,11 @@ public class hello {
 //                    e.printStackTrace();
 //                }
 //                String value=RedisCache.getInstance().get("BBBB");
-//                System.err.println(value);
+//                MyLog.e(value);
 //            }
 //        }.start();
 
-        String path="";
-
-        path=new ClassPathResource("").getPath();
-        return new ClassPathResource("").getPath()+" "+getClass().getResourceAsStream("/");
+        return param;
     }
 
     @ResponseBody

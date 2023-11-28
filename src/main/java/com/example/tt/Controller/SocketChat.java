@@ -4,6 +4,7 @@ import com.example.tt.Bean.ChatBean;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.TtApplication;
 import com.example.tt.dao.ChatBeanMapper;
+import com.example.tt.dao.LotteryOpenBeanMapper;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @RestController
@@ -30,7 +28,11 @@ public class SocketChat {
 
     ChatBeanMapper chatBeanMapper;
 
+    LotteryOpenBeanMapper lotteryOpenBeanMapper;
+
     static SessionStorage sessionStorage=SessionStorage.getInstance();
+
+    static Gson gson=new Gson();
 
     @ResponseBody
     @RequestMapping(value = "/sendChat", method = RequestMethod.POST)
@@ -43,11 +45,11 @@ public class SocketChat {
                            @RequestParam(name = "game") String game,
                            @RequestParam(name = "betTerm",defaultValue = "") String betTerm,
                            @RequestParam(name = "chatid",defaultValue = "") String chatid,
-                           @RequestParam(name = "headimg") String headimg,
+                           @RequestParam(name = "headimg",defaultValue = "") String headimg,
                            @RequestParam(name = "username") String username,
                            @RequestParam(name = "imgType",defaultValue = "") String imgType
                            ) {
-
+//        MyLog.e("sendChat-->"+content+"  chatType-->"+chatType);
         if(Strings.isEmptyOrNullAmongOf(content,userid,chatType,roomid,game,username) && Strings.isDigitOnly(roomid))
         {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
@@ -64,6 +66,11 @@ public class SocketChat {
         chatBean.setBetterm(betTerm);
         chatBean.setChatid(chatid);
         chatBean.setUsername(username);
+        chatBean.setTerm("");
+        chatBean.setMingci("");
+        chatBean.setNeirong("");
+        chatBean.setStatus("");
+        chatBean.setJine("");
         String time=TimeUtils.convertToDetailTime(Calendar.getInstance().getTime());
         chatBean.setAddtime(time);
         chatBean.setTime(time);
@@ -93,12 +100,21 @@ public class SocketChat {
         }
 
         boolean isSendSuccess=false;
+        chatBeanMapper= TtApplication.getContext().getBean(ChatBeanMapper.class);
         int insertStatus=chatBeanMapper.insertSelective(chatBean);
         isSendSuccess=insertStatus>0;
 
+        List<ChatBean> list=new ArrayList<>();
+        list.add(chatBean);
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("betTerm",betTerm);
+        map.put("list",list);
+
+        String string=gson.toJson(ReturnDataBuilder.makeBaseJSON(map));
         for (int i = 0; i < sessionStorage.getAllSession().size(); i++) {
             try {
-                sessionStorage.getAllSession().get(i).getBasicRemote().sendText(content);
+                sessionStorage.getAllSession().get(i).getBasicRemote().sendText(string);
             } catch (IOException e) {
                 e.printStackTrace();
                 isSendSuccess=false;
@@ -115,14 +131,13 @@ public class SocketChat {
         }
     }
 
-
-
     @OnOpen
     public void onOpen(Session session, @PathParam("roomid") String roomid,
                        @PathParam("game") String game,
                        @PathParam("userid") String userid) throws IOException {
 
         chatBeanMapper= TtApplication.getContext().getBean(ChatBeanMapper.class);
+        lotteryOpenBeanMapper= TtApplication.getContext().getBean(LotteryOpenBeanMapper.class);
         session.getBasicRemote().sendText(new Gson().toJson(NewChats(userid, game, roomid)));
         session.setMaxIdleTimeout(30*1000);
         sessionStorage.putSession(session,userid,roomid);
@@ -131,7 +146,11 @@ public class SocketChat {
 
     @OnMessage
     public void OnMessage(String message, Session session) throws IOException {
-        session.getBasicRemote().sendText(message);
+        if(message.equals("heartbeat"))
+        {
+            session.getBasicRemote().sendText(message);
+        }
+
     }
 
 
@@ -140,14 +159,17 @@ public class SocketChat {
                         @PathParam("game") String game,
                         @PathParam("userid") String userid,Session session)
     {
-        sessionStorage.getAllSession().remove(session);
-        System.err.println(roomid+" "+session.getId());
+        sessionStorage.removeSession(roomid,userid,"onClose");
+        MyLog.e("onClose-->"+roomid+" "+session.getId());
     }
 
     @OnError
-    public void OnError(Session session,Throwable throwable)
+    public void OnError(@PathParam("roomid") String roomid,
+                        @PathParam("game") String game,
+                        @PathParam("userid") String userid,Session session,Throwable throwable)
     {
-        sessionStorage.getAllSession().remove(session);
+        sessionStorage.removeSession(roomid,userid,"OnError");
+        MyLog.e("OnError-->"+roomid+" "+session.getId());
     }
 
     @Bean
@@ -158,7 +180,7 @@ public class SocketChat {
     public Object NewChats(String userid,
                                String game,
                                String roomid) {
-        if (Strings.isNullAmongOf(userid, game, roomid) && Strings.isDigitOnly(roomid)) {
+        if (Strings.isNullAmongOf(userid, game, roomid) || !Strings.isDigitOnly(roomid)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
         }
 
@@ -174,8 +196,13 @@ public class SocketChat {
             }
         }
 
+        String betTerm=lotteryOpenBeanMapper.getOpenByTerm(nowTerm);
+        if(betTerm==null)
+        {
+            betTerm="";
+        }
         Map<String,Object> map=new HashMap<>();
-        map.put("betTerm",game);
+        map.put("betTerm",betTerm);
         map.put("list",list);
 
         return ReturnDataBuilder.makeBaseJSON(map);

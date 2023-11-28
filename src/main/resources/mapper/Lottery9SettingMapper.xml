@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.Lottery9SettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.Lottery9Setting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="fanshui" jdbcType="VARCHAR" property="fanshui" />
+    <result column="dx_min" jdbcType="INTEGER" property="dxMin" />
+    <result column="dx_max" jdbcType="INTEGER" property="dxMax" />
+    <result column="ds_min" jdbcType="INTEGER" property="dsMin" />
+    <result column="ds_max" jdbcType="INTEGER" property="dsMax" />
+    <result column="dadan_min" jdbcType="INTEGER" property="dadanMin" />
+    <result column="dadan_max" jdbcType="INTEGER" property="dadanMax" />
+    <result column="xiaodan_min" jdbcType="INTEGER" property="xiaodanMin" />
+    <result column="xiaodan_max" jdbcType="INTEGER" property="xiaodanMax" />
+    <result column="dashuang_min" jdbcType="INTEGER" property="dashuangMin" />
+    <result column="dashuang_max" jdbcType="INTEGER" property="dashuangMax" />
+    <result column="xiaoshuang_min" jdbcType="INTEGER" property="xiaoshuangMin" />
+    <result column="xiaoshuang_max" jdbcType="INTEGER" property="xiaoshuangMax" />
+    <result column="tong_baozi_min" jdbcType="INTEGER" property="tongBaoziMin" />
+    <result column="tong_baozi_max" jdbcType="INTEGER" property="tongBaoziMax" />
+    <result column="tong_shunzi_min" jdbcType="INTEGER" property="tongShunziMin" />
+    <result column="tong_shunzi_max" jdbcType="INTEGER" property="tongShunziMax" />
+    <result column="tong_duizi_min" jdbcType="INTEGER" property="tongDuiziMin" />
+    <result column="tong_duizi_max" jdbcType="INTEGER" property="tongDuiziMax" />
+    <result column="tong_sanza_min" jdbcType="INTEGER" property="tongSanzaMin" />
+    <result column="tong_sanza_max" jdbcType="INTEGER" property="tongSanzaMax" />
+    <result column="tong_erza_min" jdbcType="INTEGER" property="tongErzaMin" />
+    <result column="tong_erza_max" jdbcType="INTEGER" property="tongErzaMax" />
+    <result column="zhi_baozi_min" jdbcType="INTEGER" property="zhiBaoziMin" />
+    <result column="zhi_baozi_max" jdbcType="INTEGER" property="zhiBaoziMax" />
+    <result column="zhi_shunzi_min" jdbcType="INTEGER" property="zhiShunziMin" />
+    <result column="zhi_shunzi_max" jdbcType="INTEGER" property="zhiShunziMax" />
+    <result column="zhi_duizi_min" jdbcType="INTEGER" property="zhiDuiziMin" />
+    <result column="zhi_duizi_max" jdbcType="INTEGER" property="zhiDuiziMax" />
+    <result column="zhi_sanza_min" jdbcType="INTEGER" property="zhiSanzaMin" />
+    <result column="zhi_sanza_max" jdbcType="INTEGER" property="zhiSanzaMax" />
+    <result column="zhi_erza_min" jdbcType="INTEGER" property="zhiErzaMin" />
+    <result column="zhi_erza_max" jdbcType="INTEGER" property="zhiErzaMax" />
+    <result column="zhi_sanjun_min" jdbcType="INTEGER" property="zhiSanjunMin" />
+    <result column="zhi_sanjun_max" jdbcType="INTEGER" property="zhiSanjunMax" />
+    <result column="setting_open" jdbcType="INTEGER" property="settingOpen" />
+    <result column="fengtime" jdbcType="INTEGER" property="fengtime" />
+    <result column="shenglv" jdbcType="VARCHAR" property="shenglv" />
+    <result column="kongzhi" jdbcType="VARCHAR" property="kongzhi" />
+    <result column="jsdiy" jdbcType="VARCHAR" property="jsdiy" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.Lottery9Setting">
+    <result column="gameopen" jdbcType="LONGVARCHAR" property="gameopen" />
+    <result column="da" jdbcType="LONGVARCHAR" property="da" />
+    <result column="xiao" jdbcType="LONGVARCHAR" property="xiao" />
+    <result column="dan" jdbcType="LONGVARCHAR" property="dan" />
+    <result column="shuang" jdbcType="LONGVARCHAR" property="shuang" />
+    <result column="dadan" jdbcType="LONGVARCHAR" property="dadan" />
+    <result column="xiaodan" jdbcType="LONGVARCHAR" property="xiaodan" />
+    <result column="dashuang" jdbcType="LONGVARCHAR" property="dashuang" />
+    <result column="xiaoshuang" jdbcType="LONGVARCHAR" property="xiaoshuang" />
+    <result column="tong_baozi" jdbcType="LONGVARCHAR" property="tongBaozi" />
+    <result column="tong_duizi" jdbcType="LONGVARCHAR" property="tongDuizi" />
+    <result column="tong_shunzi" jdbcType="LONGVARCHAR" property="tongShunzi" />
+    <result column="tong_sanza" jdbcType="LONGVARCHAR" property="tongSanza" />
+    <result column="tong_erza" jdbcType="LONGVARCHAR" property="tongErza" />
+    <result column="zhi_baozi" jdbcType="LONGVARCHAR" property="zhiBaozi" />
+    <result column="zhi_duizi" jdbcType="LONGVARCHAR" property="zhiDuizi" />
+    <result column="zhi_shunzi" jdbcType="LONGVARCHAR" property="zhiShunzi" />
+    <result column="zhi_sanza" jdbcType="LONGVARCHAR" property="zhiSanza" />
+    <result column="zhi_erza" jdbcType="LONGVARCHAR" property="zhiErza" />
+    <result column="zhi_sanjun" jdbcType="LONGVARCHAR" property="zhiSanjun" />
+    <result column="setting_10shazuhe" jdbcType="LONGVARCHAR" property="setting10shazuhe" />
+    <result column="setting_baozitongsha" jdbcType="LONGVARCHAR" property="settingBaozitongsha" />
+    <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomid, fanshui, dx_min, dx_max, ds_min, ds_max, dadan_min, dadan_max, xiaodan_min, 
+    xiaodan_max, dashuang_min, dashuang_max, xiaoshuang_min, xiaoshuang_max, tong_baozi_min, 
+    tong_baozi_max, tong_shunzi_min, tong_shunzi_max, tong_duizi_min, tong_duizi_max, 
+    tong_sanza_min, tong_sanza_max, tong_erza_min, tong_erza_max, zhi_baozi_min, zhi_baozi_max, 
+    zhi_shunzi_min, zhi_shunzi_max, zhi_duizi_min, zhi_duizi_max, zhi_sanza_min, zhi_sanza_max, 
+    zhi_erza_min, zhi_erza_max, zhi_sanjun_min, zhi_sanjun_max, setting_open, fengtime, 
+    shenglv, kongzhi, jsdiy
+  </sql>
+  <sql id="Blob_Column_List">
+    gameopen, da, xiao, dan, shuang, dadan, xiaodan, dashuang, xiaoshuang, tong_baozi, 
+    tong_duizi, tong_shunzi, tong_sanza, tong_erza, zhi_baozi, zhi_duizi, zhi_shunzi, 
+    zhi_sanza, zhi_erza, zhi_sanjun, setting_10shazuhe, setting_baozitongsha, rules
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery9
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery9
+    where roomid = #{roomid,jdbcType=INTEGER} limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_lottery9
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.Lottery9Setting">
+    insert into fn_lottery9 (id, roomid, fanshui, 
+      dx_min, dx_max, ds_min, 
+      ds_max, dadan_min, dadan_max, 
+      xiaodan_min, xiaodan_max, dashuang_min, 
+      dashuang_max, xiaoshuang_min, xiaoshuang_max, 
+      tong_baozi_min, tong_baozi_max, tong_shunzi_min, 
+      tong_shunzi_max, tong_duizi_min, tong_duizi_max, 
+      tong_sanza_min, tong_sanza_max, tong_erza_min, 
+      tong_erza_max, zhi_baozi_min, zhi_baozi_max, 
+      zhi_shunzi_min, zhi_shunzi_max, zhi_duizi_min, 
+      zhi_duizi_max, zhi_sanza_min, zhi_sanza_max, 
+      zhi_erza_min, zhi_erza_max, zhi_sanjun_min, 
+      zhi_sanjun_max, setting_open, fengtime, 
+      shenglv, kongzhi, jsdiy, 
+      gameopen, da, xiao, 
+      dan, shuang, dadan, 
+      xiaodan, dashuang, xiaoshuang, 
+      tong_baozi, tong_duizi, tong_shunzi, 
+      tong_sanza, tong_erza, zhi_baozi, 
+      zhi_duizi, zhi_shunzi, zhi_sanza, 
+      zhi_erza, zhi_sanjun, setting_10shazuhe, 
+      setting_baozitongsha, rules)
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{fanshui,jdbcType=VARCHAR}, 
+      #{dxMin,jdbcType=INTEGER}, #{dxMax,jdbcType=INTEGER}, #{dsMin,jdbcType=INTEGER}, 
+      #{dsMax,jdbcType=INTEGER}, #{dadanMin,jdbcType=INTEGER}, #{dadanMax,jdbcType=INTEGER}, 
+      #{xiaodanMin,jdbcType=INTEGER}, #{xiaodanMax,jdbcType=INTEGER}, #{dashuangMin,jdbcType=INTEGER}, 
+      #{dashuangMax,jdbcType=INTEGER}, #{xiaoshuangMin,jdbcType=INTEGER}, #{xiaoshuangMax,jdbcType=INTEGER}, 
+      #{tongBaoziMin,jdbcType=INTEGER}, #{tongBaoziMax,jdbcType=INTEGER}, #{tongShunziMin,jdbcType=INTEGER}, 
+      #{tongShunziMax,jdbcType=INTEGER}, #{tongDuiziMin,jdbcType=INTEGER}, #{tongDuiziMax,jdbcType=INTEGER}, 
+      #{tongSanzaMin,jdbcType=INTEGER}, #{tongSanzaMax,jdbcType=INTEGER}, #{tongErzaMin,jdbcType=INTEGER}, 
+      #{tongErzaMax,jdbcType=INTEGER}, #{zhiBaoziMin,jdbcType=INTEGER}, #{zhiBaoziMax,jdbcType=INTEGER}, 
+      #{zhiShunziMin,jdbcType=INTEGER}, #{zhiShunziMax,jdbcType=INTEGER}, #{zhiDuiziMin,jdbcType=INTEGER}, 
+      #{zhiDuiziMax,jdbcType=INTEGER}, #{zhiSanzaMin,jdbcType=INTEGER}, #{zhiSanzaMax,jdbcType=INTEGER}, 
+      #{zhiErzaMin,jdbcType=INTEGER}, #{zhiErzaMax,jdbcType=INTEGER}, #{zhiSanjunMin,jdbcType=INTEGER}, 
+      #{zhiSanjunMax,jdbcType=INTEGER}, #{settingOpen,jdbcType=INTEGER}, #{fengtime,jdbcType=INTEGER}, 
+      #{shenglv,jdbcType=VARCHAR}, #{kongzhi,jdbcType=VARCHAR}, #{jsdiy,jdbcType=VARCHAR}, 
+      #{gameopen,jdbcType=LONGVARCHAR}, #{da,jdbcType=LONGVARCHAR}, #{xiao,jdbcType=LONGVARCHAR}, 
+      #{dan,jdbcType=LONGVARCHAR}, #{shuang,jdbcType=LONGVARCHAR}, #{dadan,jdbcType=LONGVARCHAR}, 
+      #{xiaodan,jdbcType=LONGVARCHAR}, #{dashuang,jdbcType=LONGVARCHAR}, #{xiaoshuang,jdbcType=LONGVARCHAR}, 
+      #{tongBaozi,jdbcType=LONGVARCHAR}, #{tongDuizi,jdbcType=LONGVARCHAR}, #{tongShunzi,jdbcType=LONGVARCHAR}, 
+      #{tongSanza,jdbcType=LONGVARCHAR}, #{tongErza,jdbcType=LONGVARCHAR}, #{zhiBaozi,jdbcType=LONGVARCHAR}, 
+      #{zhiDuizi,jdbcType=LONGVARCHAR}, #{zhiShunzi,jdbcType=LONGVARCHAR}, #{zhiSanza,jdbcType=LONGVARCHAR}, 
+      #{zhiErza,jdbcType=LONGVARCHAR}, #{zhiSanjun,jdbcType=LONGVARCHAR}, #{setting10shazuhe,jdbcType=LONGVARCHAR}, 
+      #{settingBaozitongsha,jdbcType=LONGVARCHAR}, #{rules,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery9Setting">
+    insert into fn_lottery9
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="fanshui != null">
+        fanshui,
+      </if>
+      <if test="dxMin != null">
+        dx_min,
+      </if>
+      <if test="dxMax != null">
+        dx_max,
+      </if>
+      <if test="dsMin != null">
+        ds_min,
+      </if>
+      <if test="dsMax != null">
+        ds_max,
+      </if>
+      <if test="dadanMin != null">
+        dadan_min,
+      </if>
+      <if test="dadanMax != null">
+        dadan_max,
+      </if>
+      <if test="xiaodanMin != null">
+        xiaodan_min,
+      </if>
+      <if test="xiaodanMax != null">
+        xiaodan_max,
+      </if>
+      <if test="dashuangMin != null">
+        dashuang_min,
+      </if>
+      <if test="dashuangMax != null">
+        dashuang_max,
+      </if>
+      <if test="xiaoshuangMin != null">
+        xiaoshuang_min,
+      </if>
+      <if test="xiaoshuangMax != null">
+        xiaoshuang_max,
+      </if>
+      <if test="tongBaoziMin != null">
+        tong_baozi_min,
+      </if>
+      <if test="tongBaoziMax != null">
+        tong_baozi_max,
+      </if>
+      <if test="tongShunziMin != null">
+        tong_shunzi_min,
+      </if>
+      <if test="tongShunziMax != null">
+        tong_shunzi_max,
+      </if>
+      <if test="tongDuiziMin != null">
+        tong_duizi_min,
+      </if>
+      <if test="tongDuiziMax != null">
+        tong_duizi_max,
+      </if>
+      <if test="tongSanzaMin != null">
+        tong_sanza_min,
+      </if>
+      <if test="tongSanzaMax != null">
+        tong_sanza_max,
+      </if>
+      <if test="tongErzaMin != null">
+        tong_erza_min,
+      </if>
+      <if test="tongErzaMax != null">
+        tong_erza_max,
+      </if>
+      <if test="zhiBaoziMin != null">
+        zhi_baozi_min,
+      </if>
+      <if test="zhiBaoziMax != null">
+        zhi_baozi_max,
+      </if>
+      <if test="zhiShunziMin != null">
+        zhi_shunzi_min,
+      </if>
+      <if test="zhiShunziMax != null">
+        zhi_shunzi_max,
+      </if>
+      <if test="zhiDuiziMin != null">
+        zhi_duizi_min,
+      </if>
+      <if test="zhiDuiziMax != null">
+        zhi_duizi_max,
+      </if>
+      <if test="zhiSanzaMin != null">
+        zhi_sanza_min,
+      </if>
+      <if test="zhiSanzaMax != null">
+        zhi_sanza_max,
+      </if>
+      <if test="zhiErzaMin != null">
+        zhi_erza_min,
+      </if>
+      <if test="zhiErzaMax != null">
+        zhi_erza_max,
+      </if>
+      <if test="zhiSanjunMin != null">
+        zhi_sanjun_min,
+      </if>
+      <if test="zhiSanjunMax != null">
+        zhi_sanjun_max,
+      </if>
+      <if test="settingOpen != null">
+        setting_open,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
+      </if>
+      <if test="shenglv != null">
+        shenglv,
+      </if>
+      <if test="kongzhi != null">
+        kongzhi,
+      </if>
+      <if test="jsdiy != null">
+        jsdiy,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="da != null">
+        da,
+      </if>
+      <if test="xiao != null">
+        xiao,
+      </if>
+      <if test="dan != null">
+        dan,
+      </if>
+      <if test="shuang != null">
+        shuang,
+      </if>
+      <if test="dadan != null">
+        dadan,
+      </if>
+      <if test="xiaodan != null">
+        xiaodan,
+      </if>
+      <if test="dashuang != null">
+        dashuang,
+      </if>
+      <if test="xiaoshuang != null">
+        xiaoshuang,
+      </if>
+      <if test="tongBaozi != null">
+        tong_baozi,
+      </if>
+      <if test="tongDuizi != null">
+        tong_duizi,
+      </if>
+      <if test="tongShunzi != null">
+        tong_shunzi,
+      </if>
+      <if test="tongSanza != null">
+        tong_sanza,
+      </if>
+      <if test="tongErza != null">
+        tong_erza,
+      </if>
+      <if test="zhiBaozi != null">
+        zhi_baozi,
+      </if>
+      <if test="zhiDuizi != null">
+        zhi_duizi,
+      </if>
+      <if test="zhiShunzi != null">
+        zhi_shunzi,
+      </if>
+      <if test="zhiSanza != null">
+        zhi_sanza,
+      </if>
+      <if test="zhiErza != null">
+        zhi_erza,
+      </if>
+      <if test="zhiSanjun != null">
+        zhi_sanjun,
+      </if>
+      <if test="setting10shazuhe != null">
+        setting_10shazuhe,
+      </if>
+      <if test="settingBaozitongsha != null">
+        setting_baozitongsha,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="dxMin != null">
+        #{dxMin,jdbcType=INTEGER},
+      </if>
+      <if test="dxMax != null">
+        #{dxMax,jdbcType=INTEGER},
+      </if>
+      <if test="dsMin != null">
+        #{dsMin,jdbcType=INTEGER},
+      </if>
+      <if test="dsMax != null">
+        #{dsMax,jdbcType=INTEGER},
+      </if>
+      <if test="dadanMin != null">
+        #{dadanMin,jdbcType=INTEGER},
+      </if>
+      <if test="dadanMax != null">
+        #{dadanMax,jdbcType=INTEGER},
+      </if>
+      <if test="xiaodanMin != null">
+        #{xiaodanMin,jdbcType=INTEGER},
+      </if>
+      <if test="xiaodanMax != null">
+        #{xiaodanMax,jdbcType=INTEGER},
+      </if>
+      <if test="dashuangMin != null">
+        #{dashuangMin,jdbcType=INTEGER},
+      </if>
+      <if test="dashuangMax != null">
+        #{dashuangMax,jdbcType=INTEGER},
+      </if>
+      <if test="xiaoshuangMin != null">
+        #{xiaoshuangMin,jdbcType=INTEGER},
+      </if>
+      <if test="xiaoshuangMax != null">
+        #{xiaoshuangMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongBaoziMin != null">
+        #{tongBaoziMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongBaoziMax != null">
+        #{tongBaoziMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongShunziMin != null">
+        #{tongShunziMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongShunziMax != null">
+        #{tongShunziMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongDuiziMin != null">
+        #{tongDuiziMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongDuiziMax != null">
+        #{tongDuiziMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongSanzaMin != null">
+        #{tongSanzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongSanzaMax != null">
+        #{tongSanzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongErzaMin != null">
+        #{tongErzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongErzaMax != null">
+        #{tongErzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiBaoziMin != null">
+        #{zhiBaoziMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiBaoziMax != null">
+        #{zhiBaoziMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiShunziMin != null">
+        #{zhiShunziMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiShunziMax != null">
+        #{zhiShunziMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiDuiziMin != null">
+        #{zhiDuiziMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiDuiziMax != null">
+        #{zhiDuiziMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanzaMin != null">
+        #{zhiSanzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanzaMax != null">
+        #{zhiSanzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiErzaMin != null">
+        #{zhiErzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiErzaMax != null">
+        #{zhiErzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanjunMin != null">
+        #{zhiSanjunMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanjunMax != null">
+        #{zhiSanjunMax,jdbcType=INTEGER},
+      </if>
+      <if test="settingOpen != null">
+        #{settingOpen,jdbcType=INTEGER},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="da != null">
+        #{da,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiao != null">
+        #{xiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dan != null">
+        #{dan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shuang != null">
+        #{shuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dadan != null">
+        #{dadan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaodan != null">
+        #{xiaodan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dashuang != null">
+        #{dashuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaoshuang != null">
+        #{xiaoshuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongBaozi != null">
+        #{tongBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongDuizi != null">
+        #{tongDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongShunzi != null">
+        #{tongShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongSanza != null">
+        #{tongSanza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongErza != null">
+        #{tongErza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiBaozi != null">
+        #{zhiBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiDuizi != null">
+        #{zhiDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiShunzi != null">
+        #{zhiShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiSanza != null">
+        #{zhiSanza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiErza != null">
+        #{zhiErza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiSanjun != null">
+        #{zhiSanjun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="setting10shazuhe != null">
+        #{setting10shazuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingBaozitongsha != null">
+        #{settingBaozitongsha,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.Lottery9Setting">
+    update fn_lottery9
+    <set>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        fanshui = #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="dxMin != null">
+        dx_min = #{dxMin,jdbcType=INTEGER},
+      </if>
+      <if test="dxMax != null">
+        dx_max = #{dxMax,jdbcType=INTEGER},
+      </if>
+      <if test="dsMin != null">
+        ds_min = #{dsMin,jdbcType=INTEGER},
+      </if>
+      <if test="dsMax != null">
+        ds_max = #{dsMax,jdbcType=INTEGER},
+      </if>
+      <if test="dadanMin != null">
+        dadan_min = #{dadanMin,jdbcType=INTEGER},
+      </if>
+      <if test="dadanMax != null">
+        dadan_max = #{dadanMax,jdbcType=INTEGER},
+      </if>
+      <if test="xiaodanMin != null">
+        xiaodan_min = #{xiaodanMin,jdbcType=INTEGER},
+      </if>
+      <if test="xiaodanMax != null">
+        xiaodan_max = #{xiaodanMax,jdbcType=INTEGER},
+      </if>
+      <if test="dashuangMin != null">
+        dashuang_min = #{dashuangMin,jdbcType=INTEGER},
+      </if>
+      <if test="dashuangMax != null">
+        dashuang_max = #{dashuangMax,jdbcType=INTEGER},
+      </if>
+      <if test="xiaoshuangMin != null">
+        xiaoshuang_min = #{xiaoshuangMin,jdbcType=INTEGER},
+      </if>
+      <if test="xiaoshuangMax != null">
+        xiaoshuang_max = #{xiaoshuangMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongBaoziMin != null">
+        tong_baozi_min = #{tongBaoziMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongBaoziMax != null">
+        tong_baozi_max = #{tongBaoziMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongShunziMin != null">
+        tong_shunzi_min = #{tongShunziMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongShunziMax != null">
+        tong_shunzi_max = #{tongShunziMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongDuiziMin != null">
+        tong_duizi_min = #{tongDuiziMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongDuiziMax != null">
+        tong_duizi_max = #{tongDuiziMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongSanzaMin != null">
+        tong_sanza_min = #{tongSanzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongSanzaMax != null">
+        tong_sanza_max = #{tongSanzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="tongErzaMin != null">
+        tong_erza_min = #{tongErzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="tongErzaMax != null">
+        tong_erza_max = #{tongErzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiBaoziMin != null">
+        zhi_baozi_min = #{zhiBaoziMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiBaoziMax != null">
+        zhi_baozi_max = #{zhiBaoziMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiShunziMin != null">
+        zhi_shunzi_min = #{zhiShunziMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiShunziMax != null">
+        zhi_shunzi_max = #{zhiShunziMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiDuiziMin != null">
+        zhi_duizi_min = #{zhiDuiziMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiDuiziMax != null">
+        zhi_duizi_max = #{zhiDuiziMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanzaMin != null">
+        zhi_sanza_min = #{zhiSanzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanzaMax != null">
+        zhi_sanza_max = #{zhiSanzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiErzaMin != null">
+        zhi_erza_min = #{zhiErzaMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiErzaMax != null">
+        zhi_erza_max = #{zhiErzaMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanjunMin != null">
+        zhi_sanjun_min = #{zhiSanjunMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhiSanjunMax != null">
+        zhi_sanjun_max = #{zhiSanjunMax,jdbcType=INTEGER},
+      </if>
+      <if test="settingOpen != null">
+        setting_open = #{settingOpen,jdbcType=INTEGER},
+      </if>
+      <if test="fengtime != null">
+        fengtime = #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        shenglv = #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="da != null">
+        da = #{da,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiao != null">
+        xiao = #{xiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dan != null">
+        dan = #{dan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shuang != null">
+        shuang = #{shuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dadan != null">
+        dadan = #{dadan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaodan != null">
+        xiaodan = #{xiaodan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dashuang != null">
+        dashuang = #{dashuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaoshuang != null">
+        xiaoshuang = #{xiaoshuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongBaozi != null">
+        tong_baozi = #{tongBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongDuizi != null">
+        tong_duizi = #{tongDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongShunzi != null">
+        tong_shunzi = #{tongShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongSanza != null">
+        tong_sanza = #{tongSanza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tongErza != null">
+        tong_erza = #{tongErza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiBaozi != null">
+        zhi_baozi = #{zhiBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiDuizi != null">
+        zhi_duizi = #{zhiDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiShunzi != null">
+        zhi_shunzi = #{zhiShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiSanza != null">
+        zhi_sanza = #{zhiSanza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiErza != null">
+        zhi_erza = #{zhiErza,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhiSanjun != null">
+        zhi_sanjun = #{zhiSanjun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="setting10shazuhe != null">
+        setting_10shazuhe = #{setting10shazuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingBaozitongsha != null">
+        setting_baozitongsha = #{settingBaozitongsha,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        rules = #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.Lottery9Setting">
+    update fn_lottery9
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      dx_min = #{dxMin,jdbcType=INTEGER},
+      dx_max = #{dxMax,jdbcType=INTEGER},
+      ds_min = #{dsMin,jdbcType=INTEGER},
+      ds_max = #{dsMax,jdbcType=INTEGER},
+      dadan_min = #{dadanMin,jdbcType=INTEGER},
+      dadan_max = #{dadanMax,jdbcType=INTEGER},
+      xiaodan_min = #{xiaodanMin,jdbcType=INTEGER},
+      xiaodan_max = #{xiaodanMax,jdbcType=INTEGER},
+      dashuang_min = #{dashuangMin,jdbcType=INTEGER},
+      dashuang_max = #{dashuangMax,jdbcType=INTEGER},
+      xiaoshuang_min = #{xiaoshuangMin,jdbcType=INTEGER},
+      xiaoshuang_max = #{xiaoshuangMax,jdbcType=INTEGER},
+      tong_baozi_min = #{tongBaoziMin,jdbcType=INTEGER},
+      tong_baozi_max = #{tongBaoziMax,jdbcType=INTEGER},
+      tong_shunzi_min = #{tongShunziMin,jdbcType=INTEGER},
+      tong_shunzi_max = #{tongShunziMax,jdbcType=INTEGER},
+      tong_duizi_min = #{tongDuiziMin,jdbcType=INTEGER},
+      tong_duizi_max = #{tongDuiziMax,jdbcType=INTEGER},
+      tong_sanza_min = #{tongSanzaMin,jdbcType=INTEGER},
+      tong_sanza_max = #{tongSanzaMax,jdbcType=INTEGER},
+      tong_erza_min = #{tongErzaMin,jdbcType=INTEGER},
+      tong_erza_max = #{tongErzaMax,jdbcType=INTEGER},
+      zhi_baozi_min = #{zhiBaoziMin,jdbcType=INTEGER},
+      zhi_baozi_max = #{zhiBaoziMax,jdbcType=INTEGER},
+      zhi_shunzi_min = #{zhiShunziMin,jdbcType=INTEGER},
+      zhi_shunzi_max = #{zhiShunziMax,jdbcType=INTEGER},
+      zhi_duizi_min = #{zhiDuiziMin,jdbcType=INTEGER},
+      zhi_duizi_max = #{zhiDuiziMax,jdbcType=INTEGER},
+      zhi_sanza_min = #{zhiSanzaMin,jdbcType=INTEGER},
+      zhi_sanza_max = #{zhiSanzaMax,jdbcType=INTEGER},
+      zhi_erza_min = #{zhiErzaMin,jdbcType=INTEGER},
+      zhi_erza_max = #{zhiErzaMax,jdbcType=INTEGER},
+      zhi_sanjun_min = #{zhiSanjunMin,jdbcType=INTEGER},
+      zhi_sanjun_max = #{zhiSanjunMax,jdbcType=INTEGER},
+      setting_open = #{settingOpen,jdbcType=INTEGER},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      da = #{da,jdbcType=LONGVARCHAR},
+      xiao = #{xiao,jdbcType=LONGVARCHAR},
+      dan = #{dan,jdbcType=LONGVARCHAR},
+      shuang = #{shuang,jdbcType=LONGVARCHAR},
+      dadan = #{dadan,jdbcType=LONGVARCHAR},
+      xiaodan = #{xiaodan,jdbcType=LONGVARCHAR},
+      dashuang = #{dashuang,jdbcType=LONGVARCHAR},
+      xiaoshuang = #{xiaoshuang,jdbcType=LONGVARCHAR},
+      tong_baozi = #{tongBaozi,jdbcType=LONGVARCHAR},
+      tong_duizi = #{tongDuizi,jdbcType=LONGVARCHAR},
+      tong_shunzi = #{tongShunzi,jdbcType=LONGVARCHAR},
+      tong_sanza = #{tongSanza,jdbcType=LONGVARCHAR},
+      tong_erza = #{tongErza,jdbcType=LONGVARCHAR},
+      zhi_baozi = #{zhiBaozi,jdbcType=LONGVARCHAR},
+      zhi_duizi = #{zhiDuizi,jdbcType=LONGVARCHAR},
+      zhi_shunzi = #{zhiShunzi,jdbcType=LONGVARCHAR},
+      zhi_sanza = #{zhiSanza,jdbcType=LONGVARCHAR},
+      zhi_erza = #{zhiErza,jdbcType=LONGVARCHAR},
+      zhi_sanjun = #{zhiSanjun,jdbcType=LONGVARCHAR},
+      setting_10shazuhe = #{setting10shazuhe,jdbcType=LONGVARCHAR},
+      setting_baozitongsha = #{settingBaozitongsha,jdbcType=LONGVARCHAR},
+      rules = #{rules,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.Lottery9Setting">
+    update fn_lottery9
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      dx_min = #{dxMin,jdbcType=INTEGER},
+      dx_max = #{dxMax,jdbcType=INTEGER},
+      ds_min = #{dsMin,jdbcType=INTEGER},
+      ds_max = #{dsMax,jdbcType=INTEGER},
+      dadan_min = #{dadanMin,jdbcType=INTEGER},
+      dadan_max = #{dadanMax,jdbcType=INTEGER},
+      xiaodan_min = #{xiaodanMin,jdbcType=INTEGER},
+      xiaodan_max = #{xiaodanMax,jdbcType=INTEGER},
+      dashuang_min = #{dashuangMin,jdbcType=INTEGER},
+      dashuang_max = #{dashuangMax,jdbcType=INTEGER},
+      xiaoshuang_min = #{xiaoshuangMin,jdbcType=INTEGER},
+      xiaoshuang_max = #{xiaoshuangMax,jdbcType=INTEGER},
+      tong_baozi_min = #{tongBaoziMin,jdbcType=INTEGER},
+      tong_baozi_max = #{tongBaoziMax,jdbcType=INTEGER},
+      tong_shunzi_min = #{tongShunziMin,jdbcType=INTEGER},
+      tong_shunzi_max = #{tongShunziMax,jdbcType=INTEGER},
+      tong_duizi_min = #{tongDuiziMin,jdbcType=INTEGER},
+      tong_duizi_max = #{tongDuiziMax,jdbcType=INTEGER},
+      tong_sanza_min = #{tongSanzaMin,jdbcType=INTEGER},
+      tong_sanza_max = #{tongSanzaMax,jdbcType=INTEGER},
+      tong_erza_min = #{tongErzaMin,jdbcType=INTEGER},
+      tong_erza_max = #{tongErzaMax,jdbcType=INTEGER},
+      zhi_baozi_min = #{zhiBaoziMin,jdbcType=INTEGER},
+      zhi_baozi_max = #{zhiBaoziMax,jdbcType=INTEGER},
+      zhi_shunzi_min = #{zhiShunziMin,jdbcType=INTEGER},
+      zhi_shunzi_max = #{zhiShunziMax,jdbcType=INTEGER},
+      zhi_duizi_min = #{zhiDuiziMin,jdbcType=INTEGER},
+      zhi_duizi_max = #{zhiDuiziMax,jdbcType=INTEGER},
+      zhi_sanza_min = #{zhiSanzaMin,jdbcType=INTEGER},
+      zhi_sanza_max = #{zhiSanzaMax,jdbcType=INTEGER},
+      zhi_erza_min = #{zhiErzaMin,jdbcType=INTEGER},
+      zhi_erza_max = #{zhiErzaMax,jdbcType=INTEGER},
+      zhi_sanjun_min = #{zhiSanjunMin,jdbcType=INTEGER},
+      zhi_sanjun_max = #{zhiSanjunMax,jdbcType=INTEGER},
+      setting_open = #{settingOpen,jdbcType=INTEGER},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
