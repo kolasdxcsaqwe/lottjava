@@ -49,7 +49,7 @@ public class SocketChat {
                            @RequestParam(name = "username") String username,
                            @RequestParam(name = "imgType",defaultValue = "") String imgType
                            ) {
-//        System.err.println("sendChat-->"+content+"  chatType-->"+chatType);
+//        MyLog.e("sendChat-->"+content+"  chatType-->"+chatType);
         if(Strings.isEmptyOrNullAmongOf(content,userid,chatType,roomid,game,username) && Strings.isDigitOnly(roomid))
         {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
@@ -160,7 +160,7 @@ public class SocketChat {
                         @PathParam("userid") String userid,Session session)
     {
         sessionStorage.removeSession(roomid,userid,"onClose");
-        System.err.println("onClose-->"+roomid+" "+session.getId());
+        MyLog.e("onClose-->"+roomid+" "+session.getId());
     }
 
     @OnError
@@ -169,7 +169,7 @@ public class SocketChat {
                         @PathParam("userid") String userid,Session session,Throwable throwable)
     {
         sessionStorage.removeSession(roomid,userid,"OnError");
-        System.err.println("OnError-->"+roomid+" "+session.getId());
+        MyLog.e("OnError-->"+roomid+" "+session.getId());
     }
 
     @Bean

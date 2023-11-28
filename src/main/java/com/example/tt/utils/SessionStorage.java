@@ -68,7 +68,7 @@ public class SessionStorage {
                     }
                 }
                 sessionGroup.put(userId, session);
-                System.err.println("putSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
+                MyLog.e("putSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
             }
         }
 
@@ -102,7 +102,7 @@ public class SessionStorage {
             if (sessionGroup.isEmpty()) {
                 this.sessionStore.remove(userId);
             }
-            System.err.println("removeSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
+            MyLog.e("removeSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
         }
 
     }

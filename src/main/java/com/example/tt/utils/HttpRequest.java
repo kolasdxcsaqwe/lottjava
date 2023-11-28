@@ -30,7 +30,8 @@ public class HttpRequest {
 
 
     public void post(String baseUrl, List<PostParamBean> params) {
-        System.err.println(baseUrl+"--->"+new Gson().toJson(params));
+
+        MyLog.e(baseUrl+"--->"+new Gson().toJson(params));
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(20, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -49,12 +50,12 @@ public class HttpRequest {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                System.err.println(baseUrl+"--->"+e.getMessage());
+                MyLog.e(baseUrl+"--->"+e.getMessage());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                System.err.println(baseUrl+"--->"+response.body().string());
+                MyLog.e(baseUrl+"--->"+response.body().string());
             }
         });
     }

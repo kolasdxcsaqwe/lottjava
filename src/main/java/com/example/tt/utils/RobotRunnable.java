@@ -33,14 +33,14 @@ public class RobotRunnable implements Runnable {
         }
         int random = (int) (Math.random() * betPeriod) + 1;
         try {
-            Thread.currentThread().sleep(random);
+            Thread.sleep(random*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         try {
             JSONArray jsonArray = new JSONArray(robotPlans.getContent());
-            if (jsonArray != null && jsonArray.length() > 0) {
+            if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.optJSONObject(i);
                     singlePlan(jsonObject.optString("gameType", ""), jsonObject.optString("moneyType", ""));

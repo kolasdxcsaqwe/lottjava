@@ -37,6 +37,11 @@ public class RobotBetController {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2).toString();
         }
 
+        if(delay<0)
+        {
+            delay=0;
+        }
+
         Gson gson=new Gson();
         List<RobotUser> robotUsers=null;
         String json=RedisCache.getInstance().get(game+roomid);
@@ -103,7 +108,7 @@ public class RobotBetController {
                 if(isContinue)
                 {
                     RobotPlans robotPlans= LotteryConfigGetter.getInstance().getRobotPlans().get(Integer.parseInt(plans[j]));
-                    threadPool.schedule(new RobotRunnable(robotPlans,robotUser,betPeriod),delay, TimeUnit.MILLISECONDS);
+                    threadPool.schedule(new RobotRunnable(robotPlans,robotUser,betPeriod),delay*1000, TimeUnit.MILLISECONDS);
                 }
             }
 

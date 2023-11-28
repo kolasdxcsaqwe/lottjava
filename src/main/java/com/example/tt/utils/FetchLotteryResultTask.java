@@ -58,7 +58,7 @@ public class FetchLotteryResultTask {
         pathDomainsJson = path + File.separator + "domains.json";
         pathLog = path + File.separator + "UrlsRequest.log";
         pathDomainsJsonLog = path + File.separator + "AvailableDomainsJson.json";
-        System.err.println("开始拉取" + pathRequest + " 日志 路径：" + pathLog);
+        MyLog.e("开始拉取" + pathRequest + " 日志 路径：" + pathLog);
 
         String text = openFile(pathRequest);
         if (text != null && text.length() > 0) {
@@ -207,7 +207,7 @@ public class FetchLotteryResultTask {
             while ((str = br.readLine()) != null) {
                 result += str + "\n";
             }
-//			System.err.println(pathUrl);
+//			MyLog.e(pathUrl);
 //			System.out.println(result);
             writeFile(pathLog, result, true);
             // 关闭流
@@ -313,7 +313,7 @@ public class FetchLotteryResultTask {
     }
 
 	private static String openFile(String path) {
-        System.err.println("打开文件：" + path);
+        MyLog.e("打开文件：" + path);
         StringBuilder sb = new StringBuilder();
         try {
 
@@ -323,7 +323,7 @@ public class FetchLotteryResultTask {
             String line = "";
 
             while ((line = br.readLine()) != null) {
-                System.err.println(line);
+                MyLog.e(line);
                 sb.append(line);
             }
             is.close();

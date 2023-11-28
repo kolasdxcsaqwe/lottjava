@@ -50,7 +50,7 @@ public class hello {
 //                    e.printStackTrace();
 //                }
 //                String value=RedisCache.getInstance().get("BBBB");
-//                System.err.println(value);
+//                MyLog.e(value);
 //            }
 //        }.start();
 
