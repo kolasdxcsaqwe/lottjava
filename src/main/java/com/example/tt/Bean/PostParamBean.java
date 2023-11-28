@@ -16,11 +16,12 @@ public class PostParamBean {
     }
 
     public void setKey(String key) {
-        try {
-            this.key = URLEncoder.encode(key, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.key = URLEncoder.encode(key, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        this.key=key;
     }
 
     public String getValue() {
@@ -28,10 +29,11 @@ public class PostParamBean {
     }
 
     public void setValue(String value) {
-        try {
-            this.value = URLEncoder.encode(value, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.value = URLEncoder.encode(value, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        this.value=value;
     }
 }
