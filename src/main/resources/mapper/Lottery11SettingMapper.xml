@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.Lottery11SettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.Lottery11Setting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="fanshui" jdbcType="VARCHAR" property="fanshui" />
+    <result column="dx_min" jdbcType="INTEGER" property="dxMin" />
+    <result column="ds_min" jdbcType="INTEGER" property="dsMin" />
+    <result column="lh_min" jdbcType="INTEGER" property="lhMin" />
+    <result column="tm_min" jdbcType="INTEGER" property="tmMin" />
+    <result column="zh_min" jdbcType="INTEGER" property="zhMin" />
+    <result column="bz_min" jdbcType="INTEGER" property="bzMin" />
+    <result column="dz_min" jdbcType="INTEGER" property="dzMin" />
+    <result column="sz_min" jdbcType="INTEGER" property="szMin" />
+    <result column="bs_min" jdbcType="INTEGER" property="bsMin" />
+    <result column="zl_min" jdbcType="INTEGER" property="zlMin" />
+    <result column="dx_max" jdbcType="INTEGER" property="dxMax" />
+    <result column="ds_max" jdbcType="INTEGER" property="dsMax" />
+    <result column="lh_max" jdbcType="INTEGER" property="lhMax" />
+    <result column="tm_max" jdbcType="INTEGER" property="tmMax" />
+    <result column="zh_max" jdbcType="INTEGER" property="zhMax" />
+    <result column="bz_max" jdbcType="INTEGER" property="bzMax" />
+    <result column="dz_max" jdbcType="INTEGER" property="dzMax" />
+    <result column="sz_max" jdbcType="INTEGER" property="szMax" />
+    <result column="bs_max" jdbcType="INTEGER" property="bsMax" />
+    <result column="zl_max" jdbcType="INTEGER" property="zlMax" />
+    <result column="fengtime" jdbcType="INTEGER" property="fengtime" />
+    <result column="shenglv" jdbcType="VARCHAR" property="shenglv" />
+    <result column="kongzhi" jdbcType="VARCHAR" property="kongzhi" />
+    <result column="jsdiy" jdbcType="VARCHAR" property="jsdiy" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.Lottery11Setting">
+    <result column="gameopen" jdbcType="LONGVARCHAR" property="gameopen" />
+    <result column="da" jdbcType="LONGVARCHAR" property="da" />
+    <result column="xiao" jdbcType="LONGVARCHAR" property="xiao" />
+    <result column="dan" jdbcType="LONGVARCHAR" property="dan" />
+    <result column="shuang" jdbcType="LONGVARCHAR" property="shuang" />
+    <result column="tema" jdbcType="LONGVARCHAR" property="tema" />
+    <result column="zongda" jdbcType="LONGVARCHAR" property="zongda" />
+    <result column="zongxiao" jdbcType="LONGVARCHAR" property="zongxiao" />
+    <result column="zongdan" jdbcType="LONGVARCHAR" property="zongdan" />
+    <result column="zongshuang" jdbcType="LONGVARCHAR" property="zongshuang" />
+    <result column="long" jdbcType="LONGVARCHAR" property="longval" />
+    <result column="hu" jdbcType="LONGVARCHAR" property="hu" />
+    <result column="he" jdbcType="LONGVARCHAR" property="he" />
+    <result column="q_baozi" jdbcType="LONGVARCHAR" property="qBaozi" />
+    <result column="z_baozi" jdbcType="LONGVARCHAR" property="zBaozi" />
+    <result column="h_baozi" jdbcType="LONGVARCHAR" property="hBaozi" />
+    <result column="q_duizi" jdbcType="LONGVARCHAR" property="qDuizi" />
+    <result column="z_duizi" jdbcType="LONGVARCHAR" property="zDuizi" />
+    <result column="h_duizi" jdbcType="LONGVARCHAR" property="hDuizi" />
+    <result column="q_shunzi" jdbcType="LONGVARCHAR" property="qShunzi" />
+    <result column="z_shunzi" jdbcType="LONGVARCHAR" property="zShunzi" />
+    <result column="h_shunzi" jdbcType="LONGVARCHAR" property="hShunzi" />
+    <result column="q_banshun" jdbcType="LONGVARCHAR" property="qBanshun" />
+    <result column="z_banshun" jdbcType="LONGVARCHAR" property="zBanshun" />
+    <result column="h_banshun" jdbcType="LONGVARCHAR" property="hBanshun" />
+    <result column="q_zaliu" jdbcType="LONGVARCHAR" property="qZaliu" />
+    <result column="z_zaliu" jdbcType="LONGVARCHAR" property="zZaliu" />
+    <result column="h_zaliu" jdbcType="LONGVARCHAR" property="hZaliu" />
+    <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomid, fanshui, dx_min, ds_min, lh_min, tm_min, zh_min, bz_min, dz_min, sz_min, 
+    bs_min, zl_min, dx_max, ds_max, lh_max, tm_max, zh_max, bz_max, dz_max, sz_max, bs_max, 
+    zl_max, fengtime, shenglv, kongzhi, jsdiy
+  </sql>
+  <sql id="Blob_Column_List">
+    gameopen, da, xiao, dan, shuang, tema, zongda, zongxiao, zongdan, zongshuang, long, 
+    hu, he, q_baozi, z_baozi, h_baozi, q_duizi, z_duizi, h_duizi, q_shunzi, z_shunzi, 
+    h_shunzi, q_banshun, z_banshun, h_banshun, q_zaliu, z_zaliu, h_zaliu, rules
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery11
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery11
+    where roomid = #{roomid,jdbcType=INTEGER} limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_lottery11
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.Lottery11Setting">
+    insert into fn_lottery11 (id, roomid, fanshui, 
+      dx_min, ds_min, lh_min, 
+      tm_min, zh_min, bz_min, 
+      dz_min, sz_min, bs_min, 
+      zl_min, dx_max, ds_max, 
+      lh_max, tm_max, zh_max, 
+      bz_max, dz_max, sz_max, 
+      bs_max, zl_max, fengtime, 
+      shenglv, kongzhi, jsdiy, 
+      gameopen, da, xiao, 
+      dan, shuang, tema, 
+      zongda, zongxiao, zongdan, 
+      zongshuang, long, hu, 
+      he, q_baozi, z_baozi, 
+      h_baozi, q_duizi, z_duizi, 
+      h_duizi, q_shunzi, z_shunzi, 
+      h_shunzi, q_banshun, z_banshun, 
+      h_banshun, q_zaliu, z_zaliu, 
+      h_zaliu, rules)
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{fanshui,jdbcType=VARCHAR}, 
+      #{dxMin,jdbcType=INTEGER}, #{dsMin,jdbcType=INTEGER}, #{lhMin,jdbcType=INTEGER}, 
+      #{tmMin,jdbcType=INTEGER}, #{zhMin,jdbcType=INTEGER}, #{bzMin,jdbcType=INTEGER}, 
+      #{dzMin,jdbcType=INTEGER}, #{szMin,jdbcType=INTEGER}, #{bsMin,jdbcType=INTEGER}, 
+      #{zlMin,jdbcType=INTEGER}, #{dxMax,jdbcType=INTEGER}, #{dsMax,jdbcType=INTEGER}, 
+      #{lhMax,jdbcType=INTEGER}, #{tmMax,jdbcType=INTEGER}, #{zhMax,jdbcType=INTEGER}, 
+      #{bzMax,jdbcType=INTEGER}, #{dzMax,jdbcType=INTEGER}, #{szMax,jdbcType=INTEGER}, 
+      #{bsMax,jdbcType=INTEGER}, #{zlMax,jdbcType=INTEGER}, #{fengtime,jdbcType=INTEGER}, 
+      #{shenglv,jdbcType=VARCHAR}, #{kongzhi,jdbcType=VARCHAR}, #{jsdiy,jdbcType=VARCHAR}, 
+      #{gameopen,jdbcType=LONGVARCHAR}, #{da,jdbcType=LONGVARCHAR}, #{xiao,jdbcType=LONGVARCHAR}, 
+      #{dan,jdbcType=LONGVARCHAR}, #{shuang,jdbcType=LONGVARCHAR}, #{tema,jdbcType=LONGVARCHAR}, 
+      #{zongda,jdbcType=LONGVARCHAR}, #{zongxiao,jdbcType=LONGVARCHAR}, #{zongdan,jdbcType=LONGVARCHAR}, 
+      #{zongshuang,jdbcType=LONGVARCHAR}, #{long,jdbcType=LONGVARCHAR}, #{hu,jdbcType=LONGVARCHAR}, 
+      #{he,jdbcType=LONGVARCHAR}, #{qBaozi,jdbcType=LONGVARCHAR}, #{zBaozi,jdbcType=LONGVARCHAR}, 
+      #{hBaozi,jdbcType=LONGVARCHAR}, #{qDuizi,jdbcType=LONGVARCHAR}, #{zDuizi,jdbcType=LONGVARCHAR}, 
+      #{hDuizi,jdbcType=LONGVARCHAR}, #{qShunzi,jdbcType=LONGVARCHAR}, #{zShunzi,jdbcType=LONGVARCHAR}, 
+      #{hShunzi,jdbcType=LONGVARCHAR}, #{qBanshun,jdbcType=LONGVARCHAR}, #{zBanshun,jdbcType=LONGVARCHAR}, 
+      #{hBanshun,jdbcType=LONGVARCHAR}, #{qZaliu,jdbcType=LONGVARCHAR}, #{zZaliu,jdbcType=LONGVARCHAR}, 
+      #{hZaliu,jdbcType=LONGVARCHAR}, #{rules,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery11Setting">
+    insert into fn_lottery11
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="fanshui != null">
+        fanshui,
+      </if>
+      <if test="dxMin != null">
+        dx_min,
+      </if>
+      <if test="dsMin != null">
+        ds_min,
+      </if>
+      <if test="lhMin != null">
+        lh_min,
+      </if>
+      <if test="tmMin != null">
+        tm_min,
+      </if>
+      <if test="zhMin != null">
+        zh_min,
+      </if>
+      <if test="bzMin != null">
+        bz_min,
+      </if>
+      <if test="dzMin != null">
+        dz_min,
+      </if>
+      <if test="szMin != null">
+        sz_min,
+      </if>
+      <if test="bsMin != null">
+        bs_min,
+      </if>
+      <if test="zlMin != null">
+        zl_min,
+      </if>
+      <if test="dxMax != null">
+        dx_max,
+      </if>
+      <if test="dsMax != null">
+        ds_max,
+      </if>
+      <if test="lhMax != null">
+        lh_max,
+      </if>
+      <if test="tmMax != null">
+        tm_max,
+      </if>
+      <if test="zhMax != null">
+        zh_max,
+      </if>
+      <if test="bzMax != null">
+        bz_max,
+      </if>
+      <if test="dzMax != null">
+        dz_max,
+      </if>
+      <if test="szMax != null">
+        sz_max,
+      </if>
+      <if test="bsMax != null">
+        bs_max,
+      </if>
+      <if test="zlMax != null">
+        zl_max,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
+      </if>
+      <if test="shenglv != null">
+        shenglv,
+      </if>
+      <if test="kongzhi != null">
+        kongzhi,
+      </if>
+      <if test="jsdiy != null">
+        jsdiy,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="da != null">
+        da,
+      </if>
+      <if test="xiao != null">
+        xiao,
+      </if>
+      <if test="dan != null">
+        dan,
+      </if>
+      <if test="shuang != null">
+        shuang,
+      </if>
+      <if test="tema != null">
+        tema,
+      </if>
+      <if test="zongda != null">
+        zongda,
+      </if>
+      <if test="zongxiao != null">
+        zongxiao,
+      </if>
+      <if test="zongdan != null">
+        zongdan,
+      </if>
+      <if test="zongshuang != null">
+        zongshuang,
+      </if>
+      <if test="long != null">
+        long,
+      </if>
+      <if test="hu != null">
+        hu,
+      </if>
+      <if test="he != null">
+        he,
+      </if>
+      <if test="qBaozi != null">
+        q_baozi,
+      </if>
+      <if test="zBaozi != null">
+        z_baozi,
+      </if>
+      <if test="hBaozi != null">
+        h_baozi,
+      </if>
+      <if test="qDuizi != null">
+        q_duizi,
+      </if>
+      <if test="zDuizi != null">
+        z_duizi,
+      </if>
+      <if test="hDuizi != null">
+        h_duizi,
+      </if>
+      <if test="qShunzi != null">
+        q_shunzi,
+      </if>
+      <if test="zShunzi != null">
+        z_shunzi,
+      </if>
+      <if test="hShunzi != null">
+        h_shunzi,
+      </if>
+      <if test="qBanshun != null">
+        q_banshun,
+      </if>
+      <if test="zBanshun != null">
+        z_banshun,
+      </if>
+      <if test="hBanshun != null">
+        h_banshun,
+      </if>
+      <if test="qZaliu != null">
+        q_zaliu,
+      </if>
+      <if test="zZaliu != null">
+        z_zaliu,
+      </if>
+      <if test="hZaliu != null">
+        h_zaliu,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="dxMin != null">
+        #{dxMin,jdbcType=INTEGER},
+      </if>
+      <if test="dsMin != null">
+        #{dsMin,jdbcType=INTEGER},
+      </if>
+      <if test="lhMin != null">
+        #{lhMin,jdbcType=INTEGER},
+      </if>
+      <if test="tmMin != null">
+        #{tmMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhMin != null">
+        #{zhMin,jdbcType=INTEGER},
+      </if>
+      <if test="bzMin != null">
+        #{bzMin,jdbcType=INTEGER},
+      </if>
+      <if test="dzMin != null">
+        #{dzMin,jdbcType=INTEGER},
+      </if>
+      <if test="szMin != null">
+        #{szMin,jdbcType=INTEGER},
+      </if>
+      <if test="bsMin != null">
+        #{bsMin,jdbcType=INTEGER},
+      </if>
+      <if test="zlMin != null">
+        #{zlMin,jdbcType=INTEGER},
+      </if>
+      <if test="dxMax != null">
+        #{dxMax,jdbcType=INTEGER},
+      </if>
+      <if test="dsMax != null">
+        #{dsMax,jdbcType=INTEGER},
+      </if>
+      <if test="lhMax != null">
+        #{lhMax,jdbcType=INTEGER},
+      </if>
+      <if test="tmMax != null">
+        #{tmMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhMax != null">
+        #{zhMax,jdbcType=INTEGER},
+      </if>
+      <if test="bzMax != null">
+        #{bzMax,jdbcType=INTEGER},
+      </if>
+      <if test="dzMax != null">
+        #{dzMax,jdbcType=INTEGER},
+      </if>
+      <if test="szMax != null">
+        #{szMax,jdbcType=INTEGER},
+      </if>
+      <if test="bsMax != null">
+        #{bsMax,jdbcType=INTEGER},
+      </if>
+      <if test="zlMax != null">
+        #{zlMax,jdbcType=INTEGER},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="da != null">
+        #{da,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiao != null">
+        #{xiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dan != null">
+        #{dan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shuang != null">
+        #{shuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tema != null">
+        #{tema,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongda != null">
+        #{zongda,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongxiao != null">
+        #{zongxiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongdan != null">
+        #{zongdan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongshuang != null">
+        #{zongshuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="long != null">
+        #{long,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hu != null">
+        #{hu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="he != null">
+        #{he,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qBaozi != null">
+        #{qBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zBaozi != null">
+        #{zBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hBaozi != null">
+        #{hBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qDuizi != null">
+        #{qDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zDuizi != null">
+        #{zDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hDuizi != null">
+        #{hDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qShunzi != null">
+        #{qShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zShunzi != null">
+        #{zShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hShunzi != null">
+        #{hShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qBanshun != null">
+        #{qBanshun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zBanshun != null">
+        #{zBanshun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hBanshun != null">
+        #{hBanshun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qZaliu != null">
+        #{qZaliu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zZaliu != null">
+        #{zZaliu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hZaliu != null">
+        #{hZaliu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.Lottery11Setting">
+    update fn_lottery11
+    <set>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        fanshui = #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="dxMin != null">
+        dx_min = #{dxMin,jdbcType=INTEGER},
+      </if>
+      <if test="dsMin != null">
+        ds_min = #{dsMin,jdbcType=INTEGER},
+      </if>
+      <if test="lhMin != null">
+        lh_min = #{lhMin,jdbcType=INTEGER},
+      </if>
+      <if test="tmMin != null">
+        tm_min = #{tmMin,jdbcType=INTEGER},
+      </if>
+      <if test="zhMin != null">
+        zh_min = #{zhMin,jdbcType=INTEGER},
+      </if>
+      <if test="bzMin != null">
+        bz_min = #{bzMin,jdbcType=INTEGER},
+      </if>
+      <if test="dzMin != null">
+        dz_min = #{dzMin,jdbcType=INTEGER},
+      </if>
+      <if test="szMin != null">
+        sz_min = #{szMin,jdbcType=INTEGER},
+      </if>
+      <if test="bsMin != null">
+        bs_min = #{bsMin,jdbcType=INTEGER},
+      </if>
+      <if test="zlMin != null">
+        zl_min = #{zlMin,jdbcType=INTEGER},
+      </if>
+      <if test="dxMax != null">
+        dx_max = #{dxMax,jdbcType=INTEGER},
+      </if>
+      <if test="dsMax != null">
+        ds_max = #{dsMax,jdbcType=INTEGER},
+      </if>
+      <if test="lhMax != null">
+        lh_max = #{lhMax,jdbcType=INTEGER},
+      </if>
+      <if test="tmMax != null">
+        tm_max = #{tmMax,jdbcType=INTEGER},
+      </if>
+      <if test="zhMax != null">
+        zh_max = #{zhMax,jdbcType=INTEGER},
+      </if>
+      <if test="bzMax != null">
+        bz_max = #{bzMax,jdbcType=INTEGER},
+      </if>
+      <if test="dzMax != null">
+        dz_max = #{dzMax,jdbcType=INTEGER},
+      </if>
+      <if test="szMax != null">
+        sz_max = #{szMax,jdbcType=INTEGER},
+      </if>
+      <if test="bsMax != null">
+        bs_max = #{bsMax,jdbcType=INTEGER},
+      </if>
+      <if test="zlMax != null">
+        zl_max = #{zlMax,jdbcType=INTEGER},
+      </if>
+      <if test="fengtime != null">
+        fengtime = #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        shenglv = #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="da != null">
+        da = #{da,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiao != null">
+        xiao = #{xiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dan != null">
+        dan = #{dan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shuang != null">
+        shuang = #{shuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tema != null">
+        tema = #{tema,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongda != null">
+        zongda = #{zongda,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongxiao != null">
+        zongxiao = #{zongxiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongdan != null">
+        zongdan = #{zongdan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongshuang != null">
+        zongshuang = #{zongshuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="long != null">
+        long = #{long,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hu != null">
+        hu = #{hu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="he != null">
+        he = #{he,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qBaozi != null">
+        q_baozi = #{qBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zBaozi != null">
+        z_baozi = #{zBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hBaozi != null">
+        h_baozi = #{hBaozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qDuizi != null">
+        q_duizi = #{qDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zDuizi != null">
+        z_duizi = #{zDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hDuizi != null">
+        h_duizi = #{hDuizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qShunzi != null">
+        q_shunzi = #{qShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zShunzi != null">
+        z_shunzi = #{zShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hShunzi != null">
+        h_shunzi = #{hShunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qBanshun != null">
+        q_banshun = #{qBanshun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zBanshun != null">
+        z_banshun = #{zBanshun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hBanshun != null">
+        h_banshun = #{hBanshun,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="qZaliu != null">
+        q_zaliu = #{qZaliu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zZaliu != null">
+        z_zaliu = #{zZaliu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hZaliu != null">
+        h_zaliu = #{hZaliu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        rules = #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.Lottery11Setting">
+    update fn_lottery11
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      dx_min = #{dxMin,jdbcType=INTEGER},
+      ds_min = #{dsMin,jdbcType=INTEGER},
+      lh_min = #{lhMin,jdbcType=INTEGER},
+      tm_min = #{tmMin,jdbcType=INTEGER},
+      zh_min = #{zhMin,jdbcType=INTEGER},
+      bz_min = #{bzMin,jdbcType=INTEGER},
+      dz_min = #{dzMin,jdbcType=INTEGER},
+      sz_min = #{szMin,jdbcType=INTEGER},
+      bs_min = #{bsMin,jdbcType=INTEGER},
+      zl_min = #{zlMin,jdbcType=INTEGER},
+      dx_max = #{dxMax,jdbcType=INTEGER},
+      ds_max = #{dsMax,jdbcType=INTEGER},
+      lh_max = #{lhMax,jdbcType=INTEGER},
+      tm_max = #{tmMax,jdbcType=INTEGER},
+      zh_max = #{zhMax,jdbcType=INTEGER},
+      bz_max = #{bzMax,jdbcType=INTEGER},
+      dz_max = #{dzMax,jdbcType=INTEGER},
+      sz_max = #{szMax,jdbcType=INTEGER},
+      bs_max = #{bsMax,jdbcType=INTEGER},
+      zl_max = #{zlMax,jdbcType=INTEGER},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      da = #{da,jdbcType=LONGVARCHAR},
+      xiao = #{xiao,jdbcType=LONGVARCHAR},
+      dan = #{dan,jdbcType=LONGVARCHAR},
+      shuang = #{shuang,jdbcType=LONGVARCHAR},
+      tema = #{tema,jdbcType=LONGVARCHAR},
+      zongda = #{zongda,jdbcType=LONGVARCHAR},
+      zongxiao = #{zongxiao,jdbcType=LONGVARCHAR},
+      zongdan = #{zongdan,jdbcType=LONGVARCHAR},
+      zongshuang = #{zongshuang,jdbcType=LONGVARCHAR},
+      long = #{long,jdbcType=LONGVARCHAR},
+      hu = #{hu,jdbcType=LONGVARCHAR},
+      he = #{he,jdbcType=LONGVARCHAR},
+      q_baozi = #{qBaozi,jdbcType=LONGVARCHAR},
+      z_baozi = #{zBaozi,jdbcType=LONGVARCHAR},
+      h_baozi = #{hBaozi,jdbcType=LONGVARCHAR},
+      q_duizi = #{qDuizi,jdbcType=LONGVARCHAR},
+      z_duizi = #{zDuizi,jdbcType=LONGVARCHAR},
+      h_duizi = #{hDuizi,jdbcType=LONGVARCHAR},
+      q_shunzi = #{qShunzi,jdbcType=LONGVARCHAR},
+      z_shunzi = #{zShunzi,jdbcType=LONGVARCHAR},
+      h_shunzi = #{hShunzi,jdbcType=LONGVARCHAR},
+      q_banshun = #{qBanshun,jdbcType=LONGVARCHAR},
+      z_banshun = #{zBanshun,jdbcType=LONGVARCHAR},
+      h_banshun = #{hBanshun,jdbcType=LONGVARCHAR},
+      q_zaliu = #{qZaliu,jdbcType=LONGVARCHAR},
+      z_zaliu = #{zZaliu,jdbcType=LONGVARCHAR},
+      h_zaliu = #{hZaliu,jdbcType=LONGVARCHAR},
+      rules = #{rules,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.Lottery11Setting">
+    update fn_lottery11
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      dx_min = #{dxMin,jdbcType=INTEGER},
+      ds_min = #{dsMin,jdbcType=INTEGER},
+      lh_min = #{lhMin,jdbcType=INTEGER},
+      tm_min = #{tmMin,jdbcType=INTEGER},
+      zh_min = #{zhMin,jdbcType=INTEGER},
+      bz_min = #{bzMin,jdbcType=INTEGER},
+      dz_min = #{dzMin,jdbcType=INTEGER},
+      sz_min = #{szMin,jdbcType=INTEGER},
+      bs_min = #{bsMin,jdbcType=INTEGER},
+      zl_min = #{zlMin,jdbcType=INTEGER},
+      dx_max = #{dxMax,jdbcType=INTEGER},
+      ds_max = #{dsMax,jdbcType=INTEGER},
+      lh_max = #{lhMax,jdbcType=INTEGER},
+      tm_max = #{tmMax,jdbcType=INTEGER},
+      zh_max = #{zhMax,jdbcType=INTEGER},
+      bz_max = #{bzMax,jdbcType=INTEGER},
+      dz_max = #{dzMax,jdbcType=INTEGER},
+      sz_max = #{szMax,jdbcType=INTEGER},
+      bs_max = #{bsMax,jdbcType=INTEGER},
+      zl_max = #{zlMax,jdbcType=INTEGER},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

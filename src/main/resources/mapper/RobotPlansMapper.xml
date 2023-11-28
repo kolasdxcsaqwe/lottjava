@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.RobotPlansMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.RobotPlans">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.RobotPlans">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="game" jdbcType="LONGVARCHAR" property="game" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, addtime, roomid
+  </sql>
+  <sql id="Blob_Column_List">
+    content, game
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_robotplan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll"  resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_robotplan
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_robotplan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.RobotPlans">
+    insert into fn_robotplan (id, addtime, roomid, 
+      content, game)
+    values (#{id,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, #{roomid,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR}, #{game,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.RobotPlans">
+    insert into fn_robotplan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="game != null">
+        game,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        #{game,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.RobotPlans">
+    update fn_robotplan
+    <set>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        game = #{game,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.RobotPlans">
+    update fn_robotplan
+    set addtime = #{addtime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR},
+      game = #{game,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.RobotPlans">
+    update fn_robotplan
+    set addtime = #{addtime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

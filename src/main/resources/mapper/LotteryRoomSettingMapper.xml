@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.LotteryRoomSettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.LotteryRoomSetting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="sid" jdbcType="VARCHAR" property="sid" />
+    <result column="zhisdk" jdbcType="VARCHAR" property="zhisdk" />
+    <result column="weisdk" jdbcType="VARCHAR" property="weisdk" />
+    <result column="qsdk" jdbcType="VARCHAR" property="qsdk" />
+    <result column="dsid" jdbcType="VARCHAR" property="dsid" />
+    <result column="dskey" jdbcType="VARCHAR" property="dskey" />
+    <result column="payfs" jdbcType="INTEGER" property="payfs" />
+    <result column="setting_tixian" jdbcType="INTEGER" property="settingTixian" />
+    <result column="setting_people" jdbcType="INTEGER" property="settingPeople" />
+    <result column="setting_robots" jdbcType="INTEGER" property="settingRobots" />
+    <result column="setting_robot_min" jdbcType="INTEGER" property="settingRobotMin" />
+    <result column="setting_robot_max" jdbcType="INTEGER" property="settingRobotMax" />
+    <result column="setting_robot_pointmin" jdbcType="INTEGER" property="settingRobotPointmin" />
+    <result column="setting_robot_pointmax" jdbcType="INTEGER" property="settingRobotPointmax" />
+    <result column="msg1_time" jdbcType="INTEGER" property="msg1Time" />
+    <result column="msg2_time" jdbcType="INTEGER" property="msg2Time" />
+    <result column="msg3_time" jdbcType="INTEGER" property="msg3Time" />
+    <result column="daojishi" jdbcType="VARCHAR" property="daojishi" />
+    <result column="fengpanxiaoxi" jdbcType="VARCHAR" property="fengpanxiaoxi" />
+    <result column="tuiguang" jdbcType="INTEGER" property="tuiguang" />
+    <result column="fanshui" jdbcType="VARCHAR" property="fanshui" />
+    <result column="tubiao" jdbcType="INTEGER" property="tubiao" />
+    <result column="zhibo" jdbcType="VARCHAR" property="zhibo" />
+    <result column="wechatpaycode" jdbcType="VARCHAR" property="wechatpaycode" />
+    <result column="alipaycode" jdbcType="VARCHAR" property="alipaycode" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.LotteryRoomSetting">
+    <result column="setting_game" jdbcType="LONGVARCHAR" property="settingGame" />
+    <result column="setting_wordkeys" jdbcType="LONGVARCHAR" property="settingWordkeys" />
+    <result column="setting_kefu" jdbcType="LONGVARCHAR" property="settingKefu" />
+    <result column="setting_cancelbet" jdbcType="LONGVARCHAR" property="settingCancelbet" />
+    <result column="setting_ischat" jdbcType="LONGVARCHAR" property="settingIschat" />
+    <result column="setting_tishi" jdbcType="LONGVARCHAR" property="settingTishi" />
+    <result column="setting_video" jdbcType="LONGVARCHAR" property="settingVideo" />
+    <result column="setting_qrcode" jdbcType="LONGVARCHAR" property="settingQrcode" />
+    <result column="setting_sysimg" jdbcType="LONGVARCHAR" property="settingSysimg" />
+    <result column="setting_robotsimg" jdbcType="LONGVARCHAR" property="settingRobotsimg" />
+    <result column="setting_templates" jdbcType="LONGVARCHAR" property="settingTemplates" />
+    <result column="setting_flyorder" jdbcType="LONGVARCHAR" property="settingFlyorder" />
+    <result column="setting_downmark" jdbcType="LONGVARCHAR" property="settingDownmark" />
+    <result column="display_custom" jdbcType="LONGVARCHAR" property="displayCustom" />
+    <result column="display_extend" jdbcType="LONGVARCHAR" property="displayExtend" />
+    <result column="display_plan" jdbcType="LONGVARCHAR" property="displayPlan" />
+    <result column="display_game" jdbcType="LONGVARCHAR" property="displayGame" />
+    <result column="msg1_cont" jdbcType="LONGVARCHAR" property="msg1Cont" />
+    <result column="msg2_cont" jdbcType="LONGVARCHAR" property="msg2Cont" />
+    <result column="msg3_cont" jdbcType="LONGVARCHAR" property="msg3Cont" />
+    <result column="flyorder_type" jdbcType="LONGVARCHAR" property="flyorderType" />
+    <result column="flyorder_user" jdbcType="LONGVARCHAR" property="flyorderUser" />
+    <result column="flyorder_pass" jdbcType="LONGVARCHAR" property="flyorderPass" />
+    <result column="flyorder_site" jdbcType="LONGVARCHAR" property="flyorderSite" />
+    <result column="flyorder_session" jdbcType="LONGVARCHAR" property="flyorderSession" />
+    <result column="flyorder_duichong" jdbcType="LONGVARCHAR" property="flyorderDuichong" />
+    <result column="flyorder_pk10" jdbcType="LONGVARCHAR" property="flyorderPk10" />
+    <result column="flyorder_xyft" jdbcType="LONGVARCHAR" property="flyorderXyft" />
+    <result column="flyorder_cqssc" jdbcType="LONGVARCHAR" property="flyorderCqssc" />
+    <result column="fstext" jdbcType="LONGVARCHAR" property="fstext" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomid, sid, zhisdk, weisdk, qsdk, dsid, dskey, payfs, setting_tixian, setting_people, 
+    setting_robots, setting_robot_min, setting_robot_max, setting_robot_pointmin, setting_robot_pointmax, 
+    msg1_time, msg2_time, msg3_time, daojishi, fengpanxiaoxi, tuiguang, fanshui, tubiao, 
+    zhibo, wechatpaycode, alipaycode
+  </sql>
+  <sql id="Blob_Column_List">
+    setting_game, setting_wordkeys, setting_kefu, setting_cancelbet, setting_ischat, 
+    setting_tishi, setting_video, setting_qrcode, setting_sysimg, setting_robotsimg, 
+    setting_templates, setting_flyorder, setting_downmark, display_custom, display_extend, 
+    display_plan, display_game, msg1_cont, msg2_cont, msg3_cont, flyorder_type, flyorder_user, 
+    flyorder_pass, flyorder_site, flyorder_session, flyorder_duichong, flyorder_pk10, 
+    flyorder_xyft, flyorder_cqssc, fstext
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_setting
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_setting
+    where roomid = #{roomid,jdbcType=INTEGER} limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_setting
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.LotteryRoomSetting">
+    insert into fn_setting (id, roomid, sid, 
+      zhisdk, weisdk, qsdk, 
+      dsid, dskey, payfs, 
+      setting_tixian, setting_people, setting_robots, 
+      setting_robot_min, setting_robot_max, setting_robot_pointmin, 
+      setting_robot_pointmax, msg1_time, msg2_time, 
+      msg3_time, daojishi, fengpanxiaoxi, 
+      tuiguang, fanshui, tubiao, 
+      zhibo, wechatpaycode, alipaycode, 
+      setting_game, setting_wordkeys, setting_kefu, 
+      setting_cancelbet, setting_ischat, 
+      setting_tishi, setting_video, setting_qrcode, 
+      setting_sysimg, setting_robotsimg, 
+      setting_templates, setting_flyorder, 
+      setting_downmark, display_custom, 
+      display_extend, display_plan, display_game, 
+      msg1_cont, msg2_cont, msg3_cont, 
+      flyorder_type, flyorder_user, flyorder_pass, 
+      flyorder_site, flyorder_session, 
+      flyorder_duichong, flyorder_pk10, 
+      flyorder_xyft, flyorder_cqssc, fstext
+      )
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{sid,jdbcType=VARCHAR}, 
+      #{zhisdk,jdbcType=VARCHAR}, #{weisdk,jdbcType=VARCHAR}, #{qsdk,jdbcType=VARCHAR}, 
+      #{dsid,jdbcType=VARCHAR}, #{dskey,jdbcType=VARCHAR}, #{payfs,jdbcType=INTEGER}, 
+      #{settingTixian,jdbcType=INTEGER}, #{settingPeople,jdbcType=INTEGER}, #{settingRobots,jdbcType=INTEGER}, 
+      #{settingRobotMin,jdbcType=INTEGER}, #{settingRobotMax,jdbcType=INTEGER}, #{settingRobotPointmin,jdbcType=INTEGER}, 
+      #{settingRobotPointmax,jdbcType=INTEGER}, #{msg1Time,jdbcType=INTEGER}, #{msg2Time,jdbcType=INTEGER}, 
+      #{msg3Time,jdbcType=INTEGER}, #{daojishi,jdbcType=VARCHAR}, #{fengpanxiaoxi,jdbcType=VARCHAR}, 
+      #{tuiguang,jdbcType=INTEGER}, #{fanshui,jdbcType=VARCHAR}, #{tubiao,jdbcType=INTEGER}, 
+      #{zhibo,jdbcType=VARCHAR}, #{wechatpaycode,jdbcType=VARCHAR}, #{alipaycode,jdbcType=VARCHAR}, 
+      #{settingGame,jdbcType=LONGVARCHAR}, #{settingWordkeys,jdbcType=LONGVARCHAR}, #{settingKefu,jdbcType=LONGVARCHAR}, 
+      #{settingCancelbet,jdbcType=LONGVARCHAR}, #{settingIschat,jdbcType=LONGVARCHAR}, 
+      #{settingTishi,jdbcType=LONGVARCHAR}, #{settingVideo,jdbcType=LONGVARCHAR}, #{settingQrcode,jdbcType=LONGVARCHAR}, 
+      #{settingSysimg,jdbcType=LONGVARCHAR}, #{settingRobotsimg,jdbcType=LONGVARCHAR}, 
+      #{settingTemplates,jdbcType=LONGVARCHAR}, #{settingFlyorder,jdbcType=LONGVARCHAR}, 
+      #{settingDownmark,jdbcType=LONGVARCHAR}, #{displayCustom,jdbcType=LONGVARCHAR}, 
+      #{displayExtend,jdbcType=LONGVARCHAR}, #{displayPlan,jdbcType=LONGVARCHAR}, #{displayGame,jdbcType=LONGVARCHAR}, 
+      #{msg1Cont,jdbcType=LONGVARCHAR}, #{msg2Cont,jdbcType=LONGVARCHAR}, #{msg3Cont,jdbcType=LONGVARCHAR}, 
+      #{flyorderType,jdbcType=LONGVARCHAR}, #{flyorderUser,jdbcType=LONGVARCHAR}, #{flyorderPass,jdbcType=LONGVARCHAR}, 
+      #{flyorderSite,jdbcType=LONGVARCHAR}, #{flyorderSession,jdbcType=LONGVARCHAR}, 
+      #{flyorderDuichong,jdbcType=LONGVARCHAR}, #{flyorderPk10,jdbcType=LONGVARCHAR}, 
+      #{flyorderXyft,jdbcType=LONGVARCHAR}, #{flyorderCqssc,jdbcType=LONGVARCHAR}, #{fstext,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.LotteryRoomSetting">
+    insert into fn_setting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="zhisdk != null">
+        zhisdk,
+      </if>
+      <if test="weisdk != null">
+        weisdk,
+      </if>
+      <if test="qsdk != null">
+        qsdk,
+      </if>
+      <if test="dsid != null">
+        dsid,
+      </if>
+      <if test="dskey != null">
+        dskey,
+      </if>
+      <if test="payfs != null">
+        payfs,
+      </if>
+      <if test="settingTixian != null">
+        setting_tixian,
+      </if>
+      <if test="settingPeople != null">
+        setting_people,
+      </if>
+      <if test="settingRobots != null">
+        setting_robots,
+      </if>
+      <if test="settingRobotMin != null">
+        setting_robot_min,
+      </if>
+      <if test="settingRobotMax != null">
+        setting_robot_max,
+      </if>
+      <if test="settingRobotPointmin != null">
+        setting_robot_pointmin,
+      </if>
+      <if test="settingRobotPointmax != null">
+        setting_robot_pointmax,
+      </if>
+      <if test="msg1Time != null">
+        msg1_time,
+      </if>
+      <if test="msg2Time != null">
+        msg2_time,
+      </if>
+      <if test="msg3Time != null">
+        msg3_time,
+      </if>
+      <if test="daojishi != null">
+        daojishi,
+      </if>
+      <if test="fengpanxiaoxi != null">
+        fengpanxiaoxi,
+      </if>
+      <if test="tuiguang != null">
+        tuiguang,
+      </if>
+      <if test="fanshui != null">
+        fanshui,
+      </if>
+      <if test="tubiao != null">
+        tubiao,
+      </if>
+      <if test="zhibo != null">
+        zhibo,
+      </if>
+      <if test="wechatpaycode != null">
+        wechatpaycode,
+      </if>
+      <if test="alipaycode != null">
+        alipaycode,
+      </if>
+      <if test="settingGame != null">
+        setting_game,
+      </if>
+      <if test="settingWordkeys != null">
+        setting_wordkeys,
+      </if>
+      <if test="settingKefu != null">
+        setting_kefu,
+      </if>
+      <if test="settingCancelbet != null">
+        setting_cancelbet,
+      </if>
+      <if test="settingIschat != null">
+        setting_ischat,
+      </if>
+      <if test="settingTishi != null">
+        setting_tishi,
+      </if>
+      <if test="settingVideo != null">
+        setting_video,
+      </if>
+      <if test="settingQrcode != null">
+        setting_qrcode,
+      </if>
+      <if test="settingSysimg != null">
+        setting_sysimg,
+      </if>
+      <if test="settingRobotsimg != null">
+        setting_robotsimg,
+      </if>
+      <if test="settingTemplates != null">
+        setting_templates,
+      </if>
+      <if test="settingFlyorder != null">
+        setting_flyorder,
+      </if>
+      <if test="settingDownmark != null">
+        setting_downmark,
+      </if>
+      <if test="displayCustom != null">
+        display_custom,
+      </if>
+      <if test="displayExtend != null">
+        display_extend,
+      </if>
+      <if test="displayPlan != null">
+        display_plan,
+      </if>
+      <if test="displayGame != null">
+        display_game,
+      </if>
+      <if test="msg1Cont != null">
+        msg1_cont,
+      </if>
+      <if test="msg2Cont != null">
+        msg2_cont,
+      </if>
+      <if test="msg3Cont != null">
+        msg3_cont,
+      </if>
+      <if test="flyorderType != null">
+        flyorder_type,
+      </if>
+      <if test="flyorderUser != null">
+        flyorder_user,
+      </if>
+      <if test="flyorderPass != null">
+        flyorder_pass,
+      </if>
+      <if test="flyorderSite != null">
+        flyorder_site,
+      </if>
+      <if test="flyorderSession != null">
+        flyorder_session,
+      </if>
+      <if test="flyorderDuichong != null">
+        flyorder_duichong,
+      </if>
+      <if test="flyorderPk10 != null">
+        flyorder_pk10,
+      </if>
+      <if test="flyorderXyft != null">
+        flyorder_xyft,
+      </if>
+      <if test="flyorderCqssc != null">
+        flyorder_cqssc,
+      </if>
+      <if test="fstext != null">
+        fstext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="zhisdk != null">
+        #{zhisdk,jdbcType=VARCHAR},
+      </if>
+      <if test="weisdk != null">
+        #{weisdk,jdbcType=VARCHAR},
+      </if>
+      <if test="qsdk != null">
+        #{qsdk,jdbcType=VARCHAR},
+      </if>
+      <if test="dsid != null">
+        #{dsid,jdbcType=VARCHAR},
+      </if>
+      <if test="dskey != null">
+        #{dskey,jdbcType=VARCHAR},
+      </if>
+      <if test="payfs != null">
+        #{payfs,jdbcType=INTEGER},
+      </if>
+      <if test="settingTixian != null">
+        #{settingTixian,jdbcType=INTEGER},
+      </if>
+      <if test="settingPeople != null">
+        #{settingPeople,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobots != null">
+        #{settingRobots,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotMin != null">
+        #{settingRobotMin,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotMax != null">
+        #{settingRobotMax,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotPointmin != null">
+        #{settingRobotPointmin,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotPointmax != null">
+        #{settingRobotPointmax,jdbcType=INTEGER},
+      </if>
+      <if test="msg1Time != null">
+        #{msg1Time,jdbcType=INTEGER},
+      </if>
+      <if test="msg2Time != null">
+        #{msg2Time,jdbcType=INTEGER},
+      </if>
+      <if test="msg3Time != null">
+        #{msg3Time,jdbcType=INTEGER},
+      </if>
+      <if test="daojishi != null">
+        #{daojishi,jdbcType=VARCHAR},
+      </if>
+      <if test="fengpanxiaoxi != null">
+        #{fengpanxiaoxi,jdbcType=VARCHAR},
+      </if>
+      <if test="tuiguang != null">
+        #{tuiguang,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="tubiao != null">
+        #{tubiao,jdbcType=INTEGER},
+      </if>
+      <if test="zhibo != null">
+        #{zhibo,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatpaycode != null">
+        #{wechatpaycode,jdbcType=VARCHAR},
+      </if>
+      <if test="alipaycode != null">
+        #{alipaycode,jdbcType=VARCHAR},
+      </if>
+      <if test="settingGame != null">
+        #{settingGame,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingWordkeys != null">
+        #{settingWordkeys,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingKefu != null">
+        #{settingKefu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingCancelbet != null">
+        #{settingCancelbet,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingIschat != null">
+        #{settingIschat,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingTishi != null">
+        #{settingTishi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingVideo != null">
+        #{settingVideo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingQrcode != null">
+        #{settingQrcode,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingSysimg != null">
+        #{settingSysimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingRobotsimg != null">
+        #{settingRobotsimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingTemplates != null">
+        #{settingTemplates,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingFlyorder != null">
+        #{settingFlyorder,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingDownmark != null">
+        #{settingDownmark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayCustom != null">
+        #{displayCustom,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayExtend != null">
+        #{displayExtend,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayPlan != null">
+        #{displayPlan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayGame != null">
+        #{displayGame,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msg1Cont != null">
+        #{msg1Cont,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msg2Cont != null">
+        #{msg2Cont,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msg3Cont != null">
+        #{msg3Cont,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderType != null">
+        #{flyorderType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderUser != null">
+        #{flyorderUser,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderPass != null">
+        #{flyorderPass,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderSite != null">
+        #{flyorderSite,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderSession != null">
+        #{flyorderSession,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderDuichong != null">
+        #{flyorderDuichong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderPk10 != null">
+        #{flyorderPk10,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderXyft != null">
+        #{flyorderXyft,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderCqssc != null">
+        #{flyorderCqssc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fstext != null">
+        #{fstext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.LotteryRoomSetting">
+    update fn_setting
+    <set>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="zhisdk != null">
+        zhisdk = #{zhisdk,jdbcType=VARCHAR},
+      </if>
+      <if test="weisdk != null">
+        weisdk = #{weisdk,jdbcType=VARCHAR},
+      </if>
+      <if test="qsdk != null">
+        qsdk = #{qsdk,jdbcType=VARCHAR},
+      </if>
+      <if test="dsid != null">
+        dsid = #{dsid,jdbcType=VARCHAR},
+      </if>
+      <if test="dskey != null">
+        dskey = #{dskey,jdbcType=VARCHAR},
+      </if>
+      <if test="payfs != null">
+        payfs = #{payfs,jdbcType=INTEGER},
+      </if>
+      <if test="settingTixian != null">
+        setting_tixian = #{settingTixian,jdbcType=INTEGER},
+      </if>
+      <if test="settingPeople != null">
+        setting_people = #{settingPeople,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobots != null">
+        setting_robots = #{settingRobots,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotMin != null">
+        setting_robot_min = #{settingRobotMin,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotMax != null">
+        setting_robot_max = #{settingRobotMax,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotPointmin != null">
+        setting_robot_pointmin = #{settingRobotPointmin,jdbcType=INTEGER},
+      </if>
+      <if test="settingRobotPointmax != null">
+        setting_robot_pointmax = #{settingRobotPointmax,jdbcType=INTEGER},
+      </if>
+      <if test="msg1Time != null">
+        msg1_time = #{msg1Time,jdbcType=INTEGER},
+      </if>
+      <if test="msg2Time != null">
+        msg2_time = #{msg2Time,jdbcType=INTEGER},
+      </if>
+      <if test="msg3Time != null">
+        msg3_time = #{msg3Time,jdbcType=INTEGER},
+      </if>
+      <if test="daojishi != null">
+        daojishi = #{daojishi,jdbcType=VARCHAR},
+      </if>
+      <if test="fengpanxiaoxi != null">
+        fengpanxiaoxi = #{fengpanxiaoxi,jdbcType=VARCHAR},
+      </if>
+      <if test="tuiguang != null">
+        tuiguang = #{tuiguang,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        fanshui = #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="tubiao != null">
+        tubiao = #{tubiao,jdbcType=INTEGER},
+      </if>
+      <if test="zhibo != null">
+        zhibo = #{zhibo,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatpaycode != null">
+        wechatpaycode = #{wechatpaycode,jdbcType=VARCHAR},
+      </if>
+      <if test="alipaycode != null">
+        alipaycode = #{alipaycode,jdbcType=VARCHAR},
+      </if>
+      <if test="settingGame != null">
+        setting_game = #{settingGame,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingWordkeys != null">
+        setting_wordkeys = #{settingWordkeys,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingKefu != null">
+        setting_kefu = #{settingKefu,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingCancelbet != null">
+        setting_cancelbet = #{settingCancelbet,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingIschat != null">
+        setting_ischat = #{settingIschat,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingTishi != null">
+        setting_tishi = #{settingTishi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingVideo != null">
+        setting_video = #{settingVideo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingQrcode != null">
+        setting_qrcode = #{settingQrcode,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingSysimg != null">
+        setting_sysimg = #{settingSysimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingRobotsimg != null">
+        setting_robotsimg = #{settingRobotsimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingTemplates != null">
+        setting_templates = #{settingTemplates,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingFlyorder != null">
+        setting_flyorder = #{settingFlyorder,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingDownmark != null">
+        setting_downmark = #{settingDownmark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayCustom != null">
+        display_custom = #{displayCustom,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayExtend != null">
+        display_extend = #{displayExtend,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayPlan != null">
+        display_plan = #{displayPlan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="displayGame != null">
+        display_game = #{displayGame,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msg1Cont != null">
+        msg1_cont = #{msg1Cont,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msg2Cont != null">
+        msg2_cont = #{msg2Cont,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="msg3Cont != null">
+        msg3_cont = #{msg3Cont,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderType != null">
+        flyorder_type = #{flyorderType,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderUser != null">
+        flyorder_user = #{flyorderUser,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderPass != null">
+        flyorder_pass = #{flyorderPass,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderSite != null">
+        flyorder_site = #{flyorderSite,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderSession != null">
+        flyorder_session = #{flyorderSession,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderDuichong != null">
+        flyorder_duichong = #{flyorderDuichong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderPk10 != null">
+        flyorder_pk10 = #{flyorderPk10,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderXyft != null">
+        flyorder_xyft = #{flyorderXyft,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="flyorderCqssc != null">
+        flyorder_cqssc = #{flyorderCqssc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fstext != null">
+        fstext = #{fstext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.LotteryRoomSetting">
+    update fn_setting
+    set roomid = #{roomid,jdbcType=INTEGER},
+      sid = #{sid,jdbcType=VARCHAR},
+      zhisdk = #{zhisdk,jdbcType=VARCHAR},
+      weisdk = #{weisdk,jdbcType=VARCHAR},
+      qsdk = #{qsdk,jdbcType=VARCHAR},
+      dsid = #{dsid,jdbcType=VARCHAR},
+      dskey = #{dskey,jdbcType=VARCHAR},
+      payfs = #{payfs,jdbcType=INTEGER},
+      setting_tixian = #{settingTixian,jdbcType=INTEGER},
+      setting_people = #{settingPeople,jdbcType=INTEGER},
+      setting_robots = #{settingRobots,jdbcType=INTEGER},
+      setting_robot_min = #{settingRobotMin,jdbcType=INTEGER},
+      setting_robot_max = #{settingRobotMax,jdbcType=INTEGER},
+      setting_robot_pointmin = #{settingRobotPointmin,jdbcType=INTEGER},
+      setting_robot_pointmax = #{settingRobotPointmax,jdbcType=INTEGER},
+      msg1_time = #{msg1Time,jdbcType=INTEGER},
+      msg2_time = #{msg2Time,jdbcType=INTEGER},
+      msg3_time = #{msg3Time,jdbcType=INTEGER},
+      daojishi = #{daojishi,jdbcType=VARCHAR},
+      fengpanxiaoxi = #{fengpanxiaoxi,jdbcType=VARCHAR},
+      tuiguang = #{tuiguang,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      tubiao = #{tubiao,jdbcType=INTEGER},
+      zhibo = #{zhibo,jdbcType=VARCHAR},
+      wechatpaycode = #{wechatpaycode,jdbcType=VARCHAR},
+      alipaycode = #{alipaycode,jdbcType=VARCHAR},
+      setting_game = #{settingGame,jdbcType=LONGVARCHAR},
+      setting_wordkeys = #{settingWordkeys,jdbcType=LONGVARCHAR},
+      setting_kefu = #{settingKefu,jdbcType=LONGVARCHAR},
+      setting_cancelbet = #{settingCancelbet,jdbcType=LONGVARCHAR},
+      setting_ischat = #{settingIschat,jdbcType=LONGVARCHAR},
+      setting_tishi = #{settingTishi,jdbcType=LONGVARCHAR},
+      setting_video = #{settingVideo,jdbcType=LONGVARCHAR},
+      setting_qrcode = #{settingQrcode,jdbcType=LONGVARCHAR},
+      setting_sysimg = #{settingSysimg,jdbcType=LONGVARCHAR},
+      setting_robotsimg = #{settingRobotsimg,jdbcType=LONGVARCHAR},
+      setting_templates = #{settingTemplates,jdbcType=LONGVARCHAR},
+      setting_flyorder = #{settingFlyorder,jdbcType=LONGVARCHAR},
+      setting_downmark = #{settingDownmark,jdbcType=LONGVARCHAR},
+      display_custom = #{displayCustom,jdbcType=LONGVARCHAR},
+      display_extend = #{displayExtend,jdbcType=LONGVARCHAR},
+      display_plan = #{displayPlan,jdbcType=LONGVARCHAR},
+      display_game = #{displayGame,jdbcType=LONGVARCHAR},
+      msg1_cont = #{msg1Cont,jdbcType=LONGVARCHAR},
+      msg2_cont = #{msg2Cont,jdbcType=LONGVARCHAR},
+      msg3_cont = #{msg3Cont,jdbcType=LONGVARCHAR},
+      flyorder_type = #{flyorderType,jdbcType=LONGVARCHAR},
+      flyorder_user = #{flyorderUser,jdbcType=LONGVARCHAR},
+      flyorder_pass = #{flyorderPass,jdbcType=LONGVARCHAR},
+      flyorder_site = #{flyorderSite,jdbcType=LONGVARCHAR},
+      flyorder_session = #{flyorderSession,jdbcType=LONGVARCHAR},
+      flyorder_duichong = #{flyorderDuichong,jdbcType=LONGVARCHAR},
+      flyorder_pk10 = #{flyorderPk10,jdbcType=LONGVARCHAR},
+      flyorder_xyft = #{flyorderXyft,jdbcType=LONGVARCHAR},
+      flyorder_cqssc = #{flyorderCqssc,jdbcType=LONGVARCHAR},
+      fstext = #{fstext,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.LotteryRoomSetting">
+    update fn_setting
+    set roomid = #{roomid,jdbcType=INTEGER},
+      sid = #{sid,jdbcType=VARCHAR},
+      zhisdk = #{zhisdk,jdbcType=VARCHAR},
+      weisdk = #{weisdk,jdbcType=VARCHAR},
+      qsdk = #{qsdk,jdbcType=VARCHAR},
+      dsid = #{dsid,jdbcType=VARCHAR},
+      dskey = #{dskey,jdbcType=VARCHAR},
+      payfs = #{payfs,jdbcType=INTEGER},
+      setting_tixian = #{settingTixian,jdbcType=INTEGER},
+      setting_people = #{settingPeople,jdbcType=INTEGER},
+      setting_robots = #{settingRobots,jdbcType=INTEGER},
+      setting_robot_min = #{settingRobotMin,jdbcType=INTEGER},
+      setting_robot_max = #{settingRobotMax,jdbcType=INTEGER},
+      setting_robot_pointmin = #{settingRobotPointmin,jdbcType=INTEGER},
+      setting_robot_pointmax = #{settingRobotPointmax,jdbcType=INTEGER},
+      msg1_time = #{msg1Time,jdbcType=INTEGER},
+      msg2_time = #{msg2Time,jdbcType=INTEGER},
+      msg3_time = #{msg3Time,jdbcType=INTEGER},
+      daojishi = #{daojishi,jdbcType=VARCHAR},
+      fengpanxiaoxi = #{fengpanxiaoxi,jdbcType=VARCHAR},
+      tuiguang = #{tuiguang,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      tubiao = #{tubiao,jdbcType=INTEGER},
+      zhibo = #{zhibo,jdbcType=VARCHAR},
+      wechatpaycode = #{wechatpaycode,jdbcType=VARCHAR},
+      alipaycode = #{alipaycode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

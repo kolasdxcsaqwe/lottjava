@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.Lottery19SettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.Lottery19Setting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="fanshui" jdbcType="VARCHAR" property="fanshui" />
+    <result column="fengtime" jdbcType="INTEGER" property="fengtime" />
+    <result column="shenglv" jdbcType="VARCHAR" property="shenglv" />
+    <result column="kongzhi" jdbcType="VARCHAR" property="kongzhi" />
+    <result column="jsdiy" jdbcType="VARCHAR" property="jsdiy" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.Lottery19Setting">
+    <result column="gameopen" jdbcType="LONGVARCHAR" property="gameopen" />
+    <result column="0027" jdbcType="LONGVARCHAR" property="val0027" />
+    <result column="0126" jdbcType="LONGVARCHAR" property="val0126" />
+    <result column="0225" jdbcType="LONGVARCHAR" property="val0225" />
+    <result column="0324" jdbcType="LONGVARCHAR" property="val0324" />
+    <result column="0423" jdbcType="LONGVARCHAR" property="val0423" />
+    <result column="0522" jdbcType="LONGVARCHAR" property="val0522" />
+    <result column="0621" jdbcType="LONGVARCHAR" property="val0621" />
+    <result column="0720" jdbcType="LONGVARCHAR" property="val0720" />
+    <result column="891819" jdbcType="LONGVARCHAR" property="val891819" />
+    <result column="10111617" jdbcType="LONGVARCHAR" property="val10111617" />
+    <result column="1215" jdbcType="LONGVARCHAR" property="val1215" />
+    <result column="1314" jdbcType="LONGVARCHAR" property="val1314" />
+    <result column="jida" jdbcType="LONGVARCHAR" property="jida" />
+    <result column="jixiao" jdbcType="LONGVARCHAR" property="jixiao" />
+    <result column="baozi" jdbcType="LONGVARCHAR" property="baozi" />
+    <result column="duizi" jdbcType="LONGVARCHAR" property="duizi" />
+    <result column="shunzi" jdbcType="LONGVARCHAR" property="shunzi" />
+    <result column="dxds" jdbcType="LONGVARCHAR" property="dxds" />
+    <result column="dadan" jdbcType="LONGVARCHAR" property="dadan" />
+    <result column="xiaodan" jdbcType="LONGVARCHAR" property="xiaodan" />
+    <result column="dashuang" jdbcType="LONGVARCHAR" property="dashuang" />
+    <result column="xiaoshuang" jdbcType="LONGVARCHAR" property="xiaoshuang" />
+    <result column="dxds_zongzhu1" jdbcType="LONGVARCHAR" property="dxdsZongzhu1" />
+    <result column="dxds_1314_1" jdbcType="LONGVARCHAR" property="dxds13141" />
+    <result column="dxds_zongzhu2" jdbcType="LONGVARCHAR" property="dxdsZongzhu2" />
+    <result column="dxds_1314_2" jdbcType="LONGVARCHAR" property="dxds13142" />
+    <result column="dxds_zongzhu3" jdbcType="LONGVARCHAR" property="dxdsZongzhu3" />
+    <result column="dxds_1314_3" jdbcType="LONGVARCHAR" property="dxds13143" />
+    <result column="zuhe_zongzhu1" jdbcType="LONGVARCHAR" property="zuheZongzhu1" />
+    <result column="zuhe_1314_1" jdbcType="LONGVARCHAR" property="zuhe13141" />
+    <result column="zuhe_zongzhu2" jdbcType="LONGVARCHAR" property="zuheZongzhu2" />
+    <result column="zuhe_1314_2" jdbcType="LONGVARCHAR" property="zuhe13142" />
+    <result column="zuhe_zongzhu3" jdbcType="LONGVARCHAR" property="zuheZongzhu3" />
+    <result column="zuhe_1314_3" jdbcType="LONGVARCHAR" property="zuhe13143" />
+    <result column="danzhu_min" jdbcType="LONGVARCHAR" property="danzhuMin" />
+    <result column="zongzhu_max" jdbcType="LONGVARCHAR" property="zongzhuMax" />
+    <result column="shuzi_max" jdbcType="LONGVARCHAR" property="shuziMax" />
+    <result column="zuhe_max" jdbcType="LONGVARCHAR" property="zuheMax" />
+    <result column="dxds_max" jdbcType="LONGVARCHAR" property="dxdsMax" />
+    <result column="jidx_max" jdbcType="LONGVARCHAR" property="jidxMax" />
+    <result column="baozi_max" jdbcType="LONGVARCHAR" property="baoziMax" />
+    <result column="shunzi_max" jdbcType="LONGVARCHAR" property="shunziMax" />
+    <result column="duizi_max" jdbcType="LONGVARCHAR" property="duiziMax" />
+    <result column="setting_shazuhe" jdbcType="LONGVARCHAR" property="settingShazuhe" />
+    <result column="setting_fanxiangzuhe" jdbcType="LONGVARCHAR" property="settingFanxiangzuhe" />
+    <result column="setting_tongxiangzuhe" jdbcType="LONGVARCHAR" property="settingTongxiangzuhe" />
+    <result column="setting_liwai" jdbcType="LONGVARCHAR" property="settingLiwai" />
+    <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomid, fanshui, fengtime, shenglv, kongzhi, jsdiy
+  </sql>
+  <sql id="Blob_Column_List">
+    gameopen, 0027, 0126, 0225, 0324, 0423, 0522, 0621, 0720, 891819, 10111617, 1215, 
+    1314, jida, jixiao, baozi, duizi, shunzi, dxds, dadan, xiaodan, dashuang, xiaoshuang, 
+    dxds_zongzhu1, dxds_1314_1, dxds_zongzhu2, dxds_1314_2, dxds_zongzhu3, dxds_1314_3, 
+    zuhe_zongzhu1, zuhe_1314_1, zuhe_zongzhu2, zuhe_1314_2, zuhe_zongzhu3, zuhe_1314_3, 
+    danzhu_min, zongzhu_max, shuzi_max, zuhe_max, dxds_max, jidx_max, baozi_max, shunzi_max, 
+    duizi_max, setting_shazuhe, setting_fanxiangzuhe, setting_tongxiangzuhe, setting_liwai, 
+    rules
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery19
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery19
+    where roomid = #{roomid,jdbcType=INTEGER} limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_lottery19
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.Lottery19Setting">
+    insert into fn_lottery19 (id, roomid, fanshui, 
+      fengtime, shenglv, kongzhi, 
+      jsdiy, gameopen, 0027, 
+      0126, 0225, 0324, 
+      0423, 0522, 0621, 
+      0720, 891819, 10111617, 
+      1215, 1314, jida, 
+      jixiao, baozi, duizi, 
+      shunzi, dxds, dadan, 
+      xiaodan, dashuang, xiaoshuang, 
+      dxds_zongzhu1, dxds_1314_1, dxds_zongzhu2, 
+      dxds_1314_2, dxds_zongzhu3, dxds_1314_3, 
+      zuhe_zongzhu1, zuhe_1314_1, zuhe_zongzhu2, 
+      zuhe_1314_2, zuhe_zongzhu3, zuhe_1314_3, 
+      danzhu_min, zongzhu_max, shuzi_max, 
+      zuhe_max, dxds_max, jidx_max, 
+      baozi_max, shunzi_max, duizi_max, 
+      setting_shazuhe, setting_fanxiangzuhe, 
+      setting_tongxiangzuhe, setting_liwai, 
+      rules)
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{fanshui,jdbcType=VARCHAR}, 
+      #{fengtime,jdbcType=INTEGER}, #{shenglv,jdbcType=VARCHAR}, #{kongzhi,jdbcType=VARCHAR}, 
+      #{jsdiy,jdbcType=VARCHAR}, #{gameopen,jdbcType=LONGVARCHAR}, #{0027,jdbcType=LONGVARCHAR}, 
+      #{0126,jdbcType=LONGVARCHAR}, #{0225,jdbcType=LONGVARCHAR}, #{0324,jdbcType=LONGVARCHAR}, 
+      #{0423,jdbcType=LONGVARCHAR}, #{0522,jdbcType=LONGVARCHAR}, #{0621,jdbcType=LONGVARCHAR}, 
+      #{0720,jdbcType=LONGVARCHAR}, #{891819,jdbcType=LONGVARCHAR}, #{10111617,jdbcType=LONGVARCHAR}, 
+      #{1215,jdbcType=LONGVARCHAR}, #{1314,jdbcType=LONGVARCHAR}, #{jida,jdbcType=LONGVARCHAR}, 
+      #{jixiao,jdbcType=LONGVARCHAR}, #{baozi,jdbcType=LONGVARCHAR}, #{duizi,jdbcType=LONGVARCHAR}, 
+      #{shunzi,jdbcType=LONGVARCHAR}, #{dxds,jdbcType=LONGVARCHAR}, #{dadan,jdbcType=LONGVARCHAR}, 
+      #{xiaodan,jdbcType=LONGVARCHAR}, #{dashuang,jdbcType=LONGVARCHAR}, #{xiaoshuang,jdbcType=LONGVARCHAR}, 
+      #{dxdsZongzhu1,jdbcType=LONGVARCHAR}, #{dxds13141,jdbcType=LONGVARCHAR}, #{dxdsZongzhu2,jdbcType=LONGVARCHAR}, 
+      #{dxds13142,jdbcType=LONGVARCHAR}, #{dxdsZongzhu3,jdbcType=LONGVARCHAR}, #{dxds13143,jdbcType=LONGVARCHAR}, 
+      #{zuheZongzhu1,jdbcType=LONGVARCHAR}, #{zuhe13141,jdbcType=LONGVARCHAR}, #{zuheZongzhu2,jdbcType=LONGVARCHAR}, 
+      #{zuhe13142,jdbcType=LONGVARCHAR}, #{zuheZongzhu3,jdbcType=LONGVARCHAR}, #{zuhe13143,jdbcType=LONGVARCHAR}, 
+      #{danzhuMin,jdbcType=LONGVARCHAR}, #{zongzhuMax,jdbcType=LONGVARCHAR}, #{shuziMax,jdbcType=LONGVARCHAR}, 
+      #{zuheMax,jdbcType=LONGVARCHAR}, #{dxdsMax,jdbcType=LONGVARCHAR}, #{jidxMax,jdbcType=LONGVARCHAR}, 
+      #{baoziMax,jdbcType=LONGVARCHAR}, #{shunziMax,jdbcType=LONGVARCHAR}, #{duiziMax,jdbcType=LONGVARCHAR}, 
+      #{settingShazuhe,jdbcType=LONGVARCHAR}, #{settingFanxiangzuhe,jdbcType=LONGVARCHAR}, 
+      #{settingTongxiangzuhe,jdbcType=LONGVARCHAR}, #{settingLiwai,jdbcType=LONGVARCHAR}, 
+      #{rules,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery19Setting">
+    insert into fn_lottery19
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="fanshui != null">
+        fanshui,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
+      </if>
+      <if test="shenglv != null">
+        shenglv,
+      </if>
+      <if test="kongzhi != null">
+        kongzhi,
+      </if>
+      <if test="jsdiy != null">
+        jsdiy,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="0027 != null">
+        0027,
+      </if>
+      <if test="0126 != null">
+        0126,
+      </if>
+      <if test="0225 != null">
+        0225,
+      </if>
+      <if test="0324 != null">
+        0324,
+      </if>
+      <if test="0423 != null">
+        0423,
+      </if>
+      <if test="0522 != null">
+        0522,
+      </if>
+      <if test="0621 != null">
+        0621,
+      </if>
+      <if test="0720 != null">
+        0720,
+      </if>
+      <if test="891819 != null">
+        891819,
+      </if>
+      <if test="10111617 != null">
+        10111617,
+      </if>
+      <if test="1215 != null">
+        1215,
+      </if>
+      <if test="1314 != null">
+        1314,
+      </if>
+      <if test="jida != null">
+        jida,
+      </if>
+      <if test="jixiao != null">
+        jixiao,
+      </if>
+      <if test="baozi != null">
+        baozi,
+      </if>
+      <if test="duizi != null">
+        duizi,
+      </if>
+      <if test="shunzi != null">
+        shunzi,
+      </if>
+      <if test="dxds != null">
+        dxds,
+      </if>
+      <if test="dadan != null">
+        dadan,
+      </if>
+      <if test="xiaodan != null">
+        xiaodan,
+      </if>
+      <if test="dashuang != null">
+        dashuang,
+      </if>
+      <if test="xiaoshuang != null">
+        xiaoshuang,
+      </if>
+      <if test="dxdsZongzhu1 != null">
+        dxds_zongzhu1,
+      </if>
+      <if test="dxds13141 != null">
+        dxds_1314_1,
+      </if>
+      <if test="dxdsZongzhu2 != null">
+        dxds_zongzhu2,
+      </if>
+      <if test="dxds13142 != null">
+        dxds_1314_2,
+      </if>
+      <if test="dxdsZongzhu3 != null">
+        dxds_zongzhu3,
+      </if>
+      <if test="dxds13143 != null">
+        dxds_1314_3,
+      </if>
+      <if test="zuheZongzhu1 != null">
+        zuhe_zongzhu1,
+      </if>
+      <if test="zuhe13141 != null">
+        zuhe_1314_1,
+      </if>
+      <if test="zuheZongzhu2 != null">
+        zuhe_zongzhu2,
+      </if>
+      <if test="zuhe13142 != null">
+        zuhe_1314_2,
+      </if>
+      <if test="zuheZongzhu3 != null">
+        zuhe_zongzhu3,
+      </if>
+      <if test="zuhe13143 != null">
+        zuhe_1314_3,
+      </if>
+      <if test="danzhuMin != null">
+        danzhu_min,
+      </if>
+      <if test="zongzhuMax != null">
+        zongzhu_max,
+      </if>
+      <if test="shuziMax != null">
+        shuzi_max,
+      </if>
+      <if test="zuheMax != null">
+        zuhe_max,
+      </if>
+      <if test="dxdsMax != null">
+        dxds_max,
+      </if>
+      <if test="jidxMax != null">
+        jidx_max,
+      </if>
+      <if test="baoziMax != null">
+        baozi_max,
+      </if>
+      <if test="shunziMax != null">
+        shunzi_max,
+      </if>
+      <if test="duiziMax != null">
+        duizi_max,
+      </if>
+      <if test="settingShazuhe != null">
+        setting_shazuhe,
+      </if>
+      <if test="settingFanxiangzuhe != null">
+        setting_fanxiangzuhe,
+      </if>
+      <if test="settingTongxiangzuhe != null">
+        setting_tongxiangzuhe,
+      </if>
+      <if test="settingLiwai != null">
+        setting_liwai,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0027 != null">
+        #{0027,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0126 != null">
+        #{0126,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0225 != null">
+        #{0225,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0324 != null">
+        #{0324,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0423 != null">
+        #{0423,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0522 != null">
+        #{0522,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0621 != null">
+        #{0621,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0720 != null">
+        #{0720,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="891819 != null">
+        #{891819,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="10111617 != null">
+        #{10111617,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="1215 != null">
+        #{1215,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="1314 != null">
+        #{1314,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jida != null">
+        #{jida,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jixiao != null">
+        #{jixiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="baozi != null">
+        #{baozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="duizi != null">
+        #{duizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shunzi != null">
+        #{shunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds != null">
+        #{dxds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dadan != null">
+        #{dadan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaodan != null">
+        #{xiaodan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dashuang != null">
+        #{dashuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaoshuang != null">
+        #{xiaoshuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsZongzhu1 != null">
+        #{dxdsZongzhu1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds13141 != null">
+        #{dxds13141,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsZongzhu2 != null">
+        #{dxdsZongzhu2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds13142 != null">
+        #{dxds13142,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsZongzhu3 != null">
+        #{dxdsZongzhu3,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds13143 != null">
+        #{dxds13143,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheZongzhu1 != null">
+        #{zuheZongzhu1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuhe13141 != null">
+        #{zuhe13141,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheZongzhu2 != null">
+        #{zuheZongzhu2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuhe13142 != null">
+        #{zuhe13142,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheZongzhu3 != null">
+        #{zuheZongzhu3,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuhe13143 != null">
+        #{zuhe13143,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="danzhuMin != null">
+        #{danzhuMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongzhuMax != null">
+        #{zongzhuMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shuziMax != null">
+        #{shuziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheMax != null">
+        #{zuheMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsMax != null">
+        #{dxdsMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jidxMax != null">
+        #{jidxMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="baoziMax != null">
+        #{baoziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shunziMax != null">
+        #{shunziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="duiziMax != null">
+        #{duiziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingShazuhe != null">
+        #{settingShazuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingFanxiangzuhe != null">
+        #{settingFanxiangzuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingTongxiangzuhe != null">
+        #{settingTongxiangzuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingLiwai != null">
+        #{settingLiwai,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.Lottery19Setting">
+    update fn_lottery19
+    <set>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        fanshui = #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="fengtime != null">
+        fengtime = #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        shenglv = #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0027 != null">
+        0027 = #{0027,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0126 != null">
+        0126 = #{0126,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0225 != null">
+        0225 = #{0225,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0324 != null">
+        0324 = #{0324,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0423 != null">
+        0423 = #{0423,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0522 != null">
+        0522 = #{0522,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0621 != null">
+        0621 = #{0621,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="0720 != null">
+        0720 = #{0720,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="891819 != null">
+        891819 = #{891819,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="10111617 != null">
+        10111617 = #{10111617,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="1215 != null">
+        1215 = #{1215,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="1314 != null">
+        1314 = #{1314,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jida != null">
+        jida = #{jida,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jixiao != null">
+        jixiao = #{jixiao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="baozi != null">
+        baozi = #{baozi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="duizi != null">
+        duizi = #{duizi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shunzi != null">
+        shunzi = #{shunzi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds != null">
+        dxds = #{dxds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dadan != null">
+        dadan = #{dadan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaodan != null">
+        xiaodan = #{xiaodan,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dashuang != null">
+        dashuang = #{dashuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiaoshuang != null">
+        xiaoshuang = #{xiaoshuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsZongzhu1 != null">
+        dxds_zongzhu1 = #{dxdsZongzhu1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds13141 != null">
+        dxds_1314_1 = #{dxds13141,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsZongzhu2 != null">
+        dxds_zongzhu2 = #{dxdsZongzhu2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds13142 != null">
+        dxds_1314_2 = #{dxds13142,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsZongzhu3 != null">
+        dxds_zongzhu3 = #{dxdsZongzhu3,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxds13143 != null">
+        dxds_1314_3 = #{dxds13143,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheZongzhu1 != null">
+        zuhe_zongzhu1 = #{zuheZongzhu1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuhe13141 != null">
+        zuhe_1314_1 = #{zuhe13141,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheZongzhu2 != null">
+        zuhe_zongzhu2 = #{zuheZongzhu2,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuhe13142 != null">
+        zuhe_1314_2 = #{zuhe13142,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheZongzhu3 != null">
+        zuhe_zongzhu3 = #{zuheZongzhu3,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuhe13143 != null">
+        zuhe_1314_3 = #{zuhe13143,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="danzhuMin != null">
+        danzhu_min = #{danzhuMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zongzhuMax != null">
+        zongzhu_max = #{zongzhuMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shuziMax != null">
+        shuzi_max = #{shuziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zuheMax != null">
+        zuhe_max = #{zuheMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dxdsMax != null">
+        dxds_max = #{dxdsMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jidxMax != null">
+        jidx_max = #{jidxMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="baoziMax != null">
+        baozi_max = #{baoziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shunziMax != null">
+        shunzi_max = #{shunziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="duiziMax != null">
+        duizi_max = #{duiziMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingShazuhe != null">
+        setting_shazuhe = #{settingShazuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingFanxiangzuhe != null">
+        setting_fanxiangzuhe = #{settingFanxiangzuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingTongxiangzuhe != null">
+        setting_tongxiangzuhe = #{settingTongxiangzuhe,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settingLiwai != null">
+        setting_liwai = #{settingLiwai,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        rules = #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.Lottery19Setting">
+    update fn_lottery19
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      0027 = #{0027,jdbcType=LONGVARCHAR},
+      0126 = #{0126,jdbcType=LONGVARCHAR},
+      0225 = #{0225,jdbcType=LONGVARCHAR},
+      0324 = #{0324,jdbcType=LONGVARCHAR},
+      0423 = #{0423,jdbcType=LONGVARCHAR},
+      0522 = #{0522,jdbcType=LONGVARCHAR},
+      0621 = #{0621,jdbcType=LONGVARCHAR},
+      0720 = #{0720,jdbcType=LONGVARCHAR},
+      891819 = #{891819,jdbcType=LONGVARCHAR},
+      10111617 = #{10111617,jdbcType=LONGVARCHAR},
+      1215 = #{1215,jdbcType=LONGVARCHAR},
+      1314 = #{1314,jdbcType=LONGVARCHAR},
+      jida = #{jida,jdbcType=LONGVARCHAR},
+      jixiao = #{jixiao,jdbcType=LONGVARCHAR},
+      baozi = #{baozi,jdbcType=LONGVARCHAR},
+      duizi = #{duizi,jdbcType=LONGVARCHAR},
+      shunzi = #{shunzi,jdbcType=LONGVARCHAR},
+      dxds = #{dxds,jdbcType=LONGVARCHAR},
+      dadan = #{dadan,jdbcType=LONGVARCHAR},
+      xiaodan = #{xiaodan,jdbcType=LONGVARCHAR},
+      dashuang = #{dashuang,jdbcType=LONGVARCHAR},
+      xiaoshuang = #{xiaoshuang,jdbcType=LONGVARCHAR},
+      dxds_zongzhu1 = #{dxdsZongzhu1,jdbcType=LONGVARCHAR},
+      dxds_1314_1 = #{dxds13141,jdbcType=LONGVARCHAR},
+      dxds_zongzhu2 = #{dxdsZongzhu2,jdbcType=LONGVARCHAR},
+      dxds_1314_2 = #{dxds13142,jdbcType=LONGVARCHAR},
+      dxds_zongzhu3 = #{dxdsZongzhu3,jdbcType=LONGVARCHAR},
+      dxds_1314_3 = #{dxds13143,jdbcType=LONGVARCHAR},
+      zuhe_zongzhu1 = #{zuheZongzhu1,jdbcType=LONGVARCHAR},
+      zuhe_1314_1 = #{zuhe13141,jdbcType=LONGVARCHAR},
+      zuhe_zongzhu2 = #{zuheZongzhu2,jdbcType=LONGVARCHAR},
+      zuhe_1314_2 = #{zuhe13142,jdbcType=LONGVARCHAR},
+      zuhe_zongzhu3 = #{zuheZongzhu3,jdbcType=LONGVARCHAR},
+      zuhe_1314_3 = #{zuhe13143,jdbcType=LONGVARCHAR},
+      danzhu_min = #{danzhuMin,jdbcType=LONGVARCHAR},
+      zongzhu_max = #{zongzhuMax,jdbcType=LONGVARCHAR},
+      shuzi_max = #{shuziMax,jdbcType=LONGVARCHAR},
+      zuhe_max = #{zuheMax,jdbcType=LONGVARCHAR},
+      dxds_max = #{dxdsMax,jdbcType=LONGVARCHAR},
+      jidx_max = #{jidxMax,jdbcType=LONGVARCHAR},
+      baozi_max = #{baoziMax,jdbcType=LONGVARCHAR},
+      shunzi_max = #{shunziMax,jdbcType=LONGVARCHAR},
+      duizi_max = #{duiziMax,jdbcType=LONGVARCHAR},
+      setting_shazuhe = #{settingShazuhe,jdbcType=LONGVARCHAR},
+      setting_fanxiangzuhe = #{settingFanxiangzuhe,jdbcType=LONGVARCHAR},
+      setting_tongxiangzuhe = #{settingTongxiangzuhe,jdbcType=LONGVARCHAR},
+      setting_liwai = #{settingLiwai,jdbcType=LONGVARCHAR},
+      rules = #{rules,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.Lottery19Setting">
+    update fn_lottery19
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

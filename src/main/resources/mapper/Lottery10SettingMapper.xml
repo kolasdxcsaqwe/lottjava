@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.Lottery10SettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.Lottery10Setting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="fanshui" jdbcType="VARCHAR" property="fanshui" />
+    <result column="fengtime" jdbcType="INTEGER" property="fengtime" />
+    <result column="shenglv" jdbcType="VARCHAR" property="shenglv" />
+    <result column="kongzhi" jdbcType="VARCHAR" property="kongzhi" />
+    <result column="jsdiy" jdbcType="VARCHAR" property="jsdiy" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.Lottery10Setting">
+    <result column="gameopen" jdbcType="LONGVARCHAR" property="gameopen" />
+    <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
+    <result column="zhuang" jdbcType="LONGVARCHAR" property="zhuang" />
+    <result column="xian" jdbcType="LONGVARCHAR" property="xian" />
+    <result column="he" jdbcType="LONGVARCHAR" property="he" />
+    <result column="zhuangdui" jdbcType="LONGVARCHAR" property="zhuangdui" />
+    <result column="xiandui" jdbcType="LONGVARCHAR" property="xiandui" />
+    <result column="anydui" jdbcType="LONGVARCHAR" property="anydui" />
+    <result column="zhuang_min" jdbcType="LONGVARCHAR" property="zhuangMin" />
+    <result column="xian_min" jdbcType="LONGVARCHAR" property="xianMin" />
+    <result column="he_min" jdbcType="LONGVARCHAR" property="heMin" />
+    <result column="zhuangdui_min" jdbcType="LONGVARCHAR" property="zhuangduiMin" />
+    <result column="xiandui_min" jdbcType="LONGVARCHAR" property="xianduiMin" />
+    <result column="anydui_min" jdbcType="LONGVARCHAR" property="anyduiMin" />
+    <result column="zhuang_max" jdbcType="LONGVARCHAR" property="zhuangMax" />
+    <result column="xian_max" jdbcType="LONGVARCHAR" property="xianMax" />
+    <result column="he_max" jdbcType="LONGVARCHAR" property="heMax" />
+    <result column="zhuangdui_max" jdbcType="LONGVARCHAR" property="zhuangduiMax" />
+    <result column="xiandui_max" jdbcType="LONGVARCHAR" property="xianduiMax" />
+    <result column="anydui_max" jdbcType="LONGVARCHAR" property="anyduiMax" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomid, fanshui, fengtime, shenglv, kongzhi, jsdiy
+  </sql>
+  <sql id="Blob_Column_List">
+    gameopen, rules, zhuang, xian, he, zhuangdui, xiandui, anydui, zhuang_min, xian_min, 
+    he_min, zhuangdui_min, xiandui_min, anydui_min, zhuang_max, xian_max, he_max, zhuangdui_max, 
+    xiandui_max, anydui_max
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery10
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery10
+    where roomid = #{roomid,jdbcType=INTEGER} limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_lottery10
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.Lottery10Setting">
+    insert into fn_lottery10 (id, roomid, fanshui, 
+      fengtime, shenglv, kongzhi, 
+      jsdiy, gameopen, rules, 
+      zhuang, xian, he, 
+      zhuangdui, xiandui, anydui, 
+      zhuang_min, xian_min, he_min, 
+      zhuangdui_min, xiandui_min, anydui_min, 
+      zhuang_max, xian_max, he_max, 
+      zhuangdui_max, xiandui_max, anydui_max
+      )
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{fanshui,jdbcType=VARCHAR}, 
+      #{fengtime,jdbcType=INTEGER}, #{shenglv,jdbcType=VARCHAR}, #{kongzhi,jdbcType=VARCHAR}, 
+      #{jsdiy,jdbcType=VARCHAR}, #{gameopen,jdbcType=LONGVARCHAR}, #{rules,jdbcType=LONGVARCHAR}, 
+      #{zhuang,jdbcType=LONGVARCHAR}, #{xian,jdbcType=LONGVARCHAR}, #{he,jdbcType=LONGVARCHAR}, 
+      #{zhuangdui,jdbcType=LONGVARCHAR}, #{xiandui,jdbcType=LONGVARCHAR}, #{anydui,jdbcType=LONGVARCHAR}, 
+      #{zhuangMin,jdbcType=LONGVARCHAR}, #{xianMin,jdbcType=LONGVARCHAR}, #{heMin,jdbcType=LONGVARCHAR}, 
+      #{zhuangduiMin,jdbcType=LONGVARCHAR}, #{xianduiMin,jdbcType=LONGVARCHAR}, #{anyduiMin,jdbcType=LONGVARCHAR}, 
+      #{zhuangMax,jdbcType=LONGVARCHAR}, #{xianMax,jdbcType=LONGVARCHAR}, #{heMax,jdbcType=LONGVARCHAR}, 
+      #{zhuangduiMax,jdbcType=LONGVARCHAR}, #{xianduiMax,jdbcType=LONGVARCHAR}, #{anyduiMax,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery10Setting">
+    insert into fn_lottery10
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="fanshui != null">
+        fanshui,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
+      </if>
+      <if test="shenglv != null">
+        shenglv,
+      </if>
+      <if test="kongzhi != null">
+        kongzhi,
+      </if>
+      <if test="jsdiy != null">
+        jsdiy,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+      <if test="zhuang != null">
+        zhuang,
+      </if>
+      <if test="xian != null">
+        xian,
+      </if>
+      <if test="he != null">
+        he,
+      </if>
+      <if test="zhuangdui != null">
+        zhuangdui,
+      </if>
+      <if test="xiandui != null">
+        xiandui,
+      </if>
+      <if test="anydui != null">
+        anydui,
+      </if>
+      <if test="zhuangMin != null">
+        zhuang_min,
+      </if>
+      <if test="xianMin != null">
+        xian_min,
+      </if>
+      <if test="heMin != null">
+        he_min,
+      </if>
+      <if test="zhuangduiMin != null">
+        zhuangdui_min,
+      </if>
+      <if test="xianduiMin != null">
+        xiandui_min,
+      </if>
+      <if test="anyduiMin != null">
+        anydui_min,
+      </if>
+      <if test="zhuangMax != null">
+        zhuang_max,
+      </if>
+      <if test="xianMax != null">
+        xian_max,
+      </if>
+      <if test="heMax != null">
+        he_max,
+      </if>
+      <if test="zhuangduiMax != null">
+        zhuangdui_max,
+      </if>
+      <if test="xianduiMax != null">
+        xiandui_max,
+      </if>
+      <if test="anyduiMax != null">
+        anydui_max,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuang != null">
+        #{zhuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xian != null">
+        #{xian,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="he != null">
+        #{he,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangdui != null">
+        #{zhuangdui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiandui != null">
+        #{xiandui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="anydui != null">
+        #{anydui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangMin != null">
+        #{zhuangMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianMin != null">
+        #{xianMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="heMin != null">
+        #{heMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangduiMin != null">
+        #{zhuangduiMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianduiMin != null">
+        #{xianduiMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="anyduiMin != null">
+        #{anyduiMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangMax != null">
+        #{zhuangMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianMax != null">
+        #{xianMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="heMax != null">
+        #{heMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangduiMax != null">
+        #{zhuangduiMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianduiMax != null">
+        #{xianduiMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="anyduiMax != null">
+        #{anyduiMax,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.Lottery10Setting">
+    update fn_lottery10
+    <set>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="fanshui != null">
+        fanshui = #{fanshui,jdbcType=VARCHAR},
+      </if>
+      <if test="fengtime != null">
+        fengtime = #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="shenglv != null">
+        shenglv = #{shenglv,jdbcType=VARCHAR},
+      </if>
+      <if test="kongzhi != null">
+        kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      </if>
+      <if test="jsdiy != null">
+        jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      </if>
+      <if test="gameopen != null">
+        gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        rules = #{rules,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuang != null">
+        zhuang = #{zhuang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xian != null">
+        xian = #{xian,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="he != null">
+        he = #{he,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangdui != null">
+        zhuangdui = #{zhuangdui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xiandui != null">
+        xiandui = #{xiandui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="anydui != null">
+        anydui = #{anydui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangMin != null">
+        zhuang_min = #{zhuangMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianMin != null">
+        xian_min = #{xianMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="heMin != null">
+        he_min = #{heMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangduiMin != null">
+        zhuangdui_min = #{zhuangduiMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianduiMin != null">
+        xiandui_min = #{xianduiMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="anyduiMin != null">
+        anydui_min = #{anyduiMin,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangMax != null">
+        zhuang_max = #{zhuangMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianMax != null">
+        xian_max = #{xianMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="heMax != null">
+        he_max = #{heMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangduiMax != null">
+        zhuangdui_max = #{zhuangduiMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="xianduiMax != null">
+        xiandui_max = #{xianduiMax,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="anyduiMax != null">
+        anydui_max = #{anyduiMax,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.Lottery10Setting">
+    update fn_lottery10
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR},
+      gameopen = #{gameopen,jdbcType=LONGVARCHAR},
+      rules = #{rules,jdbcType=LONGVARCHAR},
+      zhuang = #{zhuang,jdbcType=LONGVARCHAR},
+      xian = #{xian,jdbcType=LONGVARCHAR},
+      he = #{he,jdbcType=LONGVARCHAR},
+      zhuangdui = #{zhuangdui,jdbcType=LONGVARCHAR},
+      xiandui = #{xiandui,jdbcType=LONGVARCHAR},
+      anydui = #{anydui,jdbcType=LONGVARCHAR},
+      zhuang_min = #{zhuangMin,jdbcType=LONGVARCHAR},
+      xian_min = #{xianMin,jdbcType=LONGVARCHAR},
+      he_min = #{heMin,jdbcType=LONGVARCHAR},
+      zhuangdui_min = #{zhuangduiMin,jdbcType=LONGVARCHAR},
+      xiandui_min = #{xianduiMin,jdbcType=LONGVARCHAR},
+      anydui_min = #{anyduiMin,jdbcType=LONGVARCHAR},
+      zhuang_max = #{zhuangMax,jdbcType=LONGVARCHAR},
+      xian_max = #{xianMax,jdbcType=LONGVARCHAR},
+      he_max = #{heMax,jdbcType=LONGVARCHAR},
+      zhuangdui_max = #{zhuangduiMax,jdbcType=LONGVARCHAR},
+      xiandui_max = #{xianduiMax,jdbcType=LONGVARCHAR},
+      anydui_max = #{anyduiMax,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.Lottery10Setting">
+    update fn_lottery10
+    set roomid = #{roomid,jdbcType=INTEGER},
+      fanshui = #{fanshui,jdbcType=VARCHAR},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      shenglv = #{shenglv,jdbcType=VARCHAR},
+      kongzhi = #{kongzhi,jdbcType=VARCHAR},
+      jsdiy = #{jsdiy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
