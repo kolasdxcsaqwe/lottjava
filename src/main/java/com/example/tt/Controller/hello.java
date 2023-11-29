@@ -25,7 +25,7 @@ public class hello {
     private RedisTemplate<String, String> redisTemplate;
 
     @ResponseBody
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    @RequestMapping(value = "/hello")
     public String hello(@RequestParam(name = "param") String param)
     {
 //        redisTemplate.opsForValue().set("ccc","123",2000, TimeUnit.SECONDS);
