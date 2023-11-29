@@ -187,11 +187,11 @@ public class SocketChat {
         List<ChatBean> list=new ArrayList<>();
         if(Strings.isEmptyOrNullAmongOf(game) || game.equals("?"))
         {
-            list.addAll(chatBeanMapper.last50RowByGame(Integer.valueOf(roomid), game));
+            list.addAll(chatBeanMapper.last50RowByRoom(Integer.valueOf(roomid)));
         }
         else
         {
-            list.addAll(chatBeanMapper.last50RowByRoom(Integer.valueOf(roomid)));
+            list.addAll(chatBeanMapper.last50RowByGame(Integer.valueOf(roomid),game));
         }
 
         int nowTerm = GameIndex.getLotteryIndex(game);
