@@ -40,10 +40,16 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="last50Row" resultMap="ResultMapWithBLOBs">
+  <select id="last50RowByGame" resultMap="ResultMapWithBLOBs">
     select
     *
     from fn_chat where roomid = #{roomid} and game = #{game} order by id desc limit 50
+  </select>
+
+  <select id="last50RowByRoom" resultMap="ResultMapWithBLOBs">
+    select
+    *
+    from fn_chat where roomid = #{roomid}  order by id desc limit 50
   </select>
 
   <select id="selectNewChat" resultMap="ResultMapWithBLOBs">

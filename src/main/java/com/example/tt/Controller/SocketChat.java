@@ -184,7 +184,16 @@ public class SocketChat {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
         }
 
-        List<ChatBean> list = chatBeanMapper.last50Row(Integer.valueOf(roomid), game);
+        List<ChatBean> list=new ArrayList<>();
+        if(Strings.isEmptyOrNullAmongOf(game) || game.equals("?"))
+        {
+            list.addAll(chatBeanMapper.last50RowByGame(Integer.valueOf(roomid), game));
+        }
+        else
+        {
+            list.addAll(chatBeanMapper.last50RowByRoom(Integer.valueOf(roomid)));
+        }
+
         int nowTerm = GameIndex.getLotteryIndex(game);
         if (nowTerm < 1) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);

@@ -96,7 +96,7 @@ public class ChatController {
         }
 
         int roomId=Integer.valueOf(roomid);
-        List<ChatBean> list = chatBeanMapper.last50Row(Integer.valueOf(roomid), game);
+        List<ChatBean> list = chatBeanMapper.last50RowByGame(Integer.valueOf(roomid), game);
         int nowTerm = GameIndex.getLotteryIndex(game);
         if (nowTerm < 1) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1).toString();

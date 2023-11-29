@@ -20,7 +20,10 @@ public interface ChatBeanMapper {
 
     int updateByPrimaryKey(ChatBean record);
 
-    List<ChatBean> last50Row(@Param("roomid") int roomid, @Param("game")String game);
+    List<ChatBean> last50RowByGame(@Param("roomid") int roomid, @Param("game")String game);
+
+    List<ChatBean> last50RowByRoom(@Param("roomid") int roomid);
+
 
     List<ChatBean> selectNewChat(String roomid,Integer chatid,String game);
 }
