@@ -1,6 +1,7 @@
 package com.example.tt.Controller;
 
 import com.example.tt.utils.FetchLotteryResultTask;
+import com.example.tt.utils.MyLog;
 import com.example.tt.utils.RedisCache;
 import com.example.tt.utils.ReturnDataBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class hello {
     private RedisTemplate<String, String> redisTemplate;
 
     @ResponseBody
-    @RequestMapping(value = "/hello")
-    public String hello(@RequestParam(name = "param") String param)
+    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    public Object test(@RequestParam(name = "param") String param)
     {
 //        redisTemplate.opsForValue().set("ccc","123",2000, TimeUnit.SECONDS);
 //        redisTemplate.opsForValue().set("ccc","5454",2000, TimeUnit.SECONDS);
@@ -53,8 +54,12 @@ public class hello {
 //                MyLog.e(value);
 //            }
 //        }.start();
-
-        return param;
+        MyLog.e("param===>"+param);
+        if(param.equals("99"))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
+        }
+        return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
     }
 
     @ResponseBody

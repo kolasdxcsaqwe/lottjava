@@ -49,8 +49,7 @@ public class SocketChat {
                            @RequestParam(name = "username") String username,
                            @RequestParam(name = "imgType",defaultValue = "") String imgType
                            ) {
-//        MyLog.e("sendChat-->"+content+"  chatType-->"+chatType);
-        if(Strings.isEmptyOrNullAmongOf(content,userid,chatType,roomid,game,username) && Strings.isDigitOnly(roomid))
+        if(Strings.isEmptyOrNullAmongOf(content,userid,chatType,roomid,game,username) || !Strings.isDigitOnly(roomid))
         {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
         }
@@ -59,7 +58,7 @@ public class SocketChat {
         chatBean.setType(chatType);
         chatBean.setContent(content);
         chatBean.setUserid(userid);
-        chatBean.setRoomid(Integer.valueOf(roomid));
+        chatBean.setRoomid(Integer.parseInt(roomid));
         chatBean.setGame(game);
         chatBean.setChatStatus(chat_status);
         chatBean.setChatTerm(chat_term);
@@ -112,14 +111,18 @@ public class SocketChat {
         map.put("list",list);
 
         String string=gson.toJson(ReturnDataBuilder.makeBaseJSON(map));
-        for (int i = 0; i < sessionStorage.getAllSession().size(); i++) {
+        List<Session> sessions=sessionStorage.getSessionByGameAndRoomId(roomid,game);
+        for (Session session : sessions) {
             try {
-                sessionStorage.getAllSession().get(i).getBasicRemote().sendText(string);
+                session.getBasicRemote().sendText(string);
             } catch (IOException e) {
                 e.printStackTrace();
-                isSendSuccess=false;
+                isSendSuccess = false;
             }
         }
+
+        MyLog.e(" roomid-->"+roomid+"  game--->"+game+" sessions--->"+sessions.size());
+        MyLog.e("sendChat-->"+content);
 
         if(isSendSuccess)
         {
@@ -140,27 +143,26 @@ public class SocketChat {
         lotteryOpenBeanMapper= TtApplication.getContext().getBean(LotteryOpenBeanMapper.class);
         session.getBasicRemote().sendText(new Gson().toJson(NewChats(userid, game, roomid)));
         session.setMaxIdleTimeout(30*1000);
-        sessionStorage.putSession(session,userid,roomid);
+        sessionStorage.putSession(session,userid,roomid,game);
 
     }
 
     @OnMessage
-    public void OnMessage(String message, Session session) throws IOException {
-        if(message.equals("heartbeat"))
-        {
-            session.getBasicRemote().sendText(message);
-        }
+    public void OnMessage(@PathParam("roomid") String roomid,
+                          @PathParam("game") String game,
+                          @PathParam("userid") String userid,String message, Session session) throws IOException {
+        session.getBasicRemote().sendText(message);
 
     }
 
 
     @OnClose
-    public void onClose(@PathParam("roomid") String roomid,
+    public void onClose(@PathParam("roomid") String roomId,
                         @PathParam("game") String game,
-                        @PathParam("userid") String userid,Session session)
+                        @PathParam("userid") String userId,Session session)
     {
-        sessionStorage.removeSession(roomid,userid,"onClose");
-        MyLog.e("onClose-->"+roomid+" "+session.getId());
+        sessionStorage.removeSession(roomId,userId,game,"onClose");
+        MyLog.e("onClose  roomId==>" + roomId + " game==>" + game + " userId==>" + userId );
     }
 
     @OnError
@@ -168,8 +170,8 @@ public class SocketChat {
                         @PathParam("game") String game,
                         @PathParam("userid") String userid,Session session,Throwable throwable)
     {
-        sessionStorage.removeSession(roomid,userid,"OnError");
-        MyLog.e("OnError-->"+roomid+" "+session.getId());
+        sessionStorage.removeSession(roomid,userid,game,"OnError");
+        MyLog.e("OnError  roomId==>" + roomid + " game==>" + game + " userId==>" + userid );
     }
 
     @Bean

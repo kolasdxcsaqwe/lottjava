@@ -22,19 +22,19 @@ public class SessionStorage {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionStorage.class);
 
-    private static final String  FLAG_HEART_BEAT = "heartbeat";
+    private static final String FLAG_HEART_BEAT = "heartbeat";
 
     private SessionStorage() {
     }
 
     /**
-     *   双端检索机制创建一个   SessionStorage 实例
+     * 双端检索机制创建一个   SessionStorage 实例
      * &#64;return
      */
     public static synchronized SessionStorage getInstance() {
-        if(storage == null) {
-            synchronized(SessionStorage.class) {
-                if(storage == null) {
+        if (storage == null) {
+            synchronized (SessionStorage.class) {
+                if (storage == null) {
                     storage = new SessionStorage();
                 }
             }
@@ -52,23 +52,20 @@ public class SessionStorage {
      * &#64;date    2019/9/19
      * &#64;throws
      */
-    public  void putSession(Session session, String userId, String roomId) {
-        synchronized(SessionStorage.class) {
-            if(session != null) {
-                Map<String, Session> sessionGroup = this.sessionStore.get(roomId);
+    public void putSession(Session session, String userId, String roomId, String game) {
+        synchronized (SessionStorage.class) {
+            if (session != null) {
+                Map<String, Session> sessionGroup = this.sessionStore.get(roomId + game);
                 if (sessionGroup == null) {
                     sessionGroup = new ConcurrentHashMap<>(16);
-                    this.sessionStore.put(roomId, sessionGroup);
-                }
-                else
-                {
-                    if(sessionGroup.get(userId)!=null)
-                    {
-                        removeSession(roomId,userId,"renewSocket");
+                    this.sessionStore.put(roomId + game, sessionGroup);
+                } else {
+                    if (sessionGroup.get(userId) != null) {
+                        removeSession(roomId, game, userId, "renewSocket");
                     }
                 }
                 sessionGroup.put(userId, session);
-                MyLog.e("putSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
+                MyLog.e("removeSession  roomId==>" + roomId + " game==>" + game + " userId==>" + userId + "  连接数" + sessionGroup.size());
             }
         }
 
@@ -83,26 +80,23 @@ public class SessionStorage {
      * &#64;date    2019/9/19
      * &#64;throws
      */
-    public void removeSession(String roomId, String userId,String msg) {
-        synchronized(SessionStorage.class) {
-            Map<String, Session> sessionGroup = sessionStore.get(roomId);
-            if(sessionGroup.get(userId)!=null)
-            {
+    public void removeSession(String roomId, String game, String userId, String msg) {
+        synchronized (SessionStorage.class) {
+            Map<String, Session> sessionGroup = sessionStore.get(roomId + game);
+            if (sessionGroup != null && sessionGroup.get(userId) != null) {
                 try {
-                    sessionGroup.get(userId).close(new CloseReason(CloseReason.CloseCodes.GOING_AWAY,msg));
+                    sessionGroup.get(userId).close(new CloseReason(CloseReason.CloseCodes.GOING_AWAY, msg));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else
-            {
+            } else {
                 return;
             }
             sessionGroup.remove(userId);
             if (sessionGroup.isEmpty()) {
                 this.sessionStore.remove(userId);
             }
-            MyLog.e("removeSession  roomId==>"+roomId+" userId==>"+userId+"  连接数"+sessionGroup.size());
+            MyLog.e("removeSession  roomId==>" + roomId + " game==>" + game + " userId==>" + userId + "  连接数" + sessionGroup.size());
         }
 
     }
@@ -144,12 +138,33 @@ public class SessionStorage {
      * &#64;throws
      */
     public List<Session> getAllSession() {
-        List<Session> sessionList = new ArrayList<>();
-        for (Map<String, Session> sessionGroup : sessionStore.values()) {
-            Session[] sessions = new Session[]{};
-            sessionList.addAll(Arrays.asList(sessionGroup.values().toArray(sessions)));
+        synchronized (SessionStorage.class) {
+            List<Session> sessionList = new ArrayList<>();
+            for (Map<String, Session> sessionGroup : sessionStore.values()) {
+                Session[] sessions = new Session[]{};
+                sessionList.addAll(Arrays.asList(sessionGroup.values().toArray(sessions)));
+            }
+            return sessionList;
         }
-        return sessionList;
+    }
+
+    public List<Session> getSessionByGameAndRoomId(String roomId, String game) {
+
+        synchronized (SessionStorage.class) {
+            List<Session> sessionList;
+            Map<String, Session> sessionGroup = sessionStore.get(roomId + game);
+            if(sessionGroup!=null)
+            {
+                sessionList = new ArrayList<>(sessionGroup.values());
+            }
+            else
+            {
+                sessionList=new ArrayList<>();
+            }
+
+            return sessionList;
+        }
+
     }
 
     /**
@@ -162,7 +177,7 @@ public class SessionStorage {
      * &#64;date    2019/9/19
      * &#64;throws
      */
-    public void sendTextSingle(String wsGroupId, String type, String text){
+    public void sendTextSingle(String wsGroupId, String type, String text) {
         try {
             Session session = getSession(wsGroupId, type);
             if (session.isOpen()) {
@@ -188,10 +203,10 @@ public class SessionStorage {
      * &#64;date    2019/9/19
      * &#64;throws
      */
-    public void  sendTextGroup(String wsGroupId, String text) {
+    public void sendTextGroup(String wsGroupId, String text) {
         try {
             List<Session> sessions = getSessions(wsGroupId);
-            for(Session session : sessions) {
+            for (Session session : sessions) {
                 if (session.isOpen()) {
                     session.getBasicRemote().sendText(text);
                     logger.info("已发送》》》》》" + text);

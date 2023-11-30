@@ -33,7 +33,7 @@ public class SiteConfig extends WebSecurityConfigurerAdapter{
                 .addFilterBefore(authorizationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/chat/**").permitAll()
-                .antMatchers("/hello/**").permitAll()
+//                .antMatchers("/hello/**").permitAll()
                 .antMatchers("/NewChats/**").permitAll()
                 .antMatchers("/UpdateChats/**").permitAll()
                 .antMatchers("/sendChat/**").permitAll()

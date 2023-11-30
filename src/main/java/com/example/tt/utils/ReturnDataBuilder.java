@@ -22,7 +22,7 @@ public class ReturnDataBuilder {
         }
     }
 
-    public static JSONObject error(GameListNameEnum gameListNameEnum)
+    public static String error(GameListNameEnum gameListNameEnum)
     {
         JSONObject jsonObject=new JSONObject();
         try {
@@ -31,7 +31,7 @@ public class ReturnDataBuilder {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
+        return jsonObject.toString();
     }
 
     public static Map error(int code ,String msg)
