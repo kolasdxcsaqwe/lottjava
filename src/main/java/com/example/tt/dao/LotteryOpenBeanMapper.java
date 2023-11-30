@@ -18,4 +18,6 @@ public interface LotteryOpenBeanMapper {
     int updateByPrimaryKey(LotteryOpenBean record);
 
     String getOpenByTerm(Integer type);
+
+    LotteryOpenBean getLastOpenData(Integer type);
 }
