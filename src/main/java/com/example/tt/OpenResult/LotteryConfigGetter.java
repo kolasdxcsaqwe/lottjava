@@ -7,6 +7,9 @@ import com.example.tt.utils.RedisCache;
 import com.example.tt.utils.Strings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -15,7 +18,7 @@ import java.util.Map;
 
 public class LotteryConfigGetter {
 
-    private final int roomId = 10029;
+    private int roomId;
 
     private long expireTime=10*60*1000;
 
@@ -97,6 +100,8 @@ public class LotteryConfigGetter {
         lottery19SettingMapper = TtApplication.getContext().getBean(Lottery19SettingMapper.class);
         lotteryRoomSettingMapper = TtApplication.getContext().getBean(LotteryRoomSettingMapper.class);
         robotPlansMapper = TtApplication.getContext().getBean(RobotPlansMapper.class);
+        String id=TtApplication.getContext().getEnvironment().getProperty("WebSiteRoomId");
+        roomId=Integer.parseInt(id);
         gson = new Gson();
     }
 
@@ -344,5 +349,6 @@ public class LotteryConfigGetter {
 
         return map;
     }
+
 
 }

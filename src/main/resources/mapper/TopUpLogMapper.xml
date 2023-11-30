@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.TopUpLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.TopUpLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="tixian" jdbcType="VARCHAR" property="tixian" />
+    <result column="czfangshi" jdbcType="VARCHAR" property="czfangshi" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.TopUpLog">
+    <result column="userid" jdbcType="LONGVARCHAR" property="userid" />
+    <result column="headimg" jdbcType="LONGVARCHAR" property="headimg" />
+    <result column="username" jdbcType="LONGVARCHAR" property="username" />
+    <result column="type" jdbcType="LONGVARCHAR" property="type" />
+    <result column="status" jdbcType="LONGVARCHAR" property="status" />
+    <result column="game" jdbcType="LONGVARCHAR" property="game" />
+    <result column="jia" jdbcType="LONGVARCHAR" property="jia" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, money, time, roomid, orderid, tixian, czfangshi
+  </sql>
+  <sql id="Blob_Column_List">
+    userid, headimg, username, type, status, game, jia
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_upmark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_upmark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.TopUpLog">
+    insert into fn_upmark (id, money, time, 
+      roomid, orderid, tixian, 
+      czfangshi, userid, headimg, 
+      username, type, status, 
+      game, jia)
+    values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{roomid,jdbcType=INTEGER}, #{orderid,jdbcType=VARCHAR}, #{tixian,jdbcType=VARCHAR}, 
+      #{czfangshi,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, 
+      #{username,jdbcType=LONGVARCHAR}, #{type,jdbcType=LONGVARCHAR}, #{status,jdbcType=LONGVARCHAR}, 
+      #{game,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.TopUpLog">
+    insert into fn_upmark
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="tixian != null">
+        tixian,
+      </if>
+      <if test="czfangshi != null">
+        czfangshi,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="headimg != null">
+        headimg,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="game != null">
+        game,
+      </if>
+      <if test="jia != null">
+        jia,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="tixian != null">
+        #{tixian,jdbcType=VARCHAR},
+      </if>
+      <if test="czfangshi != null">
+        #{czfangshi,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        #{game,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jia != null">
+        #{jia,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.TopUpLog">
+    update fn_upmark
+    <set>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null">
+        orderid = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="tixian != null">
+        tixian = #{tixian,jdbcType=VARCHAR},
+      </if>
+      <if test="czfangshi != null">
+        czfangshi = #{czfangshi,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        headimg = #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="game != null">
+        game = #{game,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jia != null">
+        jia = #{jia,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.TopUpLog">
+    update fn_upmark
+    set money = #{money,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=INTEGER},
+      orderid = #{orderid,jdbcType=VARCHAR},
+      tixian = #{tixian,jdbcType=VARCHAR},
+      czfangshi = #{czfangshi,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=LONGVARCHAR},
+      headimg = #{headimg,jdbcType=LONGVARCHAR},
+      username = #{username,jdbcType=LONGVARCHAR},
+      type = #{type,jdbcType=LONGVARCHAR},
+      status = #{status,jdbcType=LONGVARCHAR},
+      game = #{game,jdbcType=LONGVARCHAR},
+      jia = #{jia,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.TopUpLog">
+    update fn_upmark
+    set money = #{money,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=INTEGER},
+      orderid = #{orderid,jdbcType=VARCHAR},
+      tixian = #{tixian,jdbcType=VARCHAR},
+      czfangshi = #{czfangshi,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

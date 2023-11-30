@@ -1,6 +1,8 @@
 package com.example.tt.Controller;
 
+import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.utils.FetchLotteryResultTask;
+import com.example.tt.utils.MyLog;
 import com.example.tt.utils.RedisCache;
 import com.example.tt.utils.ReturnDataBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,6 @@ public class hello {
 //                MyLog.e(value);
 //            }
 //        }.start();
-
         return param;
     }
 
