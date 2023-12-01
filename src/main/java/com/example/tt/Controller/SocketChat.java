@@ -187,6 +187,7 @@ public class SocketChat {
         }
 
         List<ChatBean> list=new ArrayList<>();
+        int nowTerm =0;
         if(!Strings.isEmptyOrNullAmongOf(game) && game.equals("all"))
         {
             list.addAll(chatBeanMapper.last50RowByRoom(Integer.parseInt(roomid)));
@@ -194,12 +195,13 @@ public class SocketChat {
         else
         {
             list.addAll(chatBeanMapper.last50RowByGame(Integer.parseInt(roomid),game));
+            nowTerm = GameIndex.getLotteryIndex(game);
+            if (nowTerm < 1) {
+                MyLog.e("gameName错误--->"+game);
+                return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+            }
         }
 
-        int nowTerm = GameIndex.getLotteryIndex(game);
-        if (nowTerm < 1) {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
-        }
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUserid().equals(userid)) {

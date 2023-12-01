@@ -42,10 +42,20 @@ public class ChatController {
         }
 
         int roomId=Integer.valueOf(roomid);
-        List<ChatBean> list = chatBeanMapper.last50RowByGame(Integer.valueOf(roomid), game);
-        int nowTerm = GameIndex.getLotteryIndex(game);
-        if (nowTerm < 1) {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1).toString();
+        List<ChatBean> list=new ArrayList<>();
+        int nowTerm =0;
+        if(!Strings.isEmptyOrNullAmongOf(game) && game.equals("all"))
+        {
+            list.addAll(chatBeanMapper.last50RowByRoom(Integer.parseInt(roomid)));
+        }
+        else
+        {
+            list.addAll(chatBeanMapper.last50RowByGame(Integer.parseInt(roomid),game));
+            nowTerm = GameIndex.getLotteryIndex(game);
+            if (nowTerm < 1) {
+                MyLog.e("gameName错误--->"+game);
+                return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+            }
         }
 
         for (int i = 0; i < list.size(); i++) {
