@@ -41,7 +41,7 @@ public class FetchLotteryResultTask {
 
 
         File mainFile = new File(path);
-        if (!mainFile.exists() && !mOpen) {
+        if (!mainFile.exists()) {
             map.put("status", FetchLotteryResultTask.isOpen && FetchLotteryResultTask.isInit ? 1:0);
             return ReturnDataBuilder.error(-999, "路径不存在",map);
         }

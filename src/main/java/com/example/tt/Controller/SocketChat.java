@@ -1,6 +1,7 @@
 package com.example.tt.Controller;
 
 import com.example.tt.Bean.ChatBean;
+import com.example.tt.Bean.MySession;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.TtApplication;
 import com.example.tt.dao.ChatBeanMapper;
@@ -111,17 +112,31 @@ public class SocketChat {
         map.put("list",list);
 
         String string=gson.toJson(ReturnDataBuilder.makeBaseJSON(map));
-        List<Session> sessions=sessionStorage.getSessionByGameAndRoomId(roomid,game);
-        for (Session session : sessions) {
-            try {
-                session.getBasicRemote().sendText(string);
-            } catch (IOException e) {
-                e.printStackTrace();
-                isSendSuccess = false;
+        Map<String, MySession> sessions=sessionStorage.getSessionMapsByGameAndRoomId(roomid,game);
+        int sessionSize=0;
+        if(sessions!=null && !sessions.isEmpty())
+        {
+            sessionSize=sessions.size();
+            for (Map.Entry<String, MySession> entry : sessions.entrySet()) {
+                try {
+                    if(entry.getValue().getSession().isOpen())
+                    {
+                        entry.getValue().getSession().getBasicRemote().sendText(string);
+                    }
+                    else
+                    {
+                        sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
+                    }
+                } catch (IOException e) {
+                    MyLog.e(e.getMessage());
+                    sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
+                    isSendSuccess = false;
+                }
             }
         }
 
-        MyLog.e(" roomid-->"+roomid+"  game--->"+game+" sessions--->"+sessions.size());
+
+        MyLog.e(" roomid-->"+roomid+"  game--->"+game+" sessions--->"+sessionSize);
         MyLog.e("sendChat-->"+content);
 
         if(isSendSuccess)
@@ -161,7 +176,7 @@ public class SocketChat {
                         @PathParam("game") String game,
                         @PathParam("userid") String userId,Session session)
     {
-        sessionStorage.removeSession(roomId,userId,game,"onClose");
+        sessionStorage.removeSession(session,roomId,userId,game,"onClose");
         MyLog.e("onClose  roomId==>" + roomId + " game==>" + game + " userId==>" + userId );
     }
 
@@ -170,7 +185,7 @@ public class SocketChat {
                         @PathParam("game") String game,
                         @PathParam("userid") String userid,Session session,Throwable throwable)
     {
-        sessionStorage.removeSession(roomid,userid,game,"OnError");
+        sessionStorage.removeSession(session,roomid,userid,game,"OnError");
         MyLog.e("OnError  roomId==>" + roomid + " game==>" + game + " userId==>" + userid );
     }
 
