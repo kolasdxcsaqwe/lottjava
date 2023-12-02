@@ -1,7 +1,7 @@
 package com.example.tt.Controller;
 
-import com.example.tt.Bean.ChatBean;
-import com.example.tt.Bean.UserBean;
+import com.example.tt.Bean.*;
+import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.dao.*;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
@@ -28,61 +28,7 @@ public class ChatController {
     UserBeanMapper userBeanMapper;
 
     @Autowired(required = false)
-    Lottery1SettingMapper lottery1SettingMapper;
-
-    @Autowired(required = false)
-    Lottery2SettingMapper lottery2SettingMapper;
-
-    @Autowired(required = false)
-    Lottery3SettingMapper lottery3SettingMapper;
-
-    @Autowired(required = false)
-    Lottery4SettingMapper lottery4SettingMapper;
-
-    @Autowired(required = false)
-    Lottery5SettingMapper lottery5SettingMapper;
-
-    @Autowired(required = false)
-    Lottery6SettingMapper lottery6SettingMapper;
-
-    @Autowired(required = false)
-    Lottery7SettingMapper lottery7SettingMapper;
-
-    @Autowired(required = false)
-    Lottery8SettingMapper lottery8SettingMapper;
-
-    @Autowired(required = false)
-    Lottery9SettingMapper lottery9SettingMapper;
-
-    @Autowired(required = false)
-    Lottery10SettingMapper lottery10SettingMapper;
-
-    @Autowired(required = false)
-    Lottery11SettingMapper lottery11SettingMapper;
-
-    @Autowired(required = false)
-    Lottery12SettingMapper lottery12SettingMapper;
-
-    @Autowired(required = false)
-    Lottery13SettingMapper lottery13SettingMapper;
-
-    @Autowired(required = false)
-    Lottery14SettingMapper lottery14SettingMapper;
-
-    @Autowired(required = false)
-    Lottery15SettingMapper lottery15SettingMapper;
-
-    @Autowired(required = false)
-    Lottery16SettingMapper lottery16SettingMapper;
-
-    @Autowired(required = false)
-    Lottery17SettingMapper lottery17SettingMapper;
-
-    @Autowired(required = false)
-    Lottery18SettingMapper lottery18SettingMapper;
-
-    @Autowired(required = false)
-    Lottery19SettingMapper lottery19SettingMapper;
+    BanWordsMapper banWordsMapper;
 
     static HashMap<String, UserBean> userBeanHashMap = new HashMap<>();
 
@@ -96,10 +42,20 @@ public class ChatController {
         }
 
         int roomId=Integer.valueOf(roomid);
-        List<ChatBean> list = chatBeanMapper.last50RowByGame(Integer.valueOf(roomid), game);
-        int nowTerm = GameIndex.getLotteryIndex(game);
-        if (nowTerm < 1) {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1).toString();
+        List<ChatBean> list=new ArrayList<>();
+        int nowTerm =0;
+        if(!Strings.isEmptyOrNullAmongOf(game) && game.equals("all"))
+        {
+            list.addAll(chatBeanMapper.last50RowByRoom(Integer.parseInt(roomid)));
+        }
+        else
+        {
+            list.addAll(chatBeanMapper.last50RowByGame(Integer.parseInt(roomid),game));
+            nowTerm = GameIndex.getLotteryIndex(game);
+            if (nowTerm < 1) {
+                MyLog.e("gameName错误--->"+game);
+                return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+            }
         }
 
         for (int i = 0; i < list.size(); i++) {
@@ -164,72 +120,104 @@ public class ChatController {
             }
         }
 
-        JSONObject gameSettingJson =getGameSetting(game,roomid);
-        boolean isOpen=false;
-        if (gameSettingJson == null) {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
-        }
-        else
+        GameSettingShortBean gameSettingShortBean =getGameSetting(game);
+        Integer closeLimitTime=gameSettingShortBean.getFengTime();//提前封盘的时间
+
+        boolean isGameOpening=true;//该彩种是否开启了
+        if(gameSettingShortBean.getGameOpen().equals("false"))
         {
-            if(!gameSettingJson.optString("gameopen","").equals("false"))
+            isGameOpening=false;
+        }
+
+        if(!isGameOpening)
+        {
+            //未开盘
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S6);
+        }
+
+        LotteryOpenBean lotteryOpenBean=lotteryOpenBeanMapper.getLastOpenData(GameIndex.getLotteryIndex(game));
+        String termForNow=lotteryOpenBean.getNextTerm();
+        boolean isAvailableBet=(lotteryOpenBean.getNextTime().getTime()-System.currentTimeMillis())/1000<closeLimitTime;
+
+        if(!isAvailableBet)
+        {
+            //截至投注
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S6);
+        }
+
+        BanWords user=banWordsMapper.selectBanUser(Integer.parseInt(roomid),userid);
+        if(user!=null && !Strings.isEmptyOrNullAmongOf(user.getUsername()))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S7);
+        }
+
+        LotteryRoomSetting lotteryRoomSetting= LotteryConfigGetter.getInstance().getLotteryRoomSetting();
+        String words[]=content.split("\\|");
+        for (int i = 0; i <words.length ; i++) {
+            if(Strings.isEmptyOrNullAmongOf(words[i]))
             {
-                isOpen=true;
+                continue;
+            }
+
+            if(content.contains(words[i]))
+            {
+                return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S8);
             }
         }
+
+        boolean isAdminBroadcast=content.startsWith("@");
+
+
+
 
         return ReturnDataBuilder.makeBaseJSON(null);
     }
 
 
 
-    private JSONObject getGameSetting(String betGame, String roomId) {
-        Integer roomIdInt=Integer.valueOf(roomId);
-        Gson gson = new Gson();
-        JSONObject jsonObject = null;
-        try {
-            if (betGame.equals("pk10")) {
-                jsonObject = new JSONObject(gson.toJson(lottery1SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("xyft")) {
-                jsonObject = new JSONObject(gson.toJson(lottery2SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("cqssc")) {
-                jsonObject = new JSONObject(gson.toJson(lottery3SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("xy28")) {
-                jsonObject = new JSONObject(gson.toJson(lottery4SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("ny28")) {
-                jsonObject = new JSONObject(gson.toJson(lottery19SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("jnd28")) {
-                jsonObject = new JSONObject(gson.toJson(lottery5SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("jsmt")) {
-                jsonObject = new JSONObject(gson.toJson(lottery6SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("jssc")) {
-                jsonObject = new JSONObject(gson.toJson(lottery7SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("jsssc")) {
-                jsonObject = new JSONObject(gson.toJson(lottery8SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("kuai3")) {
-                jsonObject = new JSONObject(gson.toJson(lottery9SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("bjl")) {
-                jsonObject = new JSONObject(gson.toJson(lottery10SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("gd11x5")) {
-                jsonObject = new JSONObject(gson.toJson(lottery11SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("jssm")) {
-                jsonObject = new JSONObject(gson.toJson(lottery12SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("lhc")) {
-                jsonObject = new JSONObject(gson.toJson(lottery13SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("jslhc")) {
-                jsonObject = new JSONObject(gson.toJson(lottery14SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("twk3")) {
-                jsonObject = new JSONObject(gson.toJson(lottery15SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("txffc")) {
-                jsonObject = new JSONObject(gson.toJson(lottery16SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("azxy10")) {
-                jsonObject = new JSONObject(gson.toJson(lottery17SettingMapper.selectByRoomId(roomIdInt)));
-            } else if(betGame.equals("azxy5")) {
-                jsonObject = new JSONObject(gson.toJson(lottery18SettingMapper.selectByRoomId(roomIdInt)));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private GameSettingShortBean getGameSetting(String betGame) {
+        GameSettingShortBean bean = null;
 
-        return jsonObject;
+        if (betGame.equals("pk10")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery1Setting());
+        } else if(betGame.equals("xyft")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery2Setting());
+        } else if(betGame.equals("cqssc")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery3Setting());
+        } else if(betGame.equals("xy28")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery4Setting());
+        } else if(betGame.equals("ny28")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery19Setting());
+        } else if(betGame.equals("jnd28")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery5Setting());
+        } else if(betGame.equals("jsmt")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery6Setting());
+        } else if(betGame.equals("jssc")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery7Setting());
+        } else if(betGame.equals("jsssc")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery8Setting());
+        } else if(betGame.equals("kuai3")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery9Setting());
+        } else if(betGame.equals("bjl")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery10Setting());
+        } else if(betGame.equals("gd11x5")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery11Setting());
+        } else if(betGame.equals("jssm")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery12Setting());
+        } else if(betGame.equals("lhc")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery13Setting());
+        } else if(betGame.equals("jslhc")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery14Setting());
+        } else if(betGame.equals("twk3")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery15Setting());
+        } else if(betGame.equals("txffc")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery16Setting());
+        } else if(betGame.equals("azxy10")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery17Setting());
+        } else if(betGame.equals("azxy5")) {
+            bean = GameSettingShortBean.beanConverter(LotteryConfigGetter.getInstance().getLottery18Setting());
+        }
+        return bean;
     }
+
 }

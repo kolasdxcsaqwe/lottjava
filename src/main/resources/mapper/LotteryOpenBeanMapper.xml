@@ -35,6 +35,13 @@
     where type = #{type,jdbcType=INTEGER} order by next_term desc limit 1
   </select>
 
+    <select id="getLastOpenData" resultMap="ResultMapWithBLOBs">
+    select
+    *
+    from fn_open
+    where type = #{type,jdbcType=INTEGER} order by next_term desc limit 1
+  </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_open
     where id = #{id,jdbcType=INTEGER}

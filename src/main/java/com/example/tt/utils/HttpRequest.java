@@ -38,9 +38,8 @@ public class HttpRequest {
                 .build();
 
         FormBody.Builder builder=  new FormBody.Builder();
-        for (int i = 0; i < params.size(); i++) {
-            PostParamBean postParamBean= params.get(i);
-            builder.add(postParamBean.getKey(),postParamBean.getValue());
+        for (PostParamBean postParamBean : params) {
+            builder.add(postParamBean.getKey(), postParamBean.getValue());
         }
         RequestBody requestBody=builder.build();
 
@@ -55,7 +54,11 @@ public class HttpRequest {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                MyLog.e(baseUrl+"--->"+response.body().string());
+                if(response.body()!=null)
+                {
+                    MyLog.l(baseUrl+"--->"+response.body().string());
+                }
+
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.example.tt.Controller;
 
 import com.example.tt.Bean.ChatBean;
+import com.example.tt.Bean.MySession;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.TtApplication;
 import com.example.tt.dao.ChatBeanMapper;
@@ -49,8 +50,7 @@ public class SocketChat {
                            @RequestParam(name = "username") String username,
                            @RequestParam(name = "imgType",defaultValue = "") String imgType
                            ) {
-//        MyLog.e("sendChat-->"+content+"  chatType-->"+chatType);
-        if(Strings.isEmptyOrNullAmongOf(content,userid,chatType,roomid,game,username) && Strings.isDigitOnly(roomid))
+        if(Strings.isEmptyOrNullAmongOf(content,userid,chatType,roomid,game,username) || !Strings.isDigitOnly(roomid))
         {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
         }
@@ -59,7 +59,7 @@ public class SocketChat {
         chatBean.setType(chatType);
         chatBean.setContent(content);
         chatBean.setUserid(userid);
-        chatBean.setRoomid(Integer.valueOf(roomid));
+        chatBean.setRoomid(Integer.parseInt(roomid));
         chatBean.setGame(game);
         chatBean.setChatStatus(chat_status);
         chatBean.setChatTerm(chat_term);
@@ -112,14 +112,32 @@ public class SocketChat {
         map.put("list",list);
 
         String string=gson.toJson(ReturnDataBuilder.makeBaseJSON(map));
-        for (int i = 0; i < sessionStorage.getAllSession().size(); i++) {
-            try {
-                sessionStorage.getAllSession().get(i).getBasicRemote().sendText(string);
-            } catch (IOException e) {
-                e.printStackTrace();
-                isSendSuccess=false;
+        Map<String, MySession> sessions=sessionStorage.getSessionMapsByGameAndRoomId(roomid,game);
+        int sessionSize=0;
+        if(sessions!=null && !sessions.isEmpty())
+        {
+            sessionSize=sessions.size();
+            for (Map.Entry<String, MySession> entry : sessions.entrySet()) {
+                try {
+                    if(entry.getValue().getSession().isOpen())
+                    {
+                        entry.getValue().getSession().getBasicRemote().sendText(string);
+                    }
+                    else
+                    {
+                        sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
+                    }
+                } catch (IOException e) {
+                    MyLog.e(e.getMessage());
+                    sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
+                    isSendSuccess = false;
+                }
             }
         }
+
+
+        MyLog.e(" roomid-->"+roomid+"  game--->"+game+" sessions--->"+sessionSize);
+        MyLog.e("sendChat-->"+content);
 
         if(isSendSuccess)
         {
@@ -140,27 +158,26 @@ public class SocketChat {
         lotteryOpenBeanMapper= TtApplication.getContext().getBean(LotteryOpenBeanMapper.class);
         session.getBasicRemote().sendText(new Gson().toJson(NewChats(userid, game, roomid)));
         session.setMaxIdleTimeout(30*1000);
-        sessionStorage.putSession(session,userid,roomid);
+        sessionStorage.putSession(session,userid,roomid,game);
 
     }
 
     @OnMessage
-    public void OnMessage(String message, Session session) throws IOException {
-        if(message.equals("heartbeat"))
-        {
-            session.getBasicRemote().sendText(message);
-        }
+    public void OnMessage(@PathParam("roomid") String roomid,
+                          @PathParam("game") String game,
+                          @PathParam("userid") String userid,String message, Session session) throws IOException {
+        session.getBasicRemote().sendText(message);
 
     }
 
 
     @OnClose
-    public void onClose(@PathParam("roomid") String roomid,
+    public void onClose(@PathParam("roomid") String roomId,
                         @PathParam("game") String game,
-                        @PathParam("userid") String userid,Session session)
+                        @PathParam("userid") String userId,Session session)
     {
-        sessionStorage.removeSession(roomid,userid,"onClose");
-        MyLog.e("onClose-->"+roomid+" "+session.getId());
+        sessionStorage.removeSession(session,roomId,userId,game,"onClose");
+        MyLog.e("onClose  roomId==>" + roomId + " game==>" + game + " userId==>" + userId );
     }
 
     @OnError
@@ -168,8 +185,8 @@ public class SocketChat {
                         @PathParam("game") String game,
                         @PathParam("userid") String userid,Session session,Throwable throwable)
     {
-        sessionStorage.removeSession(roomid,userid,"OnError");
-        MyLog.e("OnError-->"+roomid+" "+session.getId());
+        sessionStorage.removeSession(session,roomid,userid,game,"OnError");
+        MyLog.e("OnError  roomId==>" + roomid + " game==>" + game + " userId==>" + userid );
     }
 
     @Bean
@@ -185,6 +202,7 @@ public class SocketChat {
         }
 
         List<ChatBean> list=new ArrayList<>();
+        int nowTerm =0;
         if(!Strings.isEmptyOrNullAmongOf(game) && game.equals("all"))
         {
             list.addAll(chatBeanMapper.last50RowByRoom(Integer.parseInt(roomid)));
@@ -192,12 +210,13 @@ public class SocketChat {
         else
         {
             list.addAll(chatBeanMapper.last50RowByGame(Integer.parseInt(roomid),game));
+            nowTerm = GameIndex.getLotteryIndex(game);
+            if (nowTerm < 1) {
+                MyLog.e("gameName错误--->"+game);
+                return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+            }
         }
 
-        int nowTerm = GameIndex.getLotteryIndex(game);
-        if (nowTerm < 1) {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
-        }
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUserid().equals(userid)) {

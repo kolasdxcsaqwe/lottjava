@@ -31,6 +31,12 @@
             })
         }
 
+        $.post('/hello',{
+            param:"sadxxx"
+        },function(data){
+            console.log(data)
+        })
+
         function switchStatus(status) {
             $.post('/changeTaskStatus',{
                 changeStatus:status?1:0,
@@ -62,7 +68,8 @@
     <div>
         <span>设置配置文件目录：</span>
         <p>E:\phpstudy\WWW\lottery\lottjava\config</p>
-        <p>/www/admin/localhost_8123/wwwroot/lottjava/config</p>
+        <p>C:\Users\Administrator\IdeaProjects\lottjava\config</p>
+        <p>/www/admin/localhost_80/wwwroot/lottjava/config</p>
         <input type="text" id="configPath" value="" style="width: 35rem"/>
     </div>
 
