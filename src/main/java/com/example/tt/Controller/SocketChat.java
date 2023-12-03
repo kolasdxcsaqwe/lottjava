@@ -113,34 +113,12 @@ public class SocketChat {
 
         String string=gson.toJson(ReturnDataBuilder.makeBaseJSON(map));
         Map<String, MySession> sessions=sessionStorage.getSessionMapsByGameAndRoomId(roomid,game);
-        int sessionSize=0;
-        if(sessions!=null && !sessions.isEmpty())
-        {
-            sessionSize=sessions.size();
-            for (Map.Entry<String, MySession> entry : sessions.entrySet()) {
-                try {
-                    if(entry.getValue().getSession().isOpen())
-                    {
-                        synchronized (SocketChat.class)
-                        {
-                            entry.getValue().getSession().getBasicRemote().sendText(string);
-                        }
-                    }
-                    else
-                    {
-                        sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
-                    }
-                } catch (IOException e) {
-                    MyLog.e(e.getMessage());
-                    sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
-                    isSendSuccess = false;
-                }
-            }
-        }
+        isSendSuccess=sendMessage(content,roomid,game,sessions,string);
 
+        //后台的用的 没有game值
+        Map<String, MySession> sessionsAll=sessionStorage.getSessionMapsByGameAndRoomId(roomid,"all");
+        sendMessage(content,roomid,game,sessionsAll,string);
 
-        MyLog.e(" roomid-->"+roomid+"  game--->"+game+" sessions--->"+sessionSize);
-        MyLog.e("sendChat-->"+content);
 
         if(isSendSuccess)
         {
@@ -205,6 +183,39 @@ public class SocketChat {
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
+    }
+
+    private boolean sendMessage(String content,String roomid,String game,Map<String, MySession> sessions,String string)
+    {
+        int sessionSize=0;
+        boolean isSendSuccess=true;
+        if(sessions!=null && !sessions.isEmpty())
+        {
+            sessionSize=sessions.size();
+            for (Map.Entry<String, MySession> entry : sessions.entrySet()) {
+                try {
+                    if(entry.getValue().getSession().isOpen())
+                    {
+                        synchronized (SocketChat.class)
+                        {
+                            entry.getValue().getSession().getBasicRemote().sendText(string);
+                        }
+                    }
+                    else
+                    {
+                        sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
+                    }
+                } catch (IOException e) {
+                    MyLog.e(e.getMessage());
+                    sessionStorage.removeSession(entry.getValue().getSession(),roomid,game,entry.getKey(),"acc close");
+                    isSendSuccess = false;
+                }
+            }
+        }
+
+
+        MyLog.e("sendChat-->"+content);
+        return isSendSuccess;
     }
 
     public Object NewChats(String userid,
