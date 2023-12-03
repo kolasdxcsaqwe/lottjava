@@ -315,11 +315,11 @@ public class LotteryConfigGetter {
     }
 
     public LotteryRoomSetting getLotteryRoomSetting() {
-        String lotteryRoomSettingStr = RedisCache.getInstance().get("Lottery19Setting");
+        String lotteryRoomSettingStr = RedisCache.getInstance().get("LotteryRoomSetting");
         if (Strings.isEmptyOrNullAmongOf(lotteryRoomSettingStr)) {
             LotteryRoomSetting lotteryRoomSetting = lotteryRoomSettingMapper.selectByRoomId(roomId);
             lotteryRoomSettingStr = gson.toJson(lotteryRoomSetting);
-            RedisCache.getInstance().set("Lottery19Setting", lotteryRoomSettingStr,expireTime);
+            RedisCache.getInstance().set("LotteryRoomSetting", lotteryRoomSettingStr,expireTime);
             return lotteryRoomSetting;
         }
         return gson.fromJson(lotteryRoomSettingStr, LotteryRoomSetting.class);
