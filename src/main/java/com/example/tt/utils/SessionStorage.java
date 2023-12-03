@@ -97,7 +97,7 @@ public class SessionStorage {
                 return;
             }
 
-            sessionGroup.remove(userId);
+            sessionGroup.remove(session.getId());
             MyLog.e("removeSession  roomId==>" + roomId + " game==>" + game + " userId==>" + userId + "  连接数" + sessionGroup.size());
         }
 

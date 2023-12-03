@@ -121,7 +121,10 @@ public class SocketChat {
                 try {
                     if(entry.getValue().getSession().isOpen())
                     {
-                        entry.getValue().getSession().getBasicRemote().sendText(string);
+                        synchronized (SocketChat.class)
+                        {
+                            entry.getValue().getSession().getBasicRemote().sendText(string);
+                        }
                     }
                     else
                     {
@@ -176,17 +179,27 @@ public class SocketChat {
                         @PathParam("game") String game,
                         @PathParam("userid") String userId,Session session)
     {
-        sessionStorage.removeSession(session,roomId,userId,game,"onClose");
-        MyLog.e("onClose  roomId==>" + roomId + " game==>" + game + " userId==>" + userId );
+        sessionStorage.removeSession(session,roomId,game,userId,"onClose");
+        StringBuilder sb=new StringBuilder();
+        sb.append("onClose  roomId==>").append(roomId);
+        sb.append(" game==>").append(game);
+        sb.append(" userId==>").append(userId);
+        sb.append(" sessionID=>").append(session.getId());
+        MyLog.e(sb.toString());
     }
 
     @OnError
-    public void OnError(@PathParam("roomid") String roomid,
+    public void OnError(@PathParam("roomid") String roomId,
                         @PathParam("game") String game,
-                        @PathParam("userid") String userid,Session session,Throwable throwable)
+                        @PathParam("userid") String userId,Session session,Throwable throwable)
     {
-        sessionStorage.removeSession(session,roomid,userid,game,"OnError");
-        MyLog.e("OnError  roomId==>" + roomid + " game==>" + game + " userId==>" + userid );
+        sessionStorage.removeSession(session,roomId,game,userId,"OnError");
+        StringBuilder sb=new StringBuilder();
+        sb.append("onClose  roomId==>").append(roomId);
+        sb.append(" game==>").append(game);
+        sb.append(" userId==>").append(userId);
+        sb.append(" sessionID=>").append(session.getId());
+        MyLog.e(sb.toString());
     }
 
     @Bean
