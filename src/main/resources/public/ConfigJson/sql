@@ -1,4 +1,4 @@
-CREATE TABLE `NewTable` (
+CREATE TABLE `fn_lottery20` (
 `id`  int(11) NOT NULL DEFAULT 10029 ,
 `roomid`  int(11) NOT NULL ,
 `gameopen`  tinyint(1) NOT NULL DEFAULT 0 ,
@@ -12,6 +12,7 @@ CREATE TABLE `NewTable` (
 `endfourfix`  float NOT NULL COMMENT '后4定位' ,
 `frontfourany`  float NOT NULL COMMENT '前4任意' ,
 `endfourany`  float NOT NULL COMMENT '后4任意' ,
+`rules`  TEXT NULL COMMENT '规则' ,
 `minbet`  float NOT NULL ,
 `maxbet`  float NOT NULL ,
 PRIMARY KEY (`id`)
@@ -22,4 +23,3 @@ CHECKSUM=0
 ROW_FORMAT=FIXED
 DELAY_KEY_WRITE=0
 ;
-
