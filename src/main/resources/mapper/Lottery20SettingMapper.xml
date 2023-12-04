@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.Lottery20SettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.Lottery20Setting">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="gameopen" jdbcType="BIT" property="gameopen" />
+    <result column="da" jdbcType="REAL" property="da" />
+    <result column="xiao" jdbcType="REAL" property="xiao" />
+    <result column="dan" jdbcType="REAL" property="dan" />
+    <result column="shuang" jdbcType="REAL" property="shuang" />
+    <result column="anythree" jdbcType="REAL" property="anythree" />
+    <result column="anyfour" jdbcType="REAL" property="anyfour" />
+    <result column="frontfourfix" jdbcType="REAL" property="frontfourfix" />
+    <result column="endfourfix" jdbcType="REAL" property="endfourfix" />
+    <result column="frontfourany" jdbcType="REAL" property="frontfourany" />
+    <result column="endfourany" jdbcType="REAL" property="endfourany" />
+    <result column="minbet" jdbcType="REAL" property="minbet" />
+    <result column="maxbet" jdbcType="REAL" property="maxbet" />
+  </resultMap>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery14
+    where roomid = #{roomid,jdbcType=INTEGER}
+  </select>
+
+
+  <insert id="insert" parameterType="com.example.tt.Bean.Lottery20Setting">
+    insert into fn_lottery20 (id, roomid, gameopen, 
+      da, xiao, dan, shuang, 
+      anythree, anyfour, frontfourfix, 
+      endfourfix, frontfourany, endfourany, 
+      minbet, maxbet)
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{gameopen,jdbcType=BIT}, 
+      #{da,jdbcType=REAL}, #{xiao,jdbcType=REAL}, #{dan,jdbcType=REAL}, #{shuang,jdbcType=REAL}, 
+      #{anythree,jdbcType=REAL}, #{anyfour,jdbcType=REAL}, #{frontfourfix,jdbcType=REAL}, 
+      #{endfourfix,jdbcType=REAL}, #{frontfourany,jdbcType=REAL}, #{endfourany,jdbcType=REAL}, 
+      #{minbet,jdbcType=REAL}, #{maxbet,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery20Setting">
+    insert into fn_lottery20
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="da != null">
+        da,
+      </if>
+      <if test="xiao != null">
+        xiao,
+      </if>
+      <if test="dan != null">
+        dan,
+      </if>
+      <if test="shuang != null">
+        shuang,
+      </if>
+      <if test="anythree != null">
+        anythree,
+      </if>
+      <if test="anyfour != null">
+        anyfour,
+      </if>
+      <if test="frontfourfix != null">
+        frontfourfix,
+      </if>
+      <if test="endfourfix != null">
+        endfourfix,
+      </if>
+      <if test="frontfourany != null">
+        frontfourany,
+      </if>
+      <if test="endfourany != null">
+        endfourany,
+      </if>
+      <if test="minbet != null">
+        minbet,
+      </if>
+      <if test="maxbet != null">
+        maxbet,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=BIT},
+      </if>
+      <if test="da != null">
+        #{da,jdbcType=REAL},
+      </if>
+      <if test="xiao != null">
+        #{xiao,jdbcType=REAL},
+      </if>
+      <if test="dan != null">
+        #{dan,jdbcType=REAL},
+      </if>
+      <if test="shuang != null">
+        #{shuang,jdbcType=REAL},
+      </if>
+      <if test="anythree != null">
+        #{anythree,jdbcType=REAL},
+      </if>
+      <if test="anyfour != null">
+        #{anyfour,jdbcType=REAL},
+      </if>
+      <if test="frontfourfix != null">
+        #{frontfourfix,jdbcType=REAL},
+      </if>
+      <if test="endfourfix != null">
+        #{endfourfix,jdbcType=REAL},
+      </if>
+      <if test="frontfourany != null">
+        #{frontfourany,jdbcType=REAL},
+      </if>
+      <if test="endfourany != null">
+        #{endfourany,jdbcType=REAL},
+      </if>
+      <if test="minbet != null">
+        #{minbet,jdbcType=REAL},
+      </if>
+      <if test="maxbet != null">
+        #{maxbet,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="updateOrInsertById" parameterType="com.example.tt.Bean.Lottery20Setting">
+    replace into fn_lottery20
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="da != null">
+        da,
+      </if>
+      <if test="xiao != null">
+        xiao,
+      </if>
+      <if test="dan != null">
+        dan,
+      </if>
+      <if test="shuang != null">
+        shuang,
+      </if>
+      <if test="anythree != null">
+        anythree,
+      </if>
+      <if test="anyfour != null">
+        anyfour,
+      </if>
+      <if test="frontfourfix != null">
+        frontfourfix,
+      </if>
+      <if test="endfourfix != null">
+        endfourfix,
+      </if>
+      <if test="frontfourany != null">
+        frontfourany,
+      </if>
+      <if test="endfourany != null">
+        endfourany,
+      </if>
+      <if test="minbet != null">
+        minbet,
+      </if>
+      <if test="maxbet != null">
+        maxbet,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=BIT},
+      </if>
+      <if test="da != null">
+        #{da,jdbcType=REAL},
+      </if>
+      <if test="xiao != null">
+        #{xiao,jdbcType=REAL},
+      </if>
+      <if test="dan != null">
+        #{dan,jdbcType=REAL},
+      </if>
+      <if test="shuang != null">
+        #{shuang,jdbcType=REAL},
+      </if>
+      <if test="anythree != null">
+        #{anythree,jdbcType=REAL},
+      </if>
+      <if test="anyfour != null">
+        #{anyfour,jdbcType=REAL},
+      </if>
+      <if test="frontfourfix != null">
+        #{frontfourfix,jdbcType=REAL},
+      </if>
+      <if test="endfourfix != null">
+        #{endfourfix,jdbcType=REAL},
+      </if>
+      <if test="frontfourany != null">
+        #{frontfourany,jdbcType=REAL},
+      </if>
+      <if test="endfourany != null">
+        #{endfourany,jdbcType=REAL},
+      </if>
+      <if test="minbet != null">
+        #{minbet,jdbcType=REAL},
+      </if>
+      <if test="maxbet != null">
+        #{maxbet,jdbcType=REAL},
+      </if>
+    </trim>
+
+
+  </insert>
+
+</mapper>

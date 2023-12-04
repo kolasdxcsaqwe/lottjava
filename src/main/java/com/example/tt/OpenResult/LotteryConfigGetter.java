@@ -66,6 +66,8 @@ public class LotteryConfigGetter {
 
     Lottery19SettingMapper lottery19SettingMapper;
 
+    Lottery20SettingMapper lottery20SettingMapper;
+
     private static LotteryConfigGetter result;
 
     Gson gson;
@@ -98,6 +100,7 @@ public class LotteryConfigGetter {
         lottery17SettingMapper = TtApplication.getContext().getBean(Lottery17SettingMapper.class);
         lottery18SettingMapper = TtApplication.getContext().getBean(Lottery18SettingMapper.class);
         lottery19SettingMapper = TtApplication.getContext().getBean(Lottery19SettingMapper.class);
+        lottery20SettingMapper = TtApplication.getContext().getBean(Lottery20SettingMapper.class);
         lotteryRoomSettingMapper = TtApplication.getContext().getBean(LotteryRoomSettingMapper.class);
         robotPlansMapper = TtApplication.getContext().getBean(RobotPlansMapper.class);
         String id=TtApplication.getContext().getEnvironment().getProperty("WebSiteRoomId");
@@ -312,6 +315,17 @@ public class LotteryConfigGetter {
             return lottery19Setting;
         }
         return gson.fromJson(lottery19Setting1Str, Lottery19Setting.class);
+    }
+
+    public Lottery20Setting getLottery20Setting() {
+        String lottery20Setting1Str = RedisCache.getInstance().get("Lottery20Setting");
+        if (Strings.isEmptyOrNullAmongOf(lottery20Setting1Str)) {
+            Lottery20Setting lottery20Setting = lottery20SettingMapper.selectByRoomId(roomId);
+            lottery20Setting1Str = gson.toJson(lottery20Setting);
+            RedisCache.getInstance().set("Lottery20Setting", lottery20Setting1Str,expireTime);
+            return lottery20Setting;
+        }
+        return gson.fromJson(lottery20Setting1Str, Lottery20Setting.class);
     }
 
     public LotteryRoomSetting getLotteryRoomSetting() {
