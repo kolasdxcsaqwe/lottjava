@@ -321,6 +321,10 @@ public class LotteryConfigGetter {
         String lottery20Setting1Str = RedisCache.getInstance().get("Lottery20Setting");
         if (Strings.isEmptyOrNullAmongOf(lottery20Setting1Str)) {
             Lottery20Setting lottery20Setting = lottery20SettingMapper.selectByRoomId(roomId);
+            if(lottery20Setting==null)
+            {
+                return new Lottery20Setting();
+            }
             lottery20Setting1Str = gson.toJson(lottery20Setting);
             RedisCache.getInstance().set("Lottery20Setting", lottery20Setting1Str,expireTime);
             return lottery20Setting;

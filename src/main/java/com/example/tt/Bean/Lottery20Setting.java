@@ -31,6 +31,18 @@ public class Lottery20Setting {
 
     private Float maxbet;
 
+    private String rules;
+
+    private Integer fengtime;
+
+    public Integer getFengtime() {
+        return fengtime;
+    }
+
+    public void setFengtime(Integer fengtime) {
+        this.fengtime = fengtime;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -149,5 +161,13 @@ public class Lottery20Setting {
 
     public void setMaxbet(Float maxbet) {
         this.maxbet = maxbet;
+    }
+
+    public String getRules() {
+        return rules;
+    }
+
+    public void setRules(String rules) {
+        this.rules = rules == null ? null : rules.trim();
     }
 }
