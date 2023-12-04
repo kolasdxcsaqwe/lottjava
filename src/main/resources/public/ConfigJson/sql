@@ -1,0 +1,25 @@
+CREATE TABLE `NewTable` (
+`id`  int(11) NOT NULL DEFAULT 10029 ,
+`roomid`  int(11) NOT NULL ,
+`gameopen`  tinyint(1) NOT NULL DEFAULT 0 ,
+`da`  float NOT NULL DEFAULT 0 ,
+`xiao`  float NOT NULL ,
+`dan`  float NOT NULL ,
+`shuang`  float NOT NULL ,
+`anythree`  float NOT NULL COMMENT '任意三' ,
+`anyfour`  float NOT NULL COMMENT '任意4' ,
+`frontfourfix`  float NOT NULL COMMENT '前4定位' ,
+`endfourfix`  float NOT NULL COMMENT '后4定位' ,
+`frontfourany`  float NOT NULL COMMENT '前4任意' ,
+`endfourany`  float NOT NULL COMMENT '后4任意' ,
+`minbet`  float NOT NULL ,
+`maxbet`  float NOT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=MyISAM
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+CHECKSUM=0
+ROW_FORMAT=FIXED
+DELAY_KEY_WRITE=0
+;
+
