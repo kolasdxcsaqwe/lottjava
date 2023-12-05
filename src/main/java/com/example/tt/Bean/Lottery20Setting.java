@@ -31,6 +31,8 @@ public class Lottery20Setting {
 
     private Float maxbet;
 
+    private Float touweifix;
+
     private String rules;
 
     private Integer fengtime;
@@ -41,6 +43,14 @@ public class Lottery20Setting {
 
     public void setFengtime(Integer fengtime) {
         this.fengtime = fengtime;
+    }
+
+    public Float getTouweifix() {
+        return touweifix;
+    }
+
+    public void setTouweifix(Float touweifix) {
+        this.touweifix = touweifix;
     }
 
     public Integer getId() {
