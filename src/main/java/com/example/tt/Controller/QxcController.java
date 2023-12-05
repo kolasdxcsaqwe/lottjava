@@ -18,6 +18,14 @@ public class QxcController {
     @Autowired(required = false)
     Lottery20SettingMapper lottery20SettingMapper;
 
+    //<p>11.54%  15.6  7.3 任意3</p>
+    //         <p>4.577% 39.32  19.66 任意4</p>
+    //         <p>0.026%  19600  9800 前4定位</p>
+    //         <p>0.026%  19600  9800 后4定位</p>
+    //         <p>1.81%  99.44  49.72 前4任意</p>
+    //         <p>1.81%  99.44  49.72 后4任意</p>
+    //         <p>1.093%  164.68  82.34 头尾定位</p>
+
     @ResponseBody
     @RequestMapping(value = "/qxcLotterySetting", method = RequestMethod.POST)
     public Object qxcLotterySetting() {
