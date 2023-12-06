@@ -3,11 +3,13 @@ package com.example.tt.Controller;
 //七星彩接口
 
 import com.example.tt.Bean.Lottery20Setting;
+import com.example.tt.Bean.LotteryOpenBean;
+import com.example.tt.FormatCheck.QXCBetFormatChecker;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.dao.Lottery20SettingMapper;
+import com.example.tt.dao.LotteryOpenBeanMapper;
 import com.example.tt.dao.RobotUserMapper;
-import com.example.tt.utils.ReturnDataBuilder;
-import com.example.tt.utils.Strings;
+import com.example.tt.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,9 @@ public class QxcController {
 
     @Autowired(required = false)
     Lottery20SettingMapper lottery20SettingMapper;
+
+    @Autowired(required = false)
+    LotteryOpenBeanMapper lotteryOpenBeanMapper;
 
     //<p>11.54%  15.6  7.3 任意3</p>
     //         <p>4.577% 39.32  19.66 任意4</p>
@@ -91,5 +96,59 @@ public class QxcController {
 
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/QXCSendChat", method = RequestMethod.POST)
+    public Object QXCSendChat(@RequestParam(name = "betArray") String betArray) {
 
+        Lottery20Setting lottery20Setting= LotteryConfigGetter.getInstance().getLottery20Setting();
+        int fengTime=lottery20Setting.getFengtime();
+
+        LotteryOpenBean lotteryOpenBean =lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
+        if(!lottery20Setting.getGameopen() || lotteryOpenBean==null || lotteryOpenBean.getNextTime()==null)
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if(lotteryOpenBean.getNextTime().getTime()-System.currentTimeMillis()>fengTime*1000)
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if(Strings.isEmptyOrNullAmongOf(betArray))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
+        }
+
+        boolean isFormatOk=true;
+        try {
+
+            JSONArray jsonArray=new JSONArray(betArray);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                int money = jsonObject.optInt("money", 0);
+                if (money < 1) {
+                    isFormatOk = false;
+                }
+
+                int type = jsonObject.optInt("type", -1);
+
+                JSONArray codes = jsonObject.optJSONArray("codes");
+                if (!QXCBetFormatChecker.check(codes))
+                {
+                    isFormatOk=false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            isFormatOk=false;
+        }
+
+        if(!isFormatOk)
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
+        }
+
+
+        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery20Setting());
+    }
 }

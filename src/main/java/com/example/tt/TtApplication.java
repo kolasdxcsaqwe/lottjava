@@ -1,5 +1,8 @@
 package com.example.tt;
 
+import com.example.tt.Bean.PrizePoolBean;
+import com.example.tt.utils.MyLog;
+import com.google.gson.Gson;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
