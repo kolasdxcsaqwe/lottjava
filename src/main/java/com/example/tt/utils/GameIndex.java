@@ -29,6 +29,30 @@ public class GameIndex {
         private String game;
         private String explain;
 
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getGame() {
+            return game;
+        }
+
+        public void setGame(String game) {
+            this.game = game;
+        }
+
+        public String getExplain() {
+            return explain;
+        }
+
+        public void setExplain(String explain) {
+            this.explain = explain;
+        }
+
         LotteryTypeCodeList(int code, String game, String explain) {
             this.code = code;
             this.game = game;

@@ -20,22 +20,30 @@ CREATE TABLE `v9ym`.`fn_lottery20`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = FIXED;
 
-CREATE TABLE `v9ym`.`fn_qxcorder`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `username` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `headimg` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `term` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `mingci` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `money` int(11) NOT NULL,
-  `addtime` datetime NOT NULL,
-  `status` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `jia` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `roomid` int(11) NOT NULL,
-  `chatid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识',
-  `gamename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `gamtype` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `sscorderterm`(`term`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+CREATE TABLE `fn_qxcorder` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`userid`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`username`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`headimg`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`term`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`mingci`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`money`  int(11) NOT NULL ,
+`addtime`  datetime NOT NULL ,
+`status`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`jia`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`roomid`  int(11) NOT NULL ,
+`chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
+`gamename`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`gamtype`  int(11) NOT NULL DEFAULT 0 ,
+`combineBet`  tinyint(1) NOT NULL DEFAULT 2 ,
+PRIMARY KEY (`id`),
+INDEX `term` (`term`) USING BTREE ,
+INDEX `jssscorderterm` (`term`) USING BTREE
+)
+ENGINE=MyISAM
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=350
+ROW_FORMAT=DYNAMIC
+;
