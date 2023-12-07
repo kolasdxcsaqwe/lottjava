@@ -47,6 +47,7 @@ public class QxcController {
                                         @RequestParam(name = "endfourfix",required = false) Float endfourfix,
                                         @RequestParam(name = "frontfourany",required = false) Float frontfourany,
                                         @RequestParam(name = "endfourany",required = false) Float endfourany,
+                                        @RequestParam(name = "touweifix",required = false) Float touweifix,
                                         @RequestParam(name = "minbet",required = false) Float minbet,
                                         @RequestParam(name = "maxbet",required = false) Float maxbet,
                                         @RequestParam(name = "gameopen",required = false) String gameopen,
@@ -69,6 +70,7 @@ public class QxcController {
         lottery20Setting.setMinbet(minbet);
         lottery20Setting.setMaxbet(maxbet);
         lottery20Setting.setRules(rules);
+        lottery20Setting.setTouweifix(touweifix);
         if(!Strings.isEmptyOrNullAmongOf(gameopen))
         {
             switch (gameopen.toLowerCase())

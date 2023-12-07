@@ -31,7 +31,7 @@ CREATE TABLE `fn_qxcorder` (
 `content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `money`  int(11) NOT NULL ,
 `addtime`  datetime NOT NULL ,
-`status`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`status`  int(11) NOT NULL ,
 `jia`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `roomid`  int(11) NOT NULL ,
 `chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
@@ -39,6 +39,7 @@ CREATE TABLE `fn_qxcorder` (
 `gamtype`  int(11) NOT NULL DEFAULT 0 ,
 `orderamount`  int(11) NOT NULL,
 `combineBet`  tinyint(1) NOT NULL DEFAULT 2 ,
+`ordersamount`  int(11) NOT NULL  ,
 PRIMARY KEY (`id`),
 INDEX `term` (`term`) USING BTREE ,
 INDEX `jssscorderterm` (`term`) USING BTREE

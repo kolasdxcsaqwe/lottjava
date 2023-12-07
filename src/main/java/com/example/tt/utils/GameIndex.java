@@ -59,7 +59,6 @@ public class GameIndex {
             this.explain=explain;
         }
 
-
     }
 
     public static Integer getLotteryIndex(String betGame) {
@@ -96,5 +95,31 @@ public class GameIndex {
         }
 
         return "";
+    }
+
+    public enum QXCGameTypeCode {
+        ry3(1, "ry3", "任意三"),
+        ry4(2, "ry4", "任意4"),
+        q4dw(3, "q4dw", "前4定位"),
+        h4dw(4, "h4dw", "后4定位"),
+        q4ry(5, "q4ry", "前4任意"),
+        h4ry(6, "h4ry", "后4任意"),
+        twdw(7, "twdw", "头尾定位"),
+        da(8, "da", "大"),
+        xiao(9, "xiao", "小"),
+        dan(10, "dan", "单"),
+        shuang(11, "shuang", "双");
+
+
+        private int code;
+        private String game;
+        private String explain;
+
+        QXCGameTypeCode(int code, String game, String explain) {
+            this.code = code;
+            this.game = game;
+            this.explain=explain;
+        }
+
     }
 }
