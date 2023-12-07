@@ -4,11 +4,10 @@ package com.example.tt.Controller;
 
 import com.example.tt.Bean.Lottery20Setting;
 import com.example.tt.Bean.LotteryOpenBean;
-import com.example.tt.FormatCheck.QXCBetFormatChecker;
+import com.example.tt.FormatCheck.QXCBetHandler;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.dao.Lottery20SettingMapper;
 import com.example.tt.dao.LotteryOpenBeanMapper;
-import com.example.tt.dao.RobotUserMapper;
 import com.example.tt.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -133,13 +132,20 @@ public class QxcController {
                     isFormatOk = false;
                 }
 
-                int type = jsonObject.optInt("type", -1);
+                String typeCode = jsonObject.optString("typeCode", "");
+                int type=GameIndex.QXCGameTypeCode.getQXCGameTypeCode(typeCode);
+                if(type>0)
+                {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
+                }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                if (!QXCBetFormatChecker.check(codes))
+                if (!QXCBetHandler.check(codes,type))
                 {
                     isFormatOk=false;
                 }
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();

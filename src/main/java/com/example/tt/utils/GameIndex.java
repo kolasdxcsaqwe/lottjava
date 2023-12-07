@@ -121,5 +121,28 @@ public class GameIndex {
             this.explain=explain;
         }
 
+        public static Integer getQXCGameTypeCode(String gameName) {
+            if (Strings.isEmptyOrNullAmongOf(gameName)) {
+                return -1;
+            }
+
+            QXCGameTypeCode qxcGameTypeCode= null;
+
+            try
+            {
+                qxcGameTypeCode=QXCGameTypeCode.valueOf(gameName);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+            if(qxcGameTypeCode!=null)
+            {
+                return qxcGameTypeCode.code;
+            }
+
+            return -1;
+        }
     }
 }
