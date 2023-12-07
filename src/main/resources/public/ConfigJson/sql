@@ -37,6 +37,7 @@ CREATE TABLE `fn_qxcorder` (
 `chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
 `gamename`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
 `gamtype`  int(11) NOT NULL DEFAULT 0 ,
+`orderamount`  int(11) NOT NULL,
 `combineBet`  tinyint(1) NOT NULL DEFAULT 2 ,
 PRIMARY KEY (`id`),
 INDEX `term` (`term`) USING BTREE ,

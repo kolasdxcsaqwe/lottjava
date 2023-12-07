@@ -125,6 +125,7 @@ public class QxcController {
             JSONArray jsonArray=new JSONArray(betArray);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
+                int orderAmount = jsonObject.optInt("orderAmount", 0);
                 int money = jsonObject.optInt("money", 0);
                 if (money < 1) {
                     isFormatOk = false;
