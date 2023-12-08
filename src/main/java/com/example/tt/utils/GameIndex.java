@@ -121,10 +121,31 @@ public class GameIndex {
             this.explain=explain;
         }
 
-        public static Integer getQXCGameTypeCode(String gameName) {
-            if (Strings.isEmptyOrNullAmongOf(gameName)) {
-                return -1;
-            }
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getGame() {
+            return game;
+        }
+
+        public void setGame(String game) {
+            this.game = game;
+        }
+
+        public String getExplain() {
+            return explain;
+        }
+
+        public void setExplain(String explain) {
+            this.explain = explain;
+        }
+
+        public static QXCGameTypeCode getQXCGameTypeCode(String gameName) {
 
             QXCGameTypeCode qxcGameTypeCode= null;
 
@@ -137,12 +158,7 @@ public class GameIndex {
                 ex.printStackTrace();
             }
 
-            if(qxcGameTypeCode!=null)
-            {
-                return qxcGameTypeCode.code;
-            }
-
-            return -1;
+            return qxcGameTypeCode;
         }
     }
 }

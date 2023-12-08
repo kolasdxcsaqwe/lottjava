@@ -6,6 +6,7 @@ import com.example.tt.Bean.Lottery20Setting;
 import com.example.tt.Bean.LotteryOpenBean;
 import com.example.tt.FormatCheck.QXCBetHandler;
 import com.example.tt.OpenResult.LotteryConfigGetter;
+import com.example.tt.Service.QxcService;
 import com.example.tt.dao.Lottery20SettingMapper;
 import com.example.tt.dao.LotteryOpenBeanMapper;
 import com.example.tt.utils.*;
@@ -20,7 +21,7 @@ public class QxcController {
     Lottery20SettingMapper lottery20SettingMapper;
 
     @Autowired(required = false)
-    LotteryOpenBeanMapper lotteryOpenBeanMapper;
+    QxcService qxcService;
 
     //<p>11.54%  15.6  7.3 任意3</p>
     //         <p>4.577% 39.32  19.66 任意4</p>
@@ -99,65 +100,8 @@ public class QxcController {
 
     @ResponseBody
     @RequestMapping(value = "/QXCSendChat", method = RequestMethod.POST)
-    public Object QXCSendChat(@RequestParam(name = "betArray") String betArray) {
-
-        Lottery20Setting lottery20Setting= LotteryConfigGetter.getInstance().getLottery20Setting();
-        int fengTime=lottery20Setting.getFengtime();
-
-        LotteryOpenBean lotteryOpenBean =lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
-        if(!lottery20Setting.getGameopen() || lotteryOpenBean==null || lotteryOpenBean.getNextTime()==null)
-        {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
-        }
-
-        if(lotteryOpenBean.getNextTime().getTime()-System.currentTimeMillis()>fengTime*1000)
-        {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
-        }
-
-        if(Strings.isEmptyOrNullAmongOf(betArray))
-        {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
-        }
-
-        boolean isFormatOk=true;
-        try {
-
-            JSONArray jsonArray=new JSONArray(betArray);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.optJSONObject(i);
-                int orderAmount = jsonObject.optInt("orderAmount", 0);
-                int money = jsonObject.optInt("money", 0);
-                if (money < 1) {
-                    isFormatOk = false;
-                }
-
-                String typeCode = jsonObject.optString("typeCode", "");
-                int type=GameIndex.QXCGameTypeCode.getQXCGameTypeCode(typeCode);
-                if(type>0)
-                {
-                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
-                }
-
-                JSONArray codes = jsonObject.optJSONArray("codes");
-                if (!QXCBetHandler.check(codes,type))
-                {
-                    isFormatOk=false;
-                }
-
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            isFormatOk=false;
-        }
-
-        if(!isFormatOk)
-        {
-            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
-        }
-
-
-        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery20Setting());
+    public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
+                              @RequestParam(name = "userId") String userId) {
+        return qxcService.betQXC(betArray);
     }
 }

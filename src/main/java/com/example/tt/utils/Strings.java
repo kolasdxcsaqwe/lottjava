@@ -34,6 +34,22 @@ public class Strings {
         return false;
     }
 
+    public static boolean isEqualsIgnoreCaseAmongOf(String val,String ... args)
+    {
+        if(args==null || val==null)
+        {
+            return false;
+        }
+        for (int i = 0; i <args.length ; i++) {
+            if(args[i]!=null && args[i].length()!=0 && val.equalsIgnoreCase(args[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean isDigitOnly(String string) {
         if (isNullAmongOf(string)) return false;
         for (int i = 0; i < string.length(); i++) {

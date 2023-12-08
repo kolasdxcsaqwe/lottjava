@@ -17,7 +17,10 @@ public class ReturnDataBuilder {
         S8(-8, "您发送的内容内含有屏蔽词汇,请删除后重试."),
         S9(-9, "操作失败"),
         S10(-10,"投注格式不正确"),
-        S11(-11,"已经封盘请等待下一期");
+        S11(-11,"已经封盘请等待下一期"),
+        S12(-12,"该用户名已经被注册，请更换用户名"),
+        S13(-13,"用户名或者密码不正确"),
+        S14(-14,"登录过期，请重新登录");
 
         private int code;
         private String msg;
@@ -68,6 +71,7 @@ public class ReturnDataBuilder {
         Map map=new HashMap();
         map.put("msg","操作成功");
         map.put("code",0);
+        map.put("success","true");
         if(object!=null)
         {
             map.put("datas",object);

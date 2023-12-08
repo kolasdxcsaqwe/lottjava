@@ -1,5 +1,6 @@
 package com.example.tt.Controller;
 
+import com.example.tt.Service.QxcService;
 import com.example.tt.utils.FetchLotteryResultTask;
 import com.example.tt.utils.RedisCache;
 import com.example.tt.utils.ReturnDataBuilder;
@@ -21,12 +22,9 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class hello {
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
     @ResponseBody
     @RequestMapping(value = "/hello")
-    public String hello(@RequestParam(name = "param") String param)
+    public String hello(@RequestParam(name = "param",required = false) String param)
     {
 //        redisTemplate.opsForValue().set("ccc","123",2000, TimeUnit.SECONDS);
 //        redisTemplate.opsForValue().set("ccc","5454",2000, TimeUnit.SECONDS);

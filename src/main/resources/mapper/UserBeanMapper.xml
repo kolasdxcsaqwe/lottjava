@@ -54,6 +54,26 @@
     where userid = #{userid,jdbcType=VARCHAR} limit 1
   </select>
 
+  <select id="selectByUserAndRoomId"  resultMap="ResultMapWithBLOBs">
+    select
+    *
+    from fn_user
+    where loginuser = #{userName,jdbcType=VARCHAR}
+    and roomid = #{roomId,jdbcType=INTEGER}
+    and agent = #{agent,jdbcType=VARCHAR} limit 1
+  </select>
+
+  <select id="selectByUserAndRoomIdAndPassword"  resultMap="ResultMapWithBLOBs">
+    select
+    *
+    from fn_user
+    where loginuser = #{userName,jdbcType=VARCHAR}
+    and roomid = #{roomId,jdbcType=INTEGER}
+    and loginpass = #{password,jdbcType=VARCHAR}
+    and agent = #{agent,jdbcType=VARCHAR} limit 1
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_user
     where id = #{id,jdbcType=INTEGER}

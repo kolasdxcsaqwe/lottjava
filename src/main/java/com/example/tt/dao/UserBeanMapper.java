@@ -19,4 +19,10 @@ public interface UserBeanMapper {
     int updateByPrimaryKey(UserBean record);
 
     UserBean selectByUserId(@Param("userid") String userId);
+
+    UserBean selectByUserAndRoomId(@Param("userName") String userName,@Param("roomId") Integer roomId,@Param("agent") String agent);
+
+    UserBean selectByUserAndRoomIdAndPassword(@Param("userName") String userName,@Param("roomId") Integer roomId,@Param("password") String password,@Param("agent") String agent);
+
+
 }
