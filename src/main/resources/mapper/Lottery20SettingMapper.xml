@@ -281,7 +281,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery20Setting">
+  <insert id="updateOrInsertById" parameterType="com.example.tt.Bean.Lottery20Setting">
     replace into fn_lottery20
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

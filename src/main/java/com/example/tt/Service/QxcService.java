@@ -175,6 +175,11 @@ public class QxcService {
                     isFormatOk=false;
                 }
 
+                if(orderAmount>1 && orderPrice%orderAmount!=0)
+                {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
+                }
+
                 if(!isFormatOk)
                 {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
