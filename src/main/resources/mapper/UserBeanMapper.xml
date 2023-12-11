@@ -46,6 +46,370 @@
     from fn_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.UserBean">
+    insert into fn_user (id, tixian, bzname, 
+      money, roomid, statustime, 
+      aztime, shuashui, tixianxianzhi, 
+      timeold, loginuser, loginpass, 
+      yinhang, huming, kahao, 
+      level, sessionid, isonline, 
+      robot, userid, username, 
+      hmd, headimg, agent, 
+      isagent, jia)
+    values (#{id,jdbcType=INTEGER}, #{tixian,jdbcType=VARCHAR}, #{bzname,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL}, #{roomid,jdbcType=INTEGER}, #{statustime,jdbcType=INTEGER}, 
+      #{aztime,jdbcType=TIMESTAMP}, #{shuashui,jdbcType=VARCHAR}, #{tixianxianzhi,jdbcType=INTEGER}, 
+      #{timeold,jdbcType=DATE}, #{loginuser,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR}, 
+      #{yinhang,jdbcType=VARCHAR}, #{huming,jdbcType=VARCHAR}, #{kahao,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{sessionid,jdbcType=VARCHAR}, #{isonline,jdbcType=VARCHAR}, 
+      #{robot,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, 
+      #{hmd,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, #{agent,jdbcType=LONGVARCHAR}, 
+      #{isagent,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.UserBean">
+    insert into fn_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tixian != null">
+        tixian,
+      </if>
+      <if test="bzname != null">
+        bzname,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="statustime != null">
+        statustime,
+      </if>
+      <if test="aztime != null">
+        aztime,
+      </if>
+      <if test="shuashui != null">
+        shuashui,
+      </if>
+      <if test="tixianxianzhi != null">
+        tixianxianzhi,
+      </if>
+      <if test="timeold != null">
+        timeold,
+      </if>
+      <if test="loginuser != null">
+        loginuser,
+      </if>
+      <if test="loginpass != null">
+        loginpass,
+      </if>
+      <if test="yinhang != null">
+        yinhang,
+      </if>
+      <if test="huming != null">
+        huming,
+      </if>
+      <if test="kahao != null">
+        kahao,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="sessionid != null">
+        sessionid,
+      </if>
+      <if test="isonline != null">
+        isonline,
+      </if>
+      <if test="robot != null">
+        robot,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="hmd != null">
+        hmd,
+      </if>
+      <if test="headimg != null">
+        headimg,
+      </if>
+      <if test="agent != null">
+        agent,
+      </if>
+      <if test="isagent != null">
+        isagent,
+      </if>
+      <if test="jia != null">
+        jia,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tixian != null">
+        #{tixian,jdbcType=VARCHAR},
+      </if>
+      <if test="bzname != null">
+        #{bzname,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="statustime != null">
+        #{statustime,jdbcType=INTEGER},
+      </if>
+      <if test="aztime != null">
+        #{aztime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shuashui != null">
+        #{shuashui,jdbcType=VARCHAR},
+      </if>
+      <if test="tixianxianzhi != null">
+        #{tixianxianzhi,jdbcType=INTEGER},
+      </if>
+      <if test="timeold != null">
+        #{timeold,jdbcType=DATE},
+      </if>
+      <if test="loginuser != null">
+        #{loginuser,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpass != null">
+        #{loginpass,jdbcType=VARCHAR},
+      </if>
+      <if test="yinhang != null">
+        #{yinhang,jdbcType=VARCHAR},
+      </if>
+      <if test="huming != null">
+        #{huming,jdbcType=VARCHAR},
+      </if>
+      <if test="kahao != null">
+        #{kahao,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="sessionid != null">
+        #{sessionid,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null">
+        #{isonline,jdbcType=VARCHAR},
+      </if>
+      <if test="robot != null">
+        #{robot,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hmd != null">
+        #{hmd,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="agent != null">
+        #{agent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="isagent != null">
+        #{isagent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jia != null">
+        #{jia,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.UserBean">
+    update fn_user
+    <set>
+      <if test="tixian != null">
+        tixian = #{tixian,jdbcType=VARCHAR},
+      </if>
+      <if test="bzname != null">
+        bzname = #{bzname,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="statustime != null">
+        statustime = #{statustime,jdbcType=INTEGER},
+      </if>
+      <if test="aztime != null">
+        aztime = #{aztime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shuashui != null">
+        shuashui = #{shuashui,jdbcType=VARCHAR},
+      </if>
+      <if test="tixianxianzhi != null">
+        tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
+      </if>
+      <if test="timeold != null">
+        timeold = #{timeold,jdbcType=DATE},
+      </if>
+      <if test="loginuser != null">
+        loginuser = #{loginuser,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpass != null">
+        loginpass = #{loginpass,jdbcType=VARCHAR},
+      </if>
+      <if test="yinhang != null">
+        yinhang = #{yinhang,jdbcType=VARCHAR},
+      </if>
+      <if test="huming != null">
+        huming = #{huming,jdbcType=VARCHAR},
+      </if>
+      <if test="kahao != null">
+        kahao = #{kahao,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="sessionid != null">
+        sessionid = #{sessionid,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null">
+        isonline = #{isonline,jdbcType=VARCHAR},
+      </if>
+      <if test="robot != null">
+        robot = #{robot,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="hmd != null">
+        hmd = #{hmd,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="headimg != null">
+        headimg = #{headimg,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="agent != null">
+        agent = #{agent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="isagent != null">
+        isagent = #{isagent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jia != null">
+        jia = #{jia,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.UserBean">
+    update fn_user
+    set tixian = #{tixian,jdbcType=VARCHAR},
+      bzname = #{bzname,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL},
+      roomid = #{roomid,jdbcType=INTEGER},
+      statustime = #{statustime,jdbcType=INTEGER},
+      aztime = #{aztime,jdbcType=TIMESTAMP},
+      shuashui = #{shuashui,jdbcType=VARCHAR},
+      tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
+      timeold = #{timeold,jdbcType=DATE},
+      loginuser = #{loginuser,jdbcType=VARCHAR},
+      loginpass = #{loginpass,jdbcType=VARCHAR},
+      yinhang = #{yinhang,jdbcType=VARCHAR},
+      huming = #{huming,jdbcType=VARCHAR},
+      kahao = #{kahao,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      sessionid = #{sessionid,jdbcType=VARCHAR},
+      isonline = #{isonline,jdbcType=VARCHAR},
+      robot = #{robot,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=LONGVARCHAR},
+      username = #{username,jdbcType=LONGVARCHAR},
+      hmd = #{hmd,jdbcType=LONGVARCHAR},
+      headimg = #{headimg,jdbcType=LONGVARCHAR},
+      agent = #{agent,jdbcType=LONGVARCHAR},
+      isagent = #{isagent,jdbcType=LONGVARCHAR},
+      jia = #{jia,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.UserBean">
+    update fn_user
+    set tixian = #{tixian,jdbcType=VARCHAR},
+      bzname = #{bzname,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL},
+      roomid = #{roomid,jdbcType=INTEGER},
+      statustime = #{statustime,jdbcType=INTEGER},
+      aztime = #{aztime,jdbcType=TIMESTAMP},
+      shuashui = #{shuashui,jdbcType=VARCHAR},
+      tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
+      timeold = #{timeold,jdbcType=DATE},
+      loginuser = #{loginuser,jdbcType=VARCHAR},
+      loginpass = #{loginpass,jdbcType=VARCHAR},
+      yinhang = #{yinhang,jdbcType=VARCHAR},
+      huming = #{huming,jdbcType=VARCHAR},
+      kahao = #{kahao,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      sessionid = #{sessionid,jdbcType=VARCHAR},
+      isonline = #{isonline,jdbcType=VARCHAR},
+      robot = #{robot,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.UserBean">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tixian" jdbcType="VARCHAR" property="tixian" />
+    <result column="bzname" jdbcType="VARCHAR" property="bzname" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="statustime" jdbcType="INTEGER" property="statustime" />
+    <result column="aztime" jdbcType="TIMESTAMP" property="aztime" />
+    <result column="shuashui" jdbcType="VARCHAR" property="shuashui" />
+    <result column="tixianxianzhi" jdbcType="INTEGER" property="tixianxianzhi" />
+    <result column="timeold" jdbcType="DATE" property="timeold" />
+    <result column="loginuser" jdbcType="VARCHAR" property="loginuser" />
+    <result column="loginpass" jdbcType="VARCHAR" property="loginpass" />
+    <result column="yinhang" jdbcType="VARCHAR" property="yinhang" />
+    <result column="huming" jdbcType="VARCHAR" property="huming" />
+    <result column="kahao" jdbcType="VARCHAR" property="kahao" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="sessionid" jdbcType="VARCHAR" property="sessionid" />
+    <result column="isonline" jdbcType="VARCHAR" property="isonline" />
+    <result column="robot" jdbcType="VARCHAR" property="robot" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.UserBean">
+    <result column="userid" jdbcType="LONGVARCHAR" property="userid" />
+    <result column="username" jdbcType="LONGVARCHAR" property="username" />
+    <result column="hmd" jdbcType="LONGVARCHAR" property="hmd" />
+    <result column="headimg" jdbcType="LONGVARCHAR" property="headimg" />
+    <result column="agent" jdbcType="LONGVARCHAR" property="agent" />
+    <result column="isagent" jdbcType="LONGVARCHAR" property="isagent" />
+    <result column="jia" jdbcType="LONGVARCHAR" property="jia" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tixian, bzname, money, roomid, statustime, aztime, shuashui, tixianxianzhi, timeold, 
+    loginuser, loginpass, yinhang, huming, kahao, level, sessionid, isonline, robot
+  </sql>
+  <sql id="Blob_Column_List">
+    userid, username, hmd, headimg, agent, isagent, jia
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
 
   <select id="selectByUserId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select
@@ -54,7 +418,7 @@
     where userid = #{userid,jdbcType=VARCHAR} limit 1
   </select>
 
-  <select id="selectByUserAndRoomId"  resultMap="ResultMapWithBLOBs">
+  <select id="selectByUserAndRoomId" resultMap="ResultMapWithBLOBs">
     select
     *
     from fn_user
@@ -63,7 +427,7 @@
     and agent = #{agent,jdbcType=VARCHAR} limit 1
   </select>
 
-  <select id="selectByUserAndRoomIdAndPassword"  resultMap="ResultMapWithBLOBs">
+  <select id="selectByUserAndRoomIdAndPassword" resultMap="ResultMapWithBLOBs">
     select
     *
     from fn_user
