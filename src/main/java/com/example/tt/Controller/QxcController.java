@@ -41,12 +41,12 @@ public class QxcController {
     @RequestMapping(value = "/qxcLotterySettingEdit", method = RequestMethod.POST)
     public Object qxcLotterySettingEdit(@RequestParam(name = "roomid") Integer roomid,
                                         @RequestParam(name = "dxds",required = false) Float dxds,
+                                        @RequestParam(name = "anytwo",required = false) Float anytwo,
                                         @RequestParam(name = "anythree",required = false) Float anythree,
-                                        @RequestParam(name = "anyfour",required = false) Float anyfour,
-                                        @RequestParam(name = "frontfourfix",required = false) Float frontfourfix,
-                                        @RequestParam(name = "endfourfix",required = false) Float endfourfix,
-                                        @RequestParam(name = "frontfourany",required = false) Float frontfourany,
-                                        @RequestParam(name = "endfourany",required = false) Float endfourany,
+                                        @RequestParam(name = "fourfix",required = false) Float fourfix,
+                                        @RequestParam(name = "threefix",required = false) Float threefix,
+                                        @RequestParam(name = "twofix",required = false) Float twofix,
+                                        @RequestParam(name = "onefix",required = false) Float onefix,
                                         @RequestParam(name = "touweifix",required = false) Float touweifix,
                                         @RequestParam(name = "minbet",required = false) Float minbet,
                                         @RequestParam(name = "maxbet",required = false) Float maxbet,
@@ -62,11 +62,11 @@ public class QxcController {
         lottery20Setting.setDan(dxds);
         lottery20Setting.setShuang(dxds);
         lottery20Setting.setAnythree(anythree);
-        lottery20Setting.setAnyfour(anyfour);
-        lottery20Setting.setFrontfourany(frontfourany);
-        lottery20Setting.setFrontfourfix(frontfourfix);
-        lottery20Setting.setEndfourany(endfourany);
-        lottery20Setting.setEndfourfix(endfourfix);
+        lottery20Setting.setAnytwo(anytwo);
+        lottery20Setting.setFourfix(fourfix);
+        lottery20Setting.setThreefix(threefix);
+        lottery20Setting.setTwofix(twofix);
+        lottery20Setting.setOnefix(onefix);
         lottery20Setting.setMinbet(minbet);
         lottery20Setting.setMaxbet(maxbet);
         lottery20Setting.setRules(rules);
@@ -101,7 +101,8 @@ public class QxcController {
     @ResponseBody
     @RequestMapping(value = "/QXCSendChat", method = RequestMethod.POST)
     public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
-                              @RequestParam(name = "userId") String userId) {
-        return qxcService.betQXC(betArray);
+                              @RequestParam(name = "userId") String userId,
+                              @RequestParam(name = "roomId") String roomId) {
+        return qxcService.betQXC(betArray,userId,roomId);
     }
 }

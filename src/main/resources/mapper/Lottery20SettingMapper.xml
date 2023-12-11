@@ -10,22 +10,22 @@
     <result column="dan" jdbcType="REAL" property="dan" />
     <result column="shuang" jdbcType="REAL" property="shuang" />
     <result column="anythree" jdbcType="REAL" property="anythree" />
-    <result column="anyfour" jdbcType="REAL" property="anyfour" />
-    <result column="frontfourfix" jdbcType="REAL" property="frontfourfix" />
-    <result column="endfourfix" jdbcType="REAL" property="endfourfix" />
-    <result column="frontfourany" jdbcType="REAL" property="frontfourany" />
-    <result column="endfourany" jdbcType="REAL" property="endfourany" />
+    <result column="anytwo" jdbcType="REAL" property="anytwo" />
+    <result column="fourfix" jdbcType="REAL" property="fourfix" />
+    <result column="threefix" jdbcType="REAL" property="threefix" />
+    <result column="twofix" jdbcType="REAL" property="twofix" />
+    <result column="onefix" jdbcType="REAL" property="onefix" />
+    <result column="touweifix" jdbcType="REAL" property="touweifix" />
     <result column="minbet" jdbcType="REAL" property="minbet" />
     <result column="maxbet" jdbcType="REAL" property="maxbet" />
     <result column="fengtime" jdbcType="INTEGER" property="fengtime" />
-    <result column="touweifix" jdbcType="REAL" property="touweifix" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.Lottery20Setting">
     <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, roomid, gameopen, da, xiao, dan, shuang, anythree, anyfour, frontfourfix, endfourfix, 
-    frontfourany, endfourany, minbet, maxbet,touweifix,rules,fengtime
+    id, roomid, gameopen, da, xiao, dan, shuang, anythree, anytwo, fourfix, threefix, 
+    twofix, onefix, touweifix, minbet, maxbet, fengtime
   </sql>
   <sql id="Blob_Column_List">
     rules
@@ -40,6 +40,7 @@
     where roomid = #{roomid,jdbcType=INTEGER}
   </select>
 
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
@@ -48,7 +49,6 @@
     from fn_lottery20
     where id = #{id,jdbcType=INTEGER}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_lottery20
     where id = #{id,jdbcType=INTEGER}
@@ -56,15 +56,15 @@
   <insert id="insert" parameterType="com.example.tt.Bean.Lottery20Setting">
     insert into fn_lottery20 (id, roomid, gameopen, 
       da, xiao, dan, shuang, 
-      anythree, anyfour, frontfourfix, 
-      endfourfix, frontfourany, endfourany, 
-      minbet, maxbet, rules
+      anythree, anytwo, fourfix, threefix, 
+      twofix, onefix, touweifix, minbet, 
+      maxbet, fengtime, rules
       )
     values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{gameopen,jdbcType=BIT}, 
       #{da,jdbcType=REAL}, #{xiao,jdbcType=REAL}, #{dan,jdbcType=REAL}, #{shuang,jdbcType=REAL}, 
-      #{anythree,jdbcType=REAL}, #{anyfour,jdbcType=REAL}, #{frontfourfix,jdbcType=REAL}, 
-      #{endfourfix,jdbcType=REAL}, #{frontfourany,jdbcType=REAL}, #{endfourany,jdbcType=REAL}, 
-      #{minbet,jdbcType=REAL}, #{maxbet,jdbcType=REAL}, #{rules,jdbcType=LONGVARCHAR}
+      #{anythree,jdbcType=REAL}, #{anytwo,jdbcType=REAL}, #{fourfix,jdbcType=REAL}, #{threefix,jdbcType=REAL}, 
+      #{twofix,jdbcType=REAL}, #{onefix,jdbcType=REAL}, #{touweifix,jdbcType=REAL}, #{minbet,jdbcType=REAL}, 
+      #{maxbet,jdbcType=REAL}, #{fengtime,jdbcType=INTEGER}, #{rules,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery20Setting">
@@ -94,26 +94,32 @@
       <if test="anythree != null">
         anythree,
       </if>
-      <if test="anyfour != null">
-        anyfour,
+      <if test="anytwo != null">
+        anytwo,
       </if>
-      <if test="frontfourfix != null">
-        frontfourfix,
+      <if test="fourfix != null">
+        fourfix,
       </if>
-      <if test="endfourfix != null">
-        endfourfix,
+      <if test="threefix != null">
+        threefix,
       </if>
-      <if test="frontfourany != null">
-        frontfourany,
+      <if test="twofix != null">
+        twofix,
       </if>
-      <if test="endfourany != null">
-        endfourany,
+      <if test="onefix != null">
+        onefix,
+      </if>
+      <if test="touweifix != null">
+        touweifix,
       </if>
       <if test="minbet != null">
         minbet,
       </if>
       <if test="maxbet != null">
         maxbet,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
       </if>
       <if test="rules != null">
         rules,
@@ -144,26 +150,32 @@
       <if test="anythree != null">
         #{anythree,jdbcType=REAL},
       </if>
-      <if test="anyfour != null">
-        #{anyfour,jdbcType=REAL},
+      <if test="anytwo != null">
+        #{anytwo,jdbcType=REAL},
       </if>
-      <if test="frontfourfix != null">
-        #{frontfourfix,jdbcType=REAL},
+      <if test="fourfix != null">
+        #{fourfix,jdbcType=REAL},
       </if>
-      <if test="endfourfix != null">
-        #{endfourfix,jdbcType=REAL},
+      <if test="threefix != null">
+        #{threefix,jdbcType=REAL},
       </if>
-      <if test="frontfourany != null">
-        #{frontfourany,jdbcType=REAL},
+      <if test="twofix != null">
+        #{twofix,jdbcType=REAL},
       </if>
-      <if test="endfourany != null">
-        #{endfourany,jdbcType=REAL},
+      <if test="onefix != null">
+        #{onefix,jdbcType=REAL},
+      </if>
+      <if test="touweifix != null">
+        #{touweifix,jdbcType=REAL},
       </if>
       <if test="minbet != null">
         #{minbet,jdbcType=REAL},
       </if>
       <if test="maxbet != null">
         #{maxbet,jdbcType=REAL},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
       </if>
       <if test="rules != null">
         #{rules,jdbcType=LONGVARCHAR},
@@ -194,26 +206,32 @@
       <if test="anythree != null">
         anythree = #{anythree,jdbcType=REAL},
       </if>
-      <if test="anyfour != null">
-        anyfour = #{anyfour,jdbcType=REAL},
+      <if test="anytwo != null">
+        anytwo = #{anytwo,jdbcType=REAL},
       </if>
-      <if test="frontfourfix != null">
-        frontfourfix = #{frontfourfix,jdbcType=REAL},
+      <if test="fourfix != null">
+        fourfix = #{fourfix,jdbcType=REAL},
       </if>
-      <if test="endfourfix != null">
-        endfourfix = #{endfourfix,jdbcType=REAL},
+      <if test="threefix != null">
+        threefix = #{threefix,jdbcType=REAL},
       </if>
-      <if test="frontfourany != null">
-        frontfourany = #{frontfourany,jdbcType=REAL},
+      <if test="twofix != null">
+        twofix = #{twofix,jdbcType=REAL},
       </if>
-      <if test="endfourany != null">
-        endfourany = #{endfourany,jdbcType=REAL},
+      <if test="onefix != null">
+        onefix = #{onefix,jdbcType=REAL},
+      </if>
+      <if test="touweifix != null">
+        touweifix = #{touweifix,jdbcType=REAL},
       </if>
       <if test="minbet != null">
         minbet = #{minbet,jdbcType=REAL},
       </if>
       <if test="maxbet != null">
         maxbet = #{maxbet,jdbcType=REAL},
+      </if>
+      <if test="fengtime != null">
+        fengtime = #{fengtime,jdbcType=INTEGER},
       </if>
       <if test="rules != null">
         rules = #{rules,jdbcType=LONGVARCHAR},
@@ -230,13 +248,15 @@
       dan = #{dan,jdbcType=REAL},
       shuang = #{shuang,jdbcType=REAL},
       anythree = #{anythree,jdbcType=REAL},
-      anyfour = #{anyfour,jdbcType=REAL},
-      frontfourfix = #{frontfourfix,jdbcType=REAL},
-      endfourfix = #{endfourfix,jdbcType=REAL},
-      frontfourany = #{frontfourany,jdbcType=REAL},
-      endfourany = #{endfourany,jdbcType=REAL},
+      anytwo = #{anytwo,jdbcType=REAL},
+      fourfix = #{fourfix,jdbcType=REAL},
+      threefix = #{threefix,jdbcType=REAL},
+      twofix = #{twofix,jdbcType=REAL},
+      onefix = #{onefix,jdbcType=REAL},
+      touweifix = #{touweifix,jdbcType=REAL},
       minbet = #{minbet,jdbcType=REAL},
       maxbet = #{maxbet,jdbcType=REAL},
+      fengtime = #{fengtime,jdbcType=INTEGER},
       rules = #{rules,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -249,17 +269,19 @@
       dan = #{dan,jdbcType=REAL},
       shuang = #{shuang,jdbcType=REAL},
       anythree = #{anythree,jdbcType=REAL},
-      anyfour = #{anyfour,jdbcType=REAL},
-      frontfourfix = #{frontfourfix,jdbcType=REAL},
-      endfourfix = #{endfourfix,jdbcType=REAL},
-      frontfourany = #{frontfourany,jdbcType=REAL},
-      endfourany = #{endfourany,jdbcType=REAL},
+      anytwo = #{anytwo,jdbcType=REAL},
+      fourfix = #{fourfix,jdbcType=REAL},
+      threefix = #{threefix,jdbcType=REAL},
+      twofix = #{twofix,jdbcType=REAL},
+      onefix = #{onefix,jdbcType=REAL},
+      touweifix = #{touweifix,jdbcType=REAL},
       minbet = #{minbet,jdbcType=REAL},
-      maxbet = #{maxbet,jdbcType=REAL}
+      maxbet = #{maxbet,jdbcType=REAL},
+      fengtime = #{fengtime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="updateOrInsertById" parameterType="com.example.tt.Bean.Lottery20Setting">
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery20Setting">
     replace into fn_lottery20
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -286,20 +308,23 @@
       <if test="anythree != null">
         anythree,
       </if>
-      <if test="anyfour != null">
-        anyfour,
+      <if test="anytwo != null">
+        anytwo,
       </if>
-      <if test="frontfourfix != null">
-        frontfourfix,
+      <if test="fourfix != null">
+        fourfix,
       </if>
-      <if test="endfourfix != null">
-        endfourfix,
+      <if test="threefix != null">
+        threefix,
       </if>
-      <if test="frontfourany != null">
-        frontfourany,
+      <if test="twofix != null">
+        twofix,
       </if>
-      <if test="endfourany != null">
-        endfourany,
+      <if test="onefix != null">
+        onefix,
+      </if>
+      <if test="touweifix != null">
+        touweifix,
       </if>
       <if test="minbet != null">
         minbet,
@@ -307,17 +332,13 @@
       <if test="maxbet != null">
         maxbet,
       </if>
-      <if test="touweifix != null">
-        touweifix,
+      <if test="fengtime != null">
+        fengtime,
       </if>
       <if test="rules != null">
         rules,
       </if>
-      <if test="fengtime != null">
-        fengtime,
-      </if>
     </trim>
-
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
@@ -343,20 +364,23 @@
       <if test="anythree != null">
         #{anythree,jdbcType=REAL},
       </if>
-      <if test="anyfour != null">
-        #{anyfour,jdbcType=REAL},
+      <if test="anytwo != null">
+        #{anytwo,jdbcType=REAL},
       </if>
-      <if test="frontfourfix != null">
-        #{frontfourfix,jdbcType=REAL},
+      <if test="fourfix != null">
+        #{fourfix,jdbcType=REAL},
       </if>
-      <if test="endfourfix != null">
-        #{endfourfix,jdbcType=REAL},
+      <if test="threefix != null">
+        #{threefix,jdbcType=REAL},
       </if>
-      <if test="frontfourany != null">
-        #{frontfourany,jdbcType=REAL},
+      <if test="twofix != null">
+        #{twofix,jdbcType=REAL},
       </if>
-      <if test="endfourany != null">
-        #{endfourany,jdbcType=REAL},
+      <if test="onefix != null">
+        #{onefix,jdbcType=REAL},
+      </if>
+      <if test="touweifix != null">
+        #{touweifix,jdbcType=REAL},
       </if>
       <if test="minbet != null">
         #{minbet,jdbcType=REAL},
@@ -364,17 +388,12 @@
       <if test="maxbet != null">
         #{maxbet,jdbcType=REAL},
       </if>
-      <if test="touweifix != null">
-        #{touweifix,jdbcType=REAL},
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
       </if>
       <if test="rules != null">
         #{rules,jdbcType=LONGVARCHAR},
       </if>
-      <if test="fengtime != null">
-        #{fengtime,jdbcType=INTEGER},
-      </if>
-
     </trim>
-
   </insert>
 </mapper>

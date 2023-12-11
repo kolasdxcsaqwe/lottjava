@@ -39,7 +39,7 @@
     userid, username, hmd, headimg, agent, isagent, jia
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -411,11 +411,11 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByUserId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByUserId"  resultMap="ResultMapWithBLOBs">
     select
     headimg,username
     from fn_user
-    where userid = #{userid,jdbcType=VARCHAR} limit 1
+    where userid = #{userid,jdbcType=VARCHAR} and roomid = #{roomId,jdbcType=INTEGER} limit 1
   </select>
 
   <select id="selectByUserAndRoomId" resultMap="ResultMapWithBLOBs">
@@ -443,23 +443,23 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.tt.Bean.UserBean">
-    insert into fn_user (id, tixian, bzname, 
-      money, roomid, statustime, 
-      aztime, shuashui, tixianxianzhi, 
-      timeold, loginuser, loginpass, 
-      yinhang, huming, kahao, 
-      level, sessionid, isonline, 
-      robot, userid, username, 
-      hmd, headimg, agent, 
+    insert into fn_user (id, tixian, bzname,
+      money, roomid, statustime,
+      aztime, shuashui, tixianxianzhi,
+      timeold, loginuser, loginpass,
+      yinhang, huming, kahao,
+      level, sessionid, isonline,
+      robot, userid, username,
+      hmd, headimg, agent,
       isagent, jia)
-    values (#{id,jdbcType=INTEGER}, #{tixian,jdbcType=VARCHAR}, #{bzname,jdbcType=VARCHAR}, 
-      #{money,jdbcType=DECIMAL}, #{roomid,jdbcType=INTEGER}, #{statustime,jdbcType=INTEGER}, 
-      #{aztime,jdbcType=TIMESTAMP}, #{shuashui,jdbcType=VARCHAR}, #{tixianxianzhi,jdbcType=INTEGER}, 
-      #{timeold,jdbcType=DATE}, #{loginuser,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR}, 
-      #{yinhang,jdbcType=VARCHAR}, #{huming,jdbcType=VARCHAR}, #{kahao,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{sessionid,jdbcType=VARCHAR}, #{isonline,jdbcType=VARCHAR}, 
-      #{robot,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, 
-      #{hmd,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, #{agent,jdbcType=LONGVARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{tixian,jdbcType=VARCHAR}, #{bzname,jdbcType=VARCHAR},
+      #{money,jdbcType=DECIMAL}, #{roomid,jdbcType=INTEGER}, #{statustime,jdbcType=INTEGER},
+      #{aztime,jdbcType=TIMESTAMP}, #{shuashui,jdbcType=VARCHAR}, #{tixianxianzhi,jdbcType=INTEGER},
+      #{timeold,jdbcType=DATE}, #{loginuser,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR},
+      #{yinhang,jdbcType=VARCHAR}, #{huming,jdbcType=VARCHAR}, #{kahao,jdbcType=VARCHAR},
+      #{level,jdbcType=INTEGER}, #{sessionid,jdbcType=VARCHAR}, #{isonline,jdbcType=VARCHAR},
+      #{robot,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR},
+      #{hmd,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, #{agent,jdbcType=LONGVARCHAR},
       #{isagent,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.tt.Bean.UserBean">

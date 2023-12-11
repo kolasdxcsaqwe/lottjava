@@ -98,13 +98,13 @@ public class GameIndex {
     }
 
     public enum QXCGameTypeCode {
-        ry3(1, "ry3", "任意三"),
-        ry4(2, "ry4", "任意4"),
-        q4dw(3, "q4dw", "前4定位"),
-        h4dw(4, "h4dw", "后4定位"),
-        q4ry(5, "q4ry", "前4任意"),
-        h4ry(6, "h4ry", "后4任意"),
-        twdw(7, "twdw", "头尾定位"),
+        ry3(1, "ry3", "任意3"),
+        ry4(2, "ry4", "任意2"),
+        d4(3, "d4", "4定"),
+        d3(4, "d3", "3定"),
+        d2(5, "d2", "2定"),
+        d1(6, "d1", "2定"),
+        tw(7, "tw", "头尾"),
         da(8, "da", "大"),
         xiao(9, "xiao", "小"),
         dan(10, "dan", "单"),

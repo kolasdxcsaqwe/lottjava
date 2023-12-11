@@ -2,21 +2,21 @@ CREATE TABLE `v9ym`.`fn_lottery20`  (
   `id` int(11) NOT NULL DEFAULT 10029,
   `roomid` int(11) NOT NULL DEFAULT 10029,
   `gameopen` tinyint(1) NOT NULL DEFAULT 2,
-  `da` float NOT NULL DEFAULT 1.96,
-  `xiao` float NOT NULL DEFAULT 1.96,
-  `dan` float NOT NULL DEFAULT 1.96,
-  `shuang` float NOT NULL DEFAULT 1.96,
-  `anythree` float NOT NULL DEFAULT 7.3 COMMENT '任意三',
-  `anyfour` float NOT NULL DEFAULT 19.66 COMMENT '任意4',
-  `frontfourfix` float NOT NULL DEFAULT 9800 COMMENT '前4定位',
-  `endfourfix` float NOT NULL DEFAULT 9800 COMMENT '后4定位',
-  `frontfourany` float NOT NULL DEFAULT 49.72 COMMENT '前4任意',
-  `endfourany` float NOT NULL DEFAULT 49.72 COMMENT '后4任意',
-  `touweifix` float NOT NULL DEFAULT 82.34 COMMENT '头尾定位',
+  `da` float  NULL DEFAULT 1.96,
+  `xiao` float  NULL DEFAULT 1.96,
+  `dan` float  NULL DEFAULT 1.96,
+  `shuang` float  NULL DEFAULT 1.96,
+  `anythree` float  NULL DEFAULT 40.76 COMMENT '任选3',
+  `anytwo` float  NULL DEFAULT 8.16 COMMENT '任选2',
+  `fourfix` float  NULL DEFAULT 9800 COMMENT '4定玩法',
+  `threefix` float  NULL DEFAULT 980 COMMENT '3定玩法',
+  `twofix` float  NULL DEFAULT 98 COMMENT '2定玩法',
+  `onefix` float  NULL DEFAULT 9.8 COMMENT '1定玩法',
+  `touweifix` float  NULL DEFAULT 98 COMMENT '头尾定位',
   `rules` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '规则',
-  `minbet` float NOT NULL DEFAULT 5,
-  `maxbet` float NOT NULL DEFAULT 200000,
-  `fengtime` int(11) NOT NULL DEFAULT 20,
+  `minbet` float  NULL DEFAULT 5,
+  `maxbet` float  NULL DEFAULT 200000,
+  `fengtime` int(11)  NULL DEFAULT 20,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = FIXED;
 
@@ -28,7 +28,7 @@ CREATE TABLE `fn_qxcorder` (
 `headimg`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `term`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `mingci`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-`content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '下注内容',
 `money`  int(11) NOT NULL ,
 `addtime`  datetime NOT NULL ,
 `status`  int(11) NOT NULL ,
@@ -36,16 +36,15 @@ CREATE TABLE `fn_qxcorder` (
 `roomid`  int(11) NOT NULL ,
 `chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
 `gamename`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
-`gamtype`  int(11) NOT NULL DEFAULT 0 ,
-`orderamount`  int(11) NOT NULL,
-`combineBet`  tinyint(1) NOT NULL DEFAULT 2 ,
-`ordersamount`  int(11) NOT NULL  ,
+`gametype`  int(11) NOT NULL DEFAULT 0 ,
+`orderamount`  int(11) NOT NULL COMMENT '注单数量',
+`winrate`  float(11,4) NOT NULL DEFAULT 0.0000 ,
+`UnitPrice`  int(11) NOT NULL COMMENT '每注价格' ,
 PRIMARY KEY (`id`),
-INDEX `term` (`term`) USING BTREE ,
-INDEX `jssscorderterm` (`term`) USING BTREE
+INDEX `term` (`term`) USING BTREE
 )
 ENGINE=MyISAM
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
-AUTO_INCREMENT=350
+AUTO_INCREMENT=1
 ROW_FORMAT=DYNAMIC
 ;
