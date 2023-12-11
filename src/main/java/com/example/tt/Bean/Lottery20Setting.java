@@ -17,41 +17,25 @@ public class Lottery20Setting {
 
     private Float anythree;
 
-    private Float anyfour;
+    private Float anytwo;
 
-    private Float frontfourfix;
+    private Float fourfix;
 
-    private Float endfourfix;
+    private Float threefix;
 
-    private Float frontfourany;
+    private Float twofix;
 
-    private Float endfourany;
+    private Float onefix;
+
+    private Float touweifix;
 
     private Float minbet;
 
     private Float maxbet;
 
-    private Float touweifix;
-
-    private String rules;
-
     private Integer fengtime;
 
-    public Integer getFengtime() {
-        return fengtime;
-    }
-
-    public void setFengtime(Integer fengtime) {
-        this.fengtime = fengtime;
-    }
-
-    public Float getTouweifix() {
-        return touweifix;
-    }
-
-    public void setTouweifix(Float touweifix) {
-        this.touweifix = touweifix;
-    }
+    private String rules;
 
     public Integer getId() {
         return id;
@@ -117,44 +101,52 @@ public class Lottery20Setting {
         this.anythree = anythree;
     }
 
-    public Float getAnyfour() {
-        return anyfour;
+    public Float getAnytwo() {
+        return anytwo;
     }
 
-    public void setAnyfour(Float anyfour) {
-        this.anyfour = anyfour;
+    public void setAnytwo(Float anytwo) {
+        this.anytwo = anytwo;
     }
 
-    public Float getFrontfourfix() {
-        return frontfourfix;
+    public Float getFourfix() {
+        return fourfix;
     }
 
-    public void setFrontfourfix(Float frontfourfix) {
-        this.frontfourfix = frontfourfix;
+    public void setFourfix(Float fourfix) {
+        this.fourfix = fourfix;
     }
 
-    public Float getEndfourfix() {
-        return endfourfix;
+    public Float getThreefix() {
+        return threefix;
     }
 
-    public void setEndfourfix(Float endfourfix) {
-        this.endfourfix = endfourfix;
+    public void setThreefix(Float threefix) {
+        this.threefix = threefix;
     }
 
-    public Float getFrontfourany() {
-        return frontfourany;
+    public Float getTwofix() {
+        return twofix;
     }
 
-    public void setFrontfourany(Float frontfourany) {
-        this.frontfourany = frontfourany;
+    public void setTwofix(Float twofix) {
+        this.twofix = twofix;
     }
 
-    public Float getEndfourany() {
-        return endfourany;
+    public Float getOnefix() {
+        return onefix;
     }
 
-    public void setEndfourany(Float endfourany) {
-        this.endfourany = endfourany;
+    public void setOnefix(Float onefix) {
+        this.onefix = onefix;
+    }
+
+    public Float getTouweifix() {
+        return touweifix;
+    }
+
+    public void setTouweifix(Float touweifix) {
+        this.touweifix = touweifix;
     }
 
     public Float getMinbet() {
@@ -171,6 +163,14 @@ public class Lottery20Setting {
 
     public void setMaxbet(Float maxbet) {
         this.maxbet = maxbet;
+    }
+
+    public Integer getFengtime() {
+        return fengtime;
+    }
+
+    public void setFengtime(Integer fengtime) {
+        this.fengtime = fengtime;
     }
 
     public String getRules() {

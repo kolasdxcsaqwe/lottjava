@@ -84,9 +84,12 @@
         <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
-                <table schema="" tableName="fn_user" domainObjectName="UserBean"
-                       enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-                       enableUpdateByExample="false" selectByExampleQueryId="false"/>
+<!--                <table schema="" tableName="fn_lottery20" domainObjectName="Lottery20Setting"-->
+<!--                       enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                       enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+             <table schema="" tableName="fn_qxcorder" domainObjectName="QXCOrder"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" selectByExampleQueryId="false"/>
 
 
         <!--是否使用实际列名,默认为false-->

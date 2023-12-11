@@ -111,7 +111,7 @@ public class ChatController {
 
         UserBean userBean = userBeanHashMap.get(userid);
         if (userBean == null) {
-            userBean = userBeanMapper.selectByUserId(userid);
+            userBean = userBeanMapper.selectByUserId(userid,Integer.parseInt(roomid));
 
             if (userBean == null) {
                 return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S3);

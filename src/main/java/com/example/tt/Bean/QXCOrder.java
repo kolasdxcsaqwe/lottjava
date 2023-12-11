@@ -11,17 +11,21 @@ public class QXCOrder {
 
     private Date addtime;
 
+    private Integer status;
+
     private Integer roomid;
 
     private String chatid;
 
     private String gamename;
 
-    private Integer gamtype;
+    private Integer gametype;
 
     private Integer orderamount;
 
-    private Boolean combinebet;
+    private Float winrate;
+
+    private Integer unitprice;
 
     private String userid;
 
@@ -32,8 +36,6 @@ public class QXCOrder {
     private String mingci;
 
     private String content;
-
-    private String status;
 
     private String jia;
 
@@ -69,6 +71,14 @@ public class QXCOrder {
         this.addtime = addtime;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getRoomid() {
         return roomid;
     }
@@ -93,12 +103,12 @@ public class QXCOrder {
         this.gamename = gamename == null ? null : gamename.trim();
     }
 
-    public Integer getGamtype() {
-        return gamtype;
+    public Integer getGameType() {
+        return gametype;
     }
 
-    public void setGamtype(Integer gamtype) {
-        this.gamtype = gamtype;
+    public void setGameType(Integer gametype) {
+        this.gametype = gametype;
     }
 
     public Integer getOrderamount() {
@@ -109,12 +119,20 @@ public class QXCOrder {
         this.orderamount = orderamount;
     }
 
-    public Boolean getCombinebet() {
-        return combinebet;
+    public Float getWinrate() {
+        return winrate;
     }
 
-    public void setCombinebet(Boolean combinebet) {
-        this.combinebet = combinebet;
+    public void setWinrate(Float winrate) {
+        this.winrate = winrate;
+    }
+
+    public Integer getUnitprice() {
+        return unitprice;
+    }
+
+    public void setUnitprice(Integer unitprice) {
+        this.unitprice = unitprice;
     }
 
     public String getUserid() {
@@ -155,14 +173,6 @@ public class QXCOrder {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
     }
 
     public String getJia() {

@@ -22,9 +22,13 @@ public class LotteryConfigGetter {
 
     private long expireTime=10*60*1000;
 
+    private long userExpireTime=5*60*1000;//用户数据过期时间
+
     RobotPlansMapper robotPlansMapper;
 
     LotteryOpenBeanMapper lotteryOpenBeanMapper;
+
+    UserBeanMapper userBeanMapper;
 
     LotteryRoomSettingMapper lotteryRoomSettingMapper;
 
@@ -102,6 +106,7 @@ public class LotteryConfigGetter {
         lottery19SettingMapper = TtApplication.getContext().getBean(Lottery19SettingMapper.class);
         lottery20SettingMapper = TtApplication.getContext().getBean(Lottery20SettingMapper.class);
         lotteryRoomSettingMapper = TtApplication.getContext().getBean(LotteryRoomSettingMapper.class);
+        userBeanMapper= TtApplication.getContext().getBean(UserBeanMapper.class);
         robotPlansMapper = TtApplication.getContext().getBean(RobotPlansMapper.class);
         String id=TtApplication.getContext().getEnvironment().getProperty("WebSiteRoomId");
         roomId=Integer.parseInt(id);
@@ -366,6 +371,17 @@ public class LotteryConfigGetter {
         }
 
         return map;
+    }
+
+    public UserBean getUser(String userId,int roomId) {
+        String UserBeanStr = RedisCache.getInstance().get("UserBean");
+        if (Strings.isEmptyOrNullAmongOf(UserBeanStr)) {
+            UserBean userBean = userBeanMapper.selectByUserId(userId,roomId);
+            UserBeanStr = gson.toJson(userBean);
+            RedisCache.getInstance().set("UserBean", UserBeanStr,userExpireTime);
+            return userBean;
+        }
+        return gson.fromJson(UserBeanStr, UserBean.class);
     }
 
 

@@ -6,12 +6,14 @@
     <result column="term" jdbcType="VARCHAR" property="term" />
     <result column="money" jdbcType="INTEGER" property="money" />
     <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="roomid" jdbcType="INTEGER" property="roomid" />
     <result column="chatid" jdbcType="VARCHAR" property="chatid" />
     <result column="gamename" jdbcType="VARCHAR" property="gamename" />
-    <result column="gamtype" jdbcType="INTEGER" property="gamtype" />
+    <result column="gametype" jdbcType="INTEGER" property="gametype" />
     <result column="orderamount" jdbcType="INTEGER" property="orderamount" />
-    <result column="combineBet" jdbcType="BIT" property="combinebet" />
+    <result column="winrate" jdbcType="REAL" property="winrate" />
+    <result column="UnitPrice" jdbcType="INTEGER" property="unitprice" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.QXCOrder">
     <result column="userid" jdbcType="LONGVARCHAR" property="userid" />
@@ -19,14 +21,14 @@
     <result column="headimg" jdbcType="LONGVARCHAR" property="headimg" />
     <result column="mingci" jdbcType="LONGVARCHAR" property="mingci" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="status" jdbcType="LONGVARCHAR" property="status" />
     <result column="jia" jdbcType="LONGVARCHAR" property="jia" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, term, money, addtime, roomid, chatid, gamename, gamtype, orderamount, combineBet
+    id, term, money, addtime, status, roomid, chatid, gamename, gametype, orderamount, 
+    winrate, UnitPrice
   </sql>
   <sql id="Blob_Column_List">
-    userid, username, headimg, mingci, content, status, jia
+    userid, username, headimg, mingci, content, jia
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
@@ -42,17 +44,19 @@
   </delete>
   <insert id="insert" parameterType="com.example.tt.Bean.QXCOrder">
     insert into fn_qxcorder (id, term, money, 
-      addtime, roomid, chatid, 
-      gamename, gamtype, orderamount, 
-      combineBet, userid, username, 
-      headimg, mingci, content, 
-      status, jia)
+      addtime, status, roomid, 
+      chatid, gamename, gametype, 
+      orderamount, winrate, UnitPrice, 
+      userid, username, headimg, 
+      mingci, content, jia
+      )
     values (#{id,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, 
-      #{addtime,jdbcType=TIMESTAMP}, #{roomid,jdbcType=INTEGER}, #{chatid,jdbcType=VARCHAR}, 
-      #{gamename,jdbcType=VARCHAR}, #{gamtype,jdbcType=INTEGER}, #{orderamount,jdbcType=INTEGER}, 
-      #{combinebet,jdbcType=BIT}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, 
-      #{headimg,jdbcType=LONGVARCHAR}, #{mingci,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
-      #{status,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
+      #{addtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, 
+      #{chatid,jdbcType=VARCHAR}, #{gamename,jdbcType=VARCHAR}, #{gametype,jdbcType=INTEGER}, 
+      #{orderamount,jdbcType=INTEGER}, #{winrate,jdbcType=REAL}, #{unitprice,jdbcType=INTEGER}, 
+      #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, 
+      #{mingci,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.tt.Bean.QXCOrder">
     insert into fn_qxcorder
@@ -69,6 +73,9 @@
       <if test="addtime != null">
         addtime,
       </if>
+      <if test="status != null">
+        status,
+      </if>
       <if test="roomid != null">
         roomid,
       </if>
@@ -78,14 +85,17 @@
       <if test="gamename != null">
         gamename,
       </if>
-      <if test="gamtype != null">
-        gamtype,
+      <if test="gametype != null">
+        gametype,
       </if>
       <if test="orderamount != null">
         orderamount,
       </if>
-      <if test="combinebet != null">
-        combineBet,
+      <if test="winrate != null">
+        winrate,
+      </if>
+      <if test="unitprice != null">
+        UnitPrice,
       </if>
       <if test="userid != null">
         userid,
@@ -101,9 +111,6 @@
       </if>
       <if test="content != null">
         content,
-      </if>
-      <if test="status != null">
-        status,
       </if>
       <if test="jia != null">
         jia,
@@ -122,6 +129,9 @@
       <if test="addtime != null">
         #{addtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
       <if test="roomid != null">
         #{roomid,jdbcType=INTEGER},
       </if>
@@ -131,14 +141,17 @@
       <if test="gamename != null">
         #{gamename,jdbcType=VARCHAR},
       </if>
-      <if test="gamtype != null">
-        #{gamtype,jdbcType=INTEGER},
+      <if test="gametype != null">
+        #{gametype,jdbcType=INTEGER},
       </if>
       <if test="orderamount != null">
         #{orderamount,jdbcType=INTEGER},
       </if>
-      <if test="combinebet != null">
-        #{combinebet,jdbcType=BIT},
+      <if test="winrate != null">
+        #{winrate,jdbcType=REAL},
+      </if>
+      <if test="unitprice != null">
+        #{unitprice,jdbcType=INTEGER},
       </if>
       <if test="userid != null">
         #{userid,jdbcType=LONGVARCHAR},
@@ -154,9 +167,6 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=LONGVARCHAR},
       </if>
       <if test="jia != null">
         #{jia,jdbcType=LONGVARCHAR},
@@ -175,6 +185,9 @@
       <if test="addtime != null">
         addtime = #{addtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="roomid != null">
         roomid = #{roomid,jdbcType=INTEGER},
       </if>
@@ -184,14 +197,17 @@
       <if test="gamename != null">
         gamename = #{gamename,jdbcType=VARCHAR},
       </if>
-      <if test="gamtype != null">
-        gamtype = #{gamtype,jdbcType=INTEGER},
+      <if test="gametype != null">
+        gametype = #{gametype,jdbcType=INTEGER},
       </if>
       <if test="orderamount != null">
         orderamount = #{orderamount,jdbcType=INTEGER},
       </if>
-      <if test="combinebet != null">
-        combineBet = #{combinebet,jdbcType=BIT},
+      <if test="winrate != null">
+        winrate = #{winrate,jdbcType=REAL},
+      </if>
+      <if test="unitprice != null">
+        UnitPrice = #{unitprice,jdbcType=INTEGER},
       </if>
       <if test="userid != null">
         userid = #{userid,jdbcType=LONGVARCHAR},
@@ -208,9 +224,6 @@
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=LONGVARCHAR},
-      </if>
       <if test="jia != null">
         jia = #{jia,jdbcType=LONGVARCHAR},
       </if>
@@ -222,18 +235,19 @@
     set term = #{term,jdbcType=VARCHAR},
       money = #{money,jdbcType=INTEGER},
       addtime = #{addtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
       roomid = #{roomid,jdbcType=INTEGER},
       chatid = #{chatid,jdbcType=VARCHAR},
       gamename = #{gamename,jdbcType=VARCHAR},
-      gamtype = #{gamtype,jdbcType=INTEGER},
+      gametype = #{gametype,jdbcType=INTEGER},
       orderamount = #{orderamount,jdbcType=INTEGER},
-      combineBet = #{combinebet,jdbcType=BIT},
+      winrate = #{winrate,jdbcType=REAL},
+      UnitPrice = #{unitprice,jdbcType=INTEGER},
       userid = #{userid,jdbcType=LONGVARCHAR},
       username = #{username,jdbcType=LONGVARCHAR},
       headimg = #{headimg,jdbcType=LONGVARCHAR},
       mingci = #{mingci,jdbcType=LONGVARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
-      status = #{status,jdbcType=LONGVARCHAR},
       jia = #{jia,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -242,12 +256,14 @@
     set term = #{term,jdbcType=VARCHAR},
       money = #{money,jdbcType=INTEGER},
       addtime = #{addtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
       roomid = #{roomid,jdbcType=INTEGER},
       chatid = #{chatid,jdbcType=VARCHAR},
       gamename = #{gamename,jdbcType=VARCHAR},
-      gamtype = #{gamtype,jdbcType=INTEGER},
+      gametype = #{gametype,jdbcType=INTEGER},
       orderamount = #{orderamount,jdbcType=INTEGER},
-      combineBet = #{combinebet,jdbcType=BIT}
+      winrate = #{winrate,jdbcType=REAL},
+      UnitPrice = #{unitprice,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
