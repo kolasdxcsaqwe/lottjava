@@ -3,6 +3,8 @@ package com.example.tt.dao;
 import com.example.tt.Bean.UserBean;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
+
 public interface UserBeanMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -24,5 +26,6 @@ public interface UserBeanMapper {
 
     UserBean selectByUserAndRoomIdAndPassword(@Param("userName") String userName,@Param("roomId") Integer roomId,@Param("password") String password,@Param("agent") String agent);
 
+    int updateMoneyByUserId(@Param("money")BigDecimal money,@Param("userid")String userid);
 
 }

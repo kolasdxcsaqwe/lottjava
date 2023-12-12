@@ -57,8 +57,7 @@
   </select>
 
   <select id="selectByUserId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select
-      headimg,username
+    select *
     from fn_user
     where userid = #{userid,jdbcType=VARCHAR} limit 1
   </select>
@@ -71,6 +70,12 @@
       and roomid = #{roomId,jdbcType=INTEGER}
       and agent = #{agent,jdbcType=VARCHAR} limit 1
   </select>
+
+  <update id="updateMoneyByUserId" >
+    update fn_user
+    set money = #{money,jdbcType=DECIMAL}
+    where userid = #{userid,jdbcType=LONGVARCHAR}
+  </update>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_user

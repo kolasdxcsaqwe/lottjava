@@ -23,7 +23,10 @@ public class HttpRequest {
 
         if(client==null)
         {
-            client=new OkHttpClient();
+            client=new OkHttpClient.Builder()
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .build();
         }
         return httpRequest;
     }
@@ -32,10 +35,6 @@ public class HttpRequest {
     public void post(String baseUrl, List<PostParamBean> params) {
 
         MyLog.e(baseUrl+"--->"+new Gson().toJson(params));
-        OkHttpClient client = new OkHttpClient.Builder()
-                .readTimeout(20, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .build();
 
         FormBody.Builder builder=  new FormBody.Builder();
         for (PostParamBean postParamBean : params) {
@@ -57,6 +56,44 @@ public class HttpRequest {
                 if(response.body()!=null)
                 {
                     MyLog.l(baseUrl+"--->"+response.body().string());
+                }
+
+            }
+        });
+    }
+
+    public void get(String baseUrl, List<PostParamBean> params,HttpCallBack httpCallBack) {
+
+        StringBuilder sb=new StringBuilder();
+        sb.append(baseUrl).append("?");
+        for (PostParamBean postParamBean : params) {
+          sb.append(postParamBean.getKey()).append("=").append(postParamBean.getValue()).append("&");
+        }
+        sb.deleteCharAt(sb.length()-1);
+
+        Request request=new Request.Builder().addHeader("content-type","application/json")
+                .url(sb.toString()).get().build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                MyLog.e(baseUrl+"--->"+e.getMessage());
+                if(httpCallBack!=null)
+                {
+                    httpCallBack.onError(e);
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful() && response.body()!=null)
+                {
+                    String string=response.body().string();
+                    MyLog.l(baseUrl+"--->"+string);
+                    if(httpCallBack!=null)
+                    {
+                        httpCallBack.onSuccess(string);
+                    }
                 }
 
             }

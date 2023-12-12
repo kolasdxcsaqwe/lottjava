@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.MarkLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.MarkLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="chatid" jdbcType="VARCHAR" property="chatid" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="tuitime" jdbcType="DATE" property="tuitime" />
+    <result column="game" jdbcType="VARCHAR" property="game" />
+    <result column="tuishui" jdbcType="VARCHAR" property="tuishui" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.MarkLog">
+    <result column="userid" jdbcType="LONGVARCHAR" property="userid" />
+    <result column="type" jdbcType="LONGVARCHAR" property="type" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="money" jdbcType="LONGVARCHAR" property="money" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, chatid, roomid, addtime, tuitime, game, tuishui
+  </sql>
+  <sql id="Blob_Column_List">
+    userid, type, content, money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_marklog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_marklog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.MarkLog">
+    insert into fn_marklog (id, chatid, roomid, 
+      addtime, tuitime, game, 
+      tuishui, userid, type, 
+      content, money)
+    values (#{id,jdbcType=INTEGER}, #{chatid,jdbcType=VARCHAR}, #{roomid,jdbcType=INTEGER}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{tuitime,jdbcType=DATE}, #{game,jdbcType=VARCHAR}, 
+      #{tuishui,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{type,jdbcType=LONGVARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR}, #{money,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.MarkLog">
+    insert into fn_marklog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chatid != null">
+        chatid,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="tuitime != null">
+        tuitime,
+      </if>
+      <if test="game != null">
+        game,
+      </if>
+      <if test="tuishui != null">
+        tuishui,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chatid != null">
+        #{chatid,jdbcType=VARCHAR},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tuitime != null">
+        #{tuitime,jdbcType=DATE},
+      </if>
+      <if test="game != null">
+        #{game,jdbcType=VARCHAR},
+      </if>
+      <if test="tuishui != null">
+        #{tuishui,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.MarkLog">
+    update fn_marklog
+    <set>
+      <if test="chatid != null">
+        chatid = #{chatid,jdbcType=VARCHAR},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tuitime != null">
+        tuitime = #{tuitime,jdbcType=DATE},
+      </if>
+      <if test="game != null">
+        game = #{game,jdbcType=VARCHAR},
+      </if>
+      <if test="tuishui != null">
+        tuishui = #{tuishui,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.MarkLog">
+    update fn_marklog
+    set chatid = #{chatid,jdbcType=VARCHAR},
+      roomid = #{roomid,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      tuitime = #{tuitime,jdbcType=DATE},
+      game = #{game,jdbcType=VARCHAR},
+      tuishui = #{tuishui,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=LONGVARCHAR},
+      type = #{type,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      money = #{money,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.MarkLog">
+    update fn_marklog
+    set chatid = #{chatid,jdbcType=VARCHAR},
+      roomid = #{roomid,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      tuitime = #{tuitime,jdbcType=DATE},
+      game = #{game,jdbcType=VARCHAR},
+      tuishui = #{tuishui,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

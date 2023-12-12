@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ReturnDataBuilder {
 
-    public enum  GameListNameEnum {
+    public enum GameListNameEnum {
         S0(0, "操作成功"),
         S1(-1, "彩种错误"),
         S2(-2, "参数错误"),
@@ -16,12 +16,14 @@ public class ReturnDataBuilder {
         S7(-7, "您已经被该房间禁言！无法发言与投注！"),
         S8(-8, "您发送的内容内含有屏蔽词汇,请删除后重试."),
         S9(-9, "操作失败"),
-        S10(-10,"投注格式不正确"),
-        S11(-11,"已经封盘请等待下一期"),
-        S12(-12,"该用户名已经被注册，请更换用户名"),
-        S13(-13,"用户名或者密码不正确"),
-        S14(-14,"登录过期，请重新登录"),
-        S15(-14,"复试投注金额需要是注数的倍数");
+        S10(-10, "投注格式不正确"),
+        S11(-11, "已经封盘请等待下一期"),
+        S12(-12, "该用户名已经被注册，请更换用户名"),
+        S13(-13, "用户名或者密码不正确"),
+        S14(-14, "登录过期，请重新登录"),
+        S15(-15, "复试投注金额需要是注数的倍数"),
+        S16(-16, "查无此用户"),
+        S17(-17, "余额不足支付注单，请联系客服上分");
 
         private int code;
         private String msg;
@@ -32,50 +34,44 @@ public class ReturnDataBuilder {
         }
     }
 
-    public static String error(GameListNameEnum gameListNameEnum)
-    {
-        JSONObject jsonObject=new JSONObject();
+    public static String error(GameListNameEnum gameListNameEnum) {
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("msg",gameListNameEnum.msg);
-            jsonObject.put("code",gameListNameEnum.code);
-            jsonObject.put("success","false");
+            jsonObject.put("msg", gameListNameEnum.msg);
+            jsonObject.put("code", gameListNameEnum.code);
+            jsonObject.put("success", "false");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject.toString();
     }
 
-    public static Map error(int code ,String msg)
-    {
-        Map map=new HashMap();
-        map.put("msg",msg);
-        map.put("code",code);
-        map.put("success","false");
+    public static Map error(int code, String msg) {
+        Map map = new HashMap();
+        map.put("msg", msg);
+        map.put("code", code);
+        map.put("success", "false");
         return map;
     }
 
-    public static Map error(int code ,String msg,Object object)
-    {
-        Map map=new HashMap();
-        map.put("msg",msg);
-        map.put("code",code);
-        map.put("success","false");
-        if(object!=null)
-        {
-            map.put("datas",object);
+    public static Map error(int code, String msg, Object object) {
+        Map map = new HashMap();
+        map.put("msg", msg);
+        map.put("code", code);
+        map.put("success", "false");
+        if (object != null) {
+            map.put("datas", object);
         }
         return map;
     }
 
-    public static Map makeBaseJSON(Object object)
-    {
-        Map map=new HashMap();
-        map.put("msg","操作成功");
-        map.put("code",0);
-        map.put("success","true");
-        if(object!=null)
-        {
-            map.put("datas",object);
+    public static Map makeBaseJSON(Object object) {
+        Map map = new HashMap();
+        map.put("msg", "操作成功");
+        map.put("code", 0);
+        map.put("success", "true");
+        if (object != null) {
+            map.put("datas", object);
         }
         return map;
     }

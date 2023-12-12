@@ -13,6 +13,8 @@ import com.example.tt.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @CrossOrigin
 public class QxcController {
@@ -102,7 +104,13 @@ public class QxcController {
     @RequestMapping(value = "/QXCSendChat", method = RequestMethod.POST)
     public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
                               @RequestParam(name = "userId") String userId,
-                              @RequestParam(name = "roomId") String roomId) {
-        return qxcService.betQXC(betArray,userId,roomId);
+                              @RequestParam(name = "roomId") String roomId, HttpServletRequest request) {
+        return qxcService.betQXC(betArray,userId,roomId,request);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/fetchQXCResult", method = RequestMethod.GET)
+    public Object fetchQXCResult() {
+        return qxcService.fetchQXCResult();
     }
 }

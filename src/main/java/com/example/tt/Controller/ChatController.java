@@ -168,8 +168,6 @@ public class ChatController {
         boolean isAdminBroadcast=content.startsWith("@");
 
 
-
-
         return ReturnDataBuilder.makeBaseJSON(null);
     }
 

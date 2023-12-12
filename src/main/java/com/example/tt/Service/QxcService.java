@@ -1,17 +1,20 @@
 package com.example.tt.Service;
 
-import com.example.tt.Bean.Lottery20Setting;
-import com.example.tt.Bean.LotteryOpenBean;
-import com.example.tt.Bean.QXCOrder;
-import com.example.tt.Bean.UserBean;
+import com.example.tt.Bean.*;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.dao.LotteryOpenBeanMapper;
+import com.example.tt.dao.MarkLogMapper;
 import com.example.tt.dao.QXCOrderMapper;
+import com.example.tt.dao.UserBeanMapper;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.crypto.Data;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -22,6 +25,12 @@ public class QxcService {
 
     @Autowired(required = false)
     LotteryOpenBeanMapper lotteryOpenBeanMapper;
+
+    @Autowired(required = false)
+    UserBeanMapper userBeanMapper;
+
+    @Autowired(required = false)
+    MarkLogMapper markLogMapper;
 
     static SessionStorage sessionStorage=SessionStorage.getInstance();
 
@@ -119,7 +128,29 @@ public class QxcService {
         return rate;
     }
 
-    public Object betQXC(String betArray,String userId,String roomId)
+    private int calTotalMoney(String string)
+    {
+        int orderTotalMoney=0;
+        try {
+            JSONArray jsonArray=new JSONArray(string);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                String gamName = jsonObject.optString("gamName", "");
+                int orderPrice = jsonObject.optInt("orderPrice", 0);
+
+                GameIndex.QXCGameTypeCode qxcGameTypeCode=GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gamName);
+                JSONArray codes = jsonObject.optJSONArray("codes");
+                int orderAmount=check(codes,qxcGameTypeCode.getCode());
+                orderTotalMoney=orderTotalMoney+(orderPrice*orderAmount);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return orderTotalMoney;
+    }
+
+    public Object betQXC(String betArray, String userId, String roomId, HttpServletRequest request)
     {
         Lottery20Setting lottery20Setting= LotteryConfigGetter.getInstance().getLottery20Setting();
         int fengTime=lottery20Setting.getFengtime();
@@ -145,9 +176,20 @@ public class QxcService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
         }
 
-        List<QXCOrder> qxcOrderList=new ArrayList<>();
 
         boolean isFormatOk=true;
+
+        UserBean userBean=userBeanMapper.selectByUserId(userId,Integer.parseInt(roomId));
+        if(userBean==null || Strings.isEmptyOrNullAmongOf(userBean.getLoginuser()))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S16);
+        }
+
+        if(userBean.getMoney().compareTo(new BigDecimal(calTotalMoney(betArray)))<0)
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S17);
+        }
+
 
         //一单 可以有n注 一注可以是n元 ,大于1注就是复式
         try {
@@ -185,7 +227,30 @@ public class QxcService {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
                 }
 
-                UserBean userBean=LotteryConfigGetter.getInstance().getUser(userId,Integer.parseInt(roomId));
+
+                BigDecimal userMoney=new BigDecimal(userBean.getMoney().toPlainString()).subtract(new BigDecimal(orderPrice * orderAmount));
+                int statusDeductMoney=userBeanMapper.updateMoneyByUserId(userMoney,userId);
+                if(statusDeductMoney<1)
+                {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
+                }
+                else
+                {
+                    MarkLog markLog=new MarkLog();
+                    markLog.setUserid(userId);
+                    markLog.setAddtime(Calendar.getInstance().getTime());
+                    markLog.setChatid("");
+                    markLog.setRoomid(Integer.parseInt(roomId));
+                    markLog.setGame("gamName");
+                    markLog.setTuishui("");
+                    markLog.setTuitime(Calendar.getInstance().getTime());
+                    markLog.setType("下分");
+                    markLog.setContent(GameIndex.LotteryTypeCodeList.qxc.getExplain()+ qxcGameTypeCode.getExplain()+"投注");
+                    markLog.setMoney(userMoney.toPlainString());
+
+                    markLogMapper.insertSelective(markLog);
+                }
+
                 float winRate=getWinRate(qxcGameTypeCode.getCode(),lottery20Setting);
                 QXCOrder qxcOrder=new QXCOrder();
                 qxcOrder.setAddtime(Calendar.getInstance().getTime());
@@ -203,9 +268,32 @@ public class QxcService {
                 qxcOrder.setMingci("");
                 qxcOrder.setJia(userBean.getJia());
                 int status=qxcOrderMapper.insertSelective(qxcOrder);
+
+
                 if(status<1)
                 {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
+                }
+                else
+                {
+                    //websocket 发消息
+                    StringBuilder sb=new StringBuilder();
+                    sb.append(request.getScheme()).append("://");
+                    sb.append(request.getServerName()).append(":");
+                    sb.append(request.getServerPort());
+                    sb.append("/sendChat");
+
+                    List<PostParamBean> params=new ArrayList<>();
+                    params.add(new PostParamBean("content",qxcOrder.getContent()));
+                    params.add(new PostParamBean("userid",userId));
+                    params.add(new PostParamBean("chatType","U3"));
+                    params.add(new PostParamBean("roomid",roomId));
+                    params.add(new PostParamBean("game",GameIndex.LotteryTypeCodeList.qxc.getGame()));
+                    params.add(new PostParamBean("betTerm",lotteryOpenBean.getNextTerm()));
+                    params.add(new PostParamBean("headimg",qxcOrder.getHeadimg()));
+                    params.add(new PostParamBean("username",qxcOrder.getUsername()));
+
+                    HttpRequest.getInstance().post(sb.toString(),params);
                 }
             }
         } catch (Exception e) {
@@ -245,4 +333,119 @@ public class QxcService {
         }
         return n/nm/m;
     }
+
+    public Object fetchQXCResult()
+    {
+
+        LotteryOpenBean lotteryOpenBean= lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
+        if(lotteryOpenBean!=null && lotteryOpenBean.getNextTime()!=null)
+        {
+            if(System.currentTimeMillis()<lotteryOpenBean.getNextTime().getTime())
+            {
+                return ReturnDataBuilder.error(92323,"未到开奖时间");
+            }
+        }
+        List<PostParamBean> params=new ArrayList<>();
+        params.add(new PostParamBean("code","qxc"));
+        params.add(new PostParamBean("format","json"));
+        params.add(new PostParamBean("rows","1"));
+        HttpRequest.getInstance().get("https://kclm.site/api/trial/drawResult?code=qxc&format=json&rows=1", params, new HttpCallBack() {
+            @Override
+            public void onError(Exception ex) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONObject jsonObject=new JSONObject(data);
+                    if(jsonObject.optInt("code",-1)==0)
+                    {
+                        JSONArray jsonArray=jsonObject.optJSONArray("data");
+                        if(jsonArray.length()>0)
+                        {
+                            //{"issue":"23142","drawResult":"3,3,8,6,1,5+3","drawTime":"2023-12-10 21:31:38","code":"qxc"}
+                            JSONObject jsonData=jsonArray.optJSONObject(0);
+                            String term=jsonData.optString("issue","");
+                            String result=jsonData.optString("result","");
+                            String time=jsonData.optString("drawTime","");
+                            if(!Strings.isEmptyOrNullAmongOf(term,result,time))
+                            {
+                                result=result.replaceAll(",","").replaceAll("\\+","");
+                                Date date=TimeUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+                                calQXCOrder(term,result,date,lotteryOpenBean);
+                            }
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        return ReturnDataBuilder.makeBaseJSON(null);
+    }
+
+    private void calQXCOrder(String term,String codes,Date time,LotteryOpenBean lotteryOpenBean)
+    {
+        boolean isShouldAdd=false;
+
+        if(lotteryOpenBean==null)
+        {
+            isShouldAdd=true;
+        }
+        else
+        {
+            if(!Strings.isEmptyOrNullAmongOf(lotteryOpenBean.getTerm()) && Integer.parseInt(term)>Integer.parseInt(lotteryOpenBean.getTerm()))
+            {
+                isShouldAdd=true;
+            }
+        }
+
+        if(!isShouldAdd)
+        {
+            return;
+        }
+
+        LotteryOpenBean newTermBean=new LotteryOpenBean();
+        newTermBean.setCode(codes);
+        newTermBean.setType(GameIndex.LotteryTypeCodeList.qxc.getCode());
+        newTermBean.setNextTerm(String.valueOf(Integer.parseInt(term)+1));
+        newTermBean.setTerm(term);
+        newTermBean.setTime(time);
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(time);
+        //周2 5 7开奖
+        switch (calendar.get(Calendar.DAY_OF_WEEK))
+        {
+            case 2:
+                calendar.setTimeInMillis(time.getTime()+(3*24*3600*1000));
+                break;
+            case 5:
+            case 7:
+                calendar.setTimeInMillis(time.getTime()+(2*24*3600*1000));
+                break;
+        }
+        newTermBean.setNextTime(calendar.getTime());
+        lotteryOpenBeanMapper.insertSelective()
+
+       List<QXCOrder>  qxcOrderList= qxcOrderMapper.selectOrderByStatus(0,term);
+       if(qxcOrderList==null || qxcOrderList.size()<1)
+       {
+           return;
+       }
+
+       for (QXCOrder qxcOrder:qxcOrderList)
+       {
+           float totalMoney=qxcOrder.getWinrate()*qxcOrder.getMoney();
+
+       }
+
+
+    }
+
+
+
 }

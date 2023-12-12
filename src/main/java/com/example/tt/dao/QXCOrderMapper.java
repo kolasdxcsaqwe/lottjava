@@ -1,6 +1,9 @@
 package com.example.tt.dao;
 
 import com.example.tt.Bean.QXCOrder;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface QXCOrderMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +19,6 @@ public interface QXCOrderMapper {
     int updateByPrimaryKeyWithBLOBs(QXCOrder record);
 
     int updateByPrimaryKey(QXCOrder record);
+
+    List<QXCOrder> selectOrderByStatus(@Param("status")Integer status,@Param("term")String term);
 }
