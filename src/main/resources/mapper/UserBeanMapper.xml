@@ -77,6 +77,13 @@
     where userid = #{userid,jdbcType=LONGVARCHAR}
   </update>
 
+  <update id="addUserMoney">
+    UPDATE fn_user
+    set money =+ #{money,jdbcType=VARCHAR}
+    WHERE userid = #{userid,jdbcType=LONGVARCHAR}
+  </update>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_user
     where id = #{id,jdbcType=INTEGER}

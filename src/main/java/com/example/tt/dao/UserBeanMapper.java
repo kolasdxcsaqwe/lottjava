@@ -28,4 +28,6 @@ public interface UserBeanMapper {
 
     int updateMoneyByUserId(@Param("money")BigDecimal money,@Param("userid")String userid);
 
+    int addUserMoney(@Param("money")String money,@Param("userid")String userid);
+
 }

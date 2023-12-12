@@ -1,1 +1,373 @@
 adsadsadsadsdsad
+亲，以下是各彩种的api接口
+
+1.【北京PK10】lotcode：10001
+
+当前开奖：https://api.api68.com/pks/getLotteryPksInfo.do?lotCode=10001
+
+历史开奖记录：https://api.api68.com/pks/getPksHistoryList.do?lotCode=10001&date=2019-04-15
+
+2. 【天津时时彩】lotcode：10003
+
+当前开奖：https://api.api68.com/CQShiCai/getBaseCQShiCai.do?lotCode=10003
+
+历史开奖记录：https://api.api68.com/CQShiCai/ getBaseCQShiCaiList.do?lotCode=10003&date=2019-04-15
+
+3. 【新疆时时彩】lotcode：10004
+
+当前开奖：https://api.api68.com/CQShiCai/getBaseCQShiCai.do?lotCode=10004
+
+历史开奖记录：https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10004&date=2019-04-15
+
+4. 【广东快乐十分】lotcode: 10005
+
+当前开奖：https://api.api68.com/klsf/getLotteryInfo.do?lotCode=10005
+
+历史开奖记录：https://api.api68.com/klsf/getHistoryLotteryInfo.do?lotCode=10005&date=2019-04-15
+
+5. 【广东11选5】lotcode：10006
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10006
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10006&date=2019-04-15
+
+6. 【江苏快3】lotcode： 10007
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10007
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10007&date=2019-04-15
+
+7. 【十一运夺金/ 山东11选5】lotcode：10008
+
+当前开奖：https://api.api68.com/klsf/getLotteryInfo.do?lotCode=10008
+
+历史开奖记录：https://api.api68.com/klsf/getHistoryLotteryInfo.do?lotCode=10008&date=2019-04-15
+
+8. 【重庆幸运农场】lotcode：10009
+
+当前开奖：https://api.api68.com/klsf/getLotteryInfo.do?lotCode=10009
+
+历史开奖记录：https://api.api68.com/klsf/getHistoryLotteryInfo.do?lotCode=10009&date=2019-04-15
+
+9. 【澳洲幸运5】lotcode：10010
+
+当前开奖：https://api.api68.com/CQShiCai/getBaseCQShiCai.do?lotCode=10010
+
+历史开奖记录：https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10010&date=2019-04-15
+
+10. 【澳洲幸运8】lotcode：10011
+
+当前开奖：https://api.api68.com/klsf/getLotteryInfo.do?lotCode=10011
+
+历史开奖记录：https://api.api68.com/klsf/getHistoryLotteryInfo.do?lotCode=10011&date=2019-04-15
+
+11. 【澳洲幸运10】lotcode：10012
+
+当前开奖：https://api.api68.com/pks/getLotteryPksInfo.do?lotCode=10012
+
+历史开奖记录：https://api.api68.com/pks/getPksHistoryList.do?lotCode=10012&date=2019-04-15
+
+12. 【澳洲幸运20】lotcode：10013
+
+当前开奖：https://api.api68.com/LuckTwenty/getBaseLuckTewnty.do?lotCode=10013
+
+历史开奖记录：https://api.api68.com/LuckTwenty/getBaseLuckTwentyList.do?lotCode=10013&date=2019-04-15
+
+13. 【北京快乐8】lotcode：10014
+
+当前开奖：https://api.api68.com/LuckTwenty/getBaseLuckTewnty.do?lotCode=10014
+
+历史开奖记录：https://api.api68.com/LuckTwenty/getBaseLuckTwentyList.do?lotCode=10014&date=2019-04-15
+
+14. 【江西11选5】lotcode：10015
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10015
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10015&date=2019-04-15
+
+15. 【江苏11选5】lotcode：10016
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10016
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10016&date=2019-04-16
+
+16. 【安徽11选5】lotcode：10017
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10017
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10017&date=2019-04-17
+
+17. 【上海11选5】lotcode：10018
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10018
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10018&date=2019-04-18
+
+18. 【辽宁11选5】lotcode：10019
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10019
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10019&date=2019-04-19
+
+19. 【湖北11选5】lotcode：10020
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10020
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10020&date=2019-04-20
+
+20. 【广西11选5】lotcode：10022
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10022
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10022&date=2019-04-22
+
+21. 【吉林11选5】lotcode：10023
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10023
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10023&date=2019-04-23
+
+22. 【内蒙古11选5】lotcode：10024
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10024
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10024&date=2019-04-24
+
+23. 【浙江11选5】lotcode：10025
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10025
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10025&date=2019-04-25
+
+24. 【广西快3】lotcode：10026
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10026
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10026&date=2019-04-15
+
+25. 【吉林快3】lotcode：10027
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10027
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10027&date=2019-04-16
+
+26. 【河北快3】lotcode：10028
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10028
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10028&date=2019-04-17
+
+27. 【内蒙古快3】lotcode：10029
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10029
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10029&date=2019-04-18
+
+28. 【安徽快3】lotcode：10030
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10030
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10030&date=2019-04-19
+
+29. 【福建快3】lotcode：10031
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10031
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10031&date=2019-04-20
+
+30. 【湖北快3】lotcode：10032
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10032
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10032&date=2019-04-21
+
+31. 【北京快3】lotcode：10033
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10033
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10033&date=2019-04-22
+
+32. 【天津快乐十分】lotcode：10034
+
+当前开奖：https://api.api68.com/klsf/getLotteryInfo.do?lotCode=100034
+
+历史开奖记录：https://api.api68.com/klsf/getHistoryLotteryInfo.do?lotCode=10034&date=2019-04-15
+
+33. 【极速飞艇】lotcode：10035
+
+当前开奖：https://api.api68.com/pks/getLotteryPksInfo.do?lotCode=10035
+
+历史开奖记录：https://api.api68.com/pks/getPksHistoryList.do?lotCode=10035&date=2019-04-15
+
+34. 【极速时时彩】lotcode：10036
+
+当前开奖：https://api.api68.com/CQShiCai/getBaseCQShiCai.do?lotCode=10036
+
+历史开奖记录：https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10036&date=2019-04-15
+
+35. 【极速赛车】lotcode：10037
+
+当前开奖：https://api.api68.com/pks/getLotteryPksInfo.do?lotCode=10037
+
+历史开奖记录：https://api.api68.com/pks/getPksHistoryList.do?lotCode=10037&date=2019-04-15
+
+36. 【广西快乐十分】lotcode：10038
+
+当前开奖：https://api.api68.com/gxklsf/getLotteryInfo.do?lotCode=10038
+
+历史开奖记录：https://api.api68.com/gxklsf/getHistoryLotteryInfo.do?lotCode=10038&date=2019-04-15
+
+37. 【福彩双色球】lotcode：10039
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10039
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getHistoryLotteryInfo.do?lotCode=10039
+
+38. 【超级大乐透】lotcode：10040
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10040
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getHistoryLotteryInfo.do?lotCode=10040
+
+39. 【福彩3D】lotcode：10041
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo1.do?lotCode=10041
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getLotteryInfoList.do?lotCode=10041
+
+40. 【福彩七乐彩】lotcode：10042
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10042
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getHistoryLotteryInfo.do?lotCode=10042
+
+41. 【体彩排列3】lotcode：10043
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo1.do?lotCode=10043
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getLotteryInfoList.do?lotCode=10043
+
+42. 【体彩排列5】lotcode：10044
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10044
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getHistoryLotteryInfo.do?lotCode=10044
+
+43. 【体彩七星彩】lotcode：10045
+
+当前开奖：https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10045
+
+历史开奖记录：https://api.api68.com/QuanGuoCai/getHistoryLotteryInfo.do?lotCode=10045
+
+44. 【PC蛋蛋幸运28】lotcode：10046
+
+当前开奖：https://api.api68.com/LuckTwenty/getPcLucky28.do
+
+历史开奖记录：https://api.api68.com/LuckTwenty/getPcLucky28List.do?date=2019-04-15
+
+45. 【台湾宾果】lotcode：10047
+
+当前开奖：https://api.api68.com/LuckTwenty/getBaseLuckTewnty.do?lotCode=10047
+
+历史开奖记录：https://api.api68.com/LuckTwenty/getBaseLuckTwentyList.do?lotCode=10047&date=2019-04-15
+
+46. 【香港彩】lotcode：10048
+
+当前开奖：https://1680660.com/smallSix/findSmallSixInfo.do
+
+历史开奖记录：https://1680660.com/smallSix/findSmallSixHistory.do?type=1
+
+47. 【极速六合彩】lotcode：10051
+
+当前开奖：https://api.api68.com/speedSix/findSpeedSixInfo.do
+
+历史开奖记录：https://api.api68.com/speedSix/findSpeedSixHistory.do?type=1&date=2019-04-15
+
+48. 【极速快3】lotcode：10052
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10052
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10052&date=2019-04-15
+
+49. 【极速快乐十分】lotcode：10053
+
+当前开奖：https://api.api68.com/klsf/getLotteryInfo.do?lotCode=10053
+
+历史开奖记录：https://api.api68.com/klsf/getHistoryLotteryInfo.do?lotCode=10053&date=2019-04-15
+
+50. 【极速快乐8】lotcode：10054
+
+当前开奖：https://api.api68.com/LuckTwenty/getBaseLuckTewnty.do?lotCode=10054
+
+历史开奖记录：https://api.api68.com/LuckTwenty/getBaseLuckTwentyList.do?lotCode=10054&date=2019-04-15
+
+51. 【极速11选5】lotcode：10055
+
+当前开奖：https://api.api68.com/ElevenFive/getElevenFiveInfo.do?lotCode=10055
+
+历史开奖记录：https://api.api68.com/ElevenFive/getElevenFiveList.do?lotCode=10055&date=2019-04-25
+
+52. 【幸运飞艇】lotcode：10057
+
+当前开奖：https://api.api68.com/pks/getLotteryPksInfo.do?lotCode=10057
+
+历史开奖记录：https://api.api68.com/pks/getPksHistoryList.do?lotCode=10057&date=2019-04-15
+
+53. 【SG飞艇】lotcode：10058
+
+当前开奖：https://api.api68.com/pks/getLotteryPksInfo.do?lotCode=10058
+
+历史开奖记录：https://api.api68.com/pks/getPksHistoryList.do?lotCode=10058&date=2019-04-15
+
+54. 【幸运时时彩】lotcode：10059
+
+当前开奖：https://api.api68.com/CQShiCai/getBaseCQShiCai.do?lotCode=10059
+
+历史开奖记录：https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10059&date=2019-04-15
+
+55. 【重庆欢乐生肖】lotcode：10060
+
+当前开奖：https://api.api68.com/CQShiCai/getBaseCQShiCai.do?lotCode=10060
+
+历史开奖记录：https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10060&date=2019-04-15
+
+56. 【台湾5分彩】lotcode：10064
+
+当前开奖：https://api.api861861.com/CQShiCai/getBaseCQShiCai.do?issue=108039902&lotCode=10064
+
+历史开奖记录：https://api.api861861.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10064
+
+57. 【贵州快3】lotcode：10062
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10062
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10062&date=2019-04-15
+
+58.【上海快3】lotcode：10061
+
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10061
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10061&date=2019-04-15
+
+59. 【甘肃快3】lotcode：10063
+当前开奖：https://api.api68.com/lotteryJSFastThree/getBaseJSFastThree.do?lotCode=10063
+
+历史开奖记录：https://api.api68.com/lotteryJSFastThree/getJSFastThreeList.do?lotCode=10063&date=2019-04-15
+
+60. 【台湾大乐透】lotcode：10070
+实时开奖  https://api.api861861.com/taiWanCai/getLotteryInfo.do?lotCode=10070
+
+开奖历史  https://api.api861861.com/taiWanCai/getHistoryLotteryInfo.do?lotCode=10070&date=2020-04-28
+
+61.【台湾威力彩】lotcode：10071
+实时开奖 https://api.api861861.com/taiWanCai/getLotteryInfo.do?lotCode=10071
+
+开奖历史  https://api.api861861.com/taiWanCai/getHistoryLotteryInfo.do?lotCode=10071&date=2020-04-28
+
+62.【台湾今彩539】lotcode：10072
+实时开奖 https://api.api861861.com/taiWanCai/getLotteryInfo.do?lotCode=10072
+
+开奖历史  https://api.api861861.com/taiWanCai/getHistoryLotteryInfo.do?lotCode=10072&date=2020-04-28
+
+
+
+
