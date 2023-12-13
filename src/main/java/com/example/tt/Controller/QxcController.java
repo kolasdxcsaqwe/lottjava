@@ -100,6 +100,7 @@ public class QxcController {
 
     }
 
+    //下注
     @ResponseBody
     @RequestMapping(value = "/QXCSendChat", method = RequestMethod.POST)
     public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
@@ -108,9 +109,10 @@ public class QxcController {
         return qxcService.betQXC(betArray,userId,roomId,request);
     }
 
+    //获取开奖结果 和结算
     @ResponseBody
     @RequestMapping(value = "/fetchQXCResult", method = RequestMethod.GET)
-    public Object fetchQXCResult() {
-        return qxcService.fetchQXCResult();
+    public Object fetchQXCResult(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
+        return qxcService.fetchQXCResult(roomId,request);
     }
 }

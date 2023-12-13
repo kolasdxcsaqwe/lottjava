@@ -1,6 +1,8 @@
 package com.example.tt.Service;
 
 import com.example.tt.Bean.*;
+import com.example.tt.OpenResult.AnyChooseCalWin;
+import com.example.tt.OpenResult.FixChooseCalWin;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.dao.LotteryOpenBeanMapper;
 import com.example.tt.dao.MarkLogMapper;
@@ -33,6 +35,7 @@ public class QxcService {
     MarkLogMapper markLogMapper;
 
     static SessionStorage sessionStorage = SessionStorage.getInstance();
+    final String qxcUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10045";//七星彩开奖地址
 
     public static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
@@ -44,8 +47,11 @@ public class QxcService {
         //都是数字 大小单双用0123 代替
         int mul = 1;
         List<String> stringList = new ArrayList<>();
+        Map<Integer,String> codes=new HashMap<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            String str = jsonArray.optString(i).trim().replaceAll(" ", "");
+            JSONObject jsonObject=jsonArray.optJSONObject(i);
+            String str = jsonObject.optString("code","").trim().replaceAll(" ", "");
+            codes.put(jsonObject.optInt("pos",-1),str);
             if (str.length() < 1 || !Strings.isDigitOnly(str)) {
                 return 0;
             } else {
@@ -56,28 +62,73 @@ public class QxcService {
 
         switch (type) {
             case 1:
-                orderAmount = calculateOrderAnyChoose(stringList.get(0).length(), 3);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 3);
                 break;
             case 2:
-                orderAmount = calculateOrderAnyChoose(stringList.get(0).length(), 2);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 2);
                 break;
             case 3:
+                orderAmount=checkFormat(codes,0,1,2,3)?mul:0;
+                break;
             case 4:
+                orderAmount=checkFormat(codes,0,1,2)?mul:0;
+                break;
             case 5:
+                orderAmount=checkFormat(codes,0,1)?mul:0;
+                break;
             case 6:
+                orderAmount=checkFormatAnyPosition(codes,0,1,2,3)?mul:0;
+                break;
             case 7:
-                orderAmount = mul;
+                orderAmount = checkFormat(codes,0,3)?mul:0;
                 break;
             case 8:
             case 9:
             case 10:
             case 11:
-                orderAmount = 1;
+                if(!checkFormatAnyPosition(codes,0,1,2,3))
+                {
+                    return 0;
+                }
+                int temp=0;
+                for (String code:codes.values())
+                {
+                    if(code.length()>4)
+                    {
+                        //只有大小单双 0123
+                        return 0;
+                    }
+                    temp=temp+code.length();
+                }
+                orderAmount = temp;
                 break;
-
         }
 
         return orderAmount;
+    }
+
+    private static boolean checkFormat(Map<Integer, String> map, Integer... index)
+    {
+        for (int i = 0; i <index.length ; i++) {
+            if(Strings.isEmptyOrNullAmongOf(map.get(index)))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index)
+    {
+        for (int i = 0; i <index.length ; i++) {
+            if(!Strings.isEmptyOrNullAmongOf(map.get(index)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private float getWinRate(int gameType, Lottery20Setting lottery20Setting) {
@@ -141,6 +192,20 @@ public class QxcService {
         return orderTotalMoney;
     }
 
+    //{
+    //    "gamName":"ry3",
+    //    "orderPrice":6,
+    //    "codes":[
+    //        {
+    //            "pos":0,
+    //            "code":"453156"
+    //        },
+    //        {
+    //            "pos":4,
+    //            "code":"4342"
+    //        }
+    //    ]
+    //}
     public Object betQXC(String betArray, String userId, String roomId, HttpServletRequest request) {
         Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting();
         int fengTime = lottery20Setting.getFengtime();
@@ -304,7 +369,7 @@ public class QxcService {
         return n / nm / m;
     }
 
-    public Object fetchQXCResult() {
+    public Object fetchQXCResult(final String roomId,final HttpServletRequest request) {
 
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
         if (lotteryOpenBean != null && lotteryOpenBean.getNextTime() != null) {
@@ -316,7 +381,7 @@ public class QxcService {
         params.add(new PostParamBean("code", "qxc"));
         params.add(new PostParamBean("format", "json"));
         params.add(new PostParamBean("rows", "1"));
-        HttpRequest.getInstance().get("https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10045", params, new HttpCallBack() {
+        HttpRequest.getInstance().get(qxcUrl, params, new HttpCallBack() {
             @Override
             public void onError(Exception ex) {
 
@@ -335,7 +400,7 @@ public class QxcService {
                         if (!Strings.isEmptyOrNullAmongOf(term, result, time)) {
                             result = result.replaceAll(",", "").replaceAll("\\+", "");
                             Date date = TimeUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-                            calQXCOrder(term, result, date, lotteryOpenBean);
+                            calQXCOrder(request,roomId,term, result, date, lotteryOpenBean);
                         }
 
                     }
@@ -349,7 +414,7 @@ public class QxcService {
         return ReturnDataBuilder.makeBaseJSON(null);
     }
 
-    private void calQXCOrder(String term, String codes, Date time, LotteryOpenBean lotteryOpenBean) {
+    private void calQXCOrder(HttpServletRequest request,String roomId,String term, String codes, Date time, LotteryOpenBean lotteryOpenBean) {
         boolean isShouldAdd = false;
 
         if (lotteryOpenBean == null) {
@@ -396,59 +461,86 @@ public class QxcService {
         Map<String,Float> map=new HashMap<>();
         for (QXCOrder qxcOrder : qxcOrderList) {
 
+            int winTimes=0;
+
+            Map<Integer,String> playerBetCodesBeans=new HashMap<>();
+            try {
+                JSONArray jsonArray=new JSONArray(qxcOrder.getContent());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject=jsonArray.optJSONObject(i);
+                    playerBetCodesBeans.put(jsonObject.optInt("pos",-1),jsonObject.optString("code","").trim().replaceAll(" ",""));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            //结算算法
             switch (qxcOrder.getGameType())
             {
                 case 1:
-                    if(isWindAnyChoose(3,codes,qxcOrder))
+                    if(playerBetCodesBeans.size()>0 && playerBetCodesBeans.get(0)!=null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0)))
                     {
-                        //任选3 3 就是中奖
-                        sumBeforeWin(map,qxcOrder);
+                        winTimes=AnyChooseCalWin.getInstance().getWinTimes(lotteryOpenBean.getCode(),playerBetCodesBeans.get(0),3);
+                        sumBeforeWin(map,qxcOrder,winTimes);
                     }
                     break;
                 case 2:
-                    if(isWindAnyChoose(4,codes,qxcOrder))
+                    if(playerBetCodesBeans.size()>0 && playerBetCodesBeans.get(0)!=null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0)))
                     {
-                        //任选4 4 就是中奖
-                        sumBeforeWin(map,qxcOrder);
+                        winTimes=AnyChooseCalWin.getInstance().getWinTimes(lotteryOpenBean.getCode(),qxcOrder.getContent(),4);
+                        sumBeforeWin(map,qxcOrder,winTimes);
                     }
                     break;
                 case 3:
+                    if(FixChooseCalWin.getInstance().calFixIsWin(lotteryOpenBean.getCode(),playerBetCodesBeans,0,1,2,3))
+                    {
+                        sumBeforeWin(map,qxcOrder,1);
+                    }
+                    break;
+                case 4:
+                    if(FixChooseCalWin.getInstance().calFixIsWin(lotteryOpenBean.getCode(),playerBetCodesBeans,0,1,2))
+                    {
+                        sumBeforeWin(map,qxcOrder,1);
+                    }
+                    break;
+                case 5:
+                    if(FixChooseCalWin.getInstance().calFixIsWin(lotteryOpenBean.getCode(),playerBetCodesBeans,0,1))
+                    {
+                        sumBeforeWin(map,qxcOrder,1);
+                    }
+                    break;
+                case 6:
 
                     break;
-            }
-        }
-
-
-    }
-
-    private boolean isWindAnyChoose(int times,String codes,QXCOrder qxcOrder)
-    {
-        int countEq=0;
-        for (int i = 0; i < codes.length(); i++) {
-            char cha=codes.charAt(i);
-            if(countEq>=times)
-            {
-                break;
-            }
-            for (int j = 0; j < qxcOrder.getContent().length(); j++) {
-                if(cha==qxcOrder.getContent().charAt(j))
-                {
-                    countEq++;
-                    if(countEq>=times)
+                case 7:
+                    if(FixChooseCalWin.getInstance().calFixIsWin(lotteryOpenBean.getCode(),playerBetCodesBeans,0,3))
                     {
-                        break;
+                        sumBeforeWin(map,qxcOrder,1);
                     }
-                }
+                    break;
+                case 8:
+                    winTimes=FixChooseCalWin.getInstance().calDXDS(lotteryOpenBean.getCode(),playerBetCodesBeans,0,1,2,3);
+                    if(winTimes>0)
+                    {
+                        sumBeforeWin(map,qxcOrder,winTimes);
+                    }
+                    break;
             }
+
+            //结算钱给客户
+            win(map,term,roomId,request);
         }
 
-        return countEq>=times;
     }
 
-    private void sumBeforeWin(Map<String,Float> map,QXCOrder qxcOrder)
+    private void sumBeforeWin(Map<String,Float> map,QXCOrder qxcOrder,int winTimes)
     {
+        if(winTimes<1)
+        {
+            return;
+        }
         Float beforeWin=map.get(qxcOrder.getUserid());
-        float totalMoney = qxcOrder.getWinrate() * qxcOrder.getMoney();
+        float totalMoney = qxcOrder.getUnitprice()*winTimes*qxcOrder.getWinrate();
         if(beforeWin!=null)
         {
             map.put(qxcOrder.getUserid(),beforeWin+totalMoney);
@@ -460,10 +552,32 @@ public class QxcService {
     }
 
 
-    private void win(QXCOrder qxcOrder)
+    private void win(Map<String,Float> map,String term,String roomId,HttpServletRequest request)
     {
-        float totalMoney = qxcOrder.getWinrate() * qxcOrder.getMoney();
-        userBeanMapper.addUserMoney(String.valueOf(totalMoney),qxcOrder.getUserid());
+        //应该用事务的 但是数据库面目全非 算了
+        for (Map.Entry<String, Float> entry : map.entrySet())
+        {
+            userBeanMapper.addUserMoney(String.valueOf(entry.getValue()),entry.getKey());
+        }
+
+        //发开奖公告
+        List<PostParamBean> params = new ArrayList<>();
+        params.add(new PostParamBean("content", "第 $kjqh 期&nbsp;开&nbsp;奖&nbsp;号&nbsp;码<br><br>$haomachuan<br><br>第 $term 期已开启下注!"));
+        params.add(new PostParamBean("userid", "system"));
+        params.add(new PostParamBean("chatType", "U3"));
+        params.add(new PostParamBean("roomid", roomId));
+        params.add(new PostParamBean("game", GameIndex.LotteryTypeCodeList.qxc.getGame()));
+        params.add(new PostParamBean("imgType", "robot"));
+        params.add(new PostParamBean("username", "播报员"));
+        params.add(new PostParamBean("betTerm",term));
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(request.getScheme()).append("://");
+        sb.append(request.getServerName()).append(":");
+        sb.append(request.getServerPort());
+        sb.append("/sendChat");
+
+        HttpRequest.getInstance().post(sb.toString(), params);
     }
 
 }

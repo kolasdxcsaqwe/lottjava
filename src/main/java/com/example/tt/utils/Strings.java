@@ -109,4 +109,16 @@ public class Strings {
         }
         return true;
     }
+
+    public static boolean hasContainsChar(String target, char arg)
+    {
+        boolean hasInKai=false;
+        for (int j = 0; j < target.length(); j++) {
+            if(target.charAt(j)==arg)
+            {
+                hasInKai=true;
+            }
+        }
+        return hasInKai;
+    }
 }

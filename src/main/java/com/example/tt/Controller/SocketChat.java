@@ -187,11 +187,9 @@ public class SocketChat {
 
     private boolean sendMessage(String content,String roomid,String game,Map<String, MySession> sessions,String string)
     {
-        int sessionSize=0;
         boolean isSendSuccess=true;
         if(sessions!=null && !sessions.isEmpty())
         {
-            sessionSize=sessions.size();
             for (Map.Entry<String, MySession> entry : sessions.entrySet()) {
                 try {
                     if(entry.getValue().getSession().isOpen())

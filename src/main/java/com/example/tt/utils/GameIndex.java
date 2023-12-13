@@ -105,10 +105,7 @@ public class GameIndex {
         d2(5, "d2", "前2定位"),
         d1(6, "d1", "1字定位"),
         tw(7, "tw", "头尾"),
-        da(8, "da", "大"),
-        xiao(9, "xiao", "小"),
-        dan(10, "dan", "单"),
-        shuang(11, "shuang", "双");
+        dxds(8, "dxds", "大小单双");
 
 
         private int code;
