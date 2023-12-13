@@ -4,7 +4,6 @@ package com.example.tt.Controller;
 
 import com.example.tt.Bean.Lottery20Setting;
 import com.example.tt.Bean.LotteryOpenBean;
-import com.example.tt.FormatCheck.QXCBetHandler;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.Service.QxcService;
 import com.example.tt.dao.Lottery20SettingMapper;
@@ -59,10 +58,7 @@ public class QxcController {
         Lottery20Setting lottery20Setting=new Lottery20Setting();
         lottery20Setting.setId(roomid);
         lottery20Setting.setRoomid(roomid);
-        lottery20Setting.setDa(dxds);
-        lottery20Setting.setXiao(dxds);
-        lottery20Setting.setDan(dxds);
-        lottery20Setting.setShuang(dxds);
+        lottery20Setting.setDxds(dxds);
         lottery20Setting.setAnythree(anythree);
         lottery20Setting.setAnytwo(anytwo);
         lottery20Setting.setFourfix(fourfix);

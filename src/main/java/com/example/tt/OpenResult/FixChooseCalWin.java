@@ -38,6 +38,25 @@ public class FixChooseCalWin {
         return true;
     }
 
+    //固定位置的结算 1字定位
+    public int calFixOneIsWin(String openResult, Map<Integer,String> map,Integer...positions)
+    {
+        int winTimes=0;
+        for (int i = 0; i < positions.length; i++) {
+            String code=map.get(positions[i]);
+            if(!Strings.isEmptyOrNullAmongOf(code))
+            {
+                boolean hasChar= Strings.hasContainsChar(code,openResult.charAt(positions[i]));
+                if(hasChar)
+                {
+                    winTimes++;
+                }
+            }
+        }
+
+        return winTimes;
+    }
+
     //大小单双结算 0123
     public int calDXDS(String openResult, Map<Integer,String> map,Integer...positions)
     {

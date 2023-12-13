@@ -5,9 +5,7 @@ import com.example.tt.utils.JSONArray;
 import com.example.tt.utils.JSONException;
 import com.example.tt.utils.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Test {
 
@@ -37,7 +35,15 @@ public class Test {
 //        }
 //        System.err.println(jsonObject.toString());
 
-        System.err.println("12".charAt(0)-'0');
+        String kk="3,6,4,5,8,6,12";
+        String[] result =kk.split(",");
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i < result.length-1; i++) {
+            sb.append(result[i]);
+        }
+        sb.append(",").append(result[result.length-1]);
+
+        System.err.println(sb.toString());
     }
 
     private static JSONObject makeJsonObj(String pos,String codes)

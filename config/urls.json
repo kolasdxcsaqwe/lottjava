@@ -33,6 +33,10 @@
 	{
 		"url": "http://localhost:8123/clearCache.php",
 		"sec": 3600
+	},
+	{
+		"url": "http://localhost:8653/fetchQXCResult?roomId=10029",
+		"sec": 30
 	}
 ]
 

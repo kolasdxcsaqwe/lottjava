@@ -35,7 +35,7 @@ public class QxcService {
     MarkLogMapper markLogMapper;
 
     static SessionStorage sessionStorage = SessionStorage.getInstance();
-    final String qxcUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10045";//七星彩开奖地址
+    final String qxcUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo.do";//七星彩开奖地址
 
     public static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
@@ -156,16 +156,7 @@ public class QxcService {
                 rate = lottery20Setting.getTouweifix();
                 break;
             case 8:
-                rate = lottery20Setting.getDa();
-                break;
-            case 9:
-                rate = lottery20Setting.getXiao();
-                break;
-            case 10:
-                rate = lottery20Setting.getDan();
-                break;
-            case 11:
-                rate = lottery20Setting.getShuang();
+                rate = lottery20Setting.getDxds();
                 break;
         }
         return rate;
@@ -378,9 +369,8 @@ public class QxcService {
             }
         }
         List<PostParamBean> params = new ArrayList<>();
-        params.add(new PostParamBean("code", "qxc"));
-        params.add(new PostParamBean("format", "json"));
-        params.add(new PostParamBean("rows", "1"));
+        params.add(new PostParamBean("lotCode", "10045"));
+
         HttpRequest.getInstance().get(qxcUrl, params, new HttpCallBack() {
             @Override
             public void onError(Exception ex) {
@@ -397,6 +387,15 @@ public class QxcService {
                         String term = jsonData.optString("preDrawIssue", "");
                         String result = jsonData.optString("preDrawCode", "");
                         String time = jsonData.optString("preDrawTime", "");
+
+                        String[] resultSplit =result.split(",");
+                        StringBuilder sb=new StringBuilder();
+                        for (int i = 0; i < resultSplit.length-1; i++) {
+                            sb.append(resultSplit[i]);
+                        }
+                        sb.append(",").append(resultSplit[resultSplit.length-1]);
+                        result=sb.toString();
+
                         if (!Strings.isEmptyOrNullAmongOf(term, result, time)) {
                             result = result.replaceAll(",", "").replaceAll("\\+", "");
                             Date date = TimeUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
@@ -437,24 +436,38 @@ public class QxcService {
         newTermBean.setTime(time);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
+
+        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+        if(isFirstSunday){
+            weekDay = weekDay - 1;
+            if(weekDay == 0){
+                weekDay = 7;
+            }
+        }
+
         //周2 5 7开奖
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+        switch (weekDay) {
             case 2:
-                calendar.setTimeInMillis(time.getTime() + (3 * 24 * 3600 * 1000));
+                calendar.setTime(new Date(time.getTime() + (3 * 24 * 3600 * 1000)));
                 break;
             case 5:
             case 7:
-                calendar.setTimeInMillis(time.getTime() + (2 * 24 * 3600 * 1000));
+                calendar.setTime(new Date(time.getTime() + (2 * 24 * 3600 * 1000)));
                 break;
+            default:
+                //不是的话就假的开奖
+                return;
         }
         newTermBean.setNextTime(calendar.getTime());
-        newTermBean.setRoomid(lotteryOpenBean.getRoomid());
+        newTermBean.setRoomid(roomId);
         newTermBean.setCode(codes);
+        MyLog.e(new Gson().toJson(newTermBean));
         lotteryOpenBeanMapper.insertSelective(newTermBean);
 
         //插入开奖号码后开始结算
         List<QXCOrder> qxcOrderList = qxcOrderMapper.selectOrderByStatus(0, term);
-        if (qxcOrderList == null || qxcOrderList.size() < 1) {
+        if (qxcOrderList == null || qxcOrderList.isEmpty()) {
             return;
         }
 
@@ -510,7 +523,11 @@ public class QxcService {
                     }
                     break;
                 case 6:
-
+                    winTimes=FixChooseCalWin.getInstance().calFixOneIsWin(lotteryOpenBean.getCode(),playerBetCodesBeans,0,1,2,3);
+                    if(winTimes>0)
+                    {
+                        sumBeforeWin(map,qxcOrder,winTimes);
+                    }
                     break;
                 case 7:
                     if(FixChooseCalWin.getInstance().calFixIsWin(lotteryOpenBean.getCode(),playerBetCodesBeans,0,3))

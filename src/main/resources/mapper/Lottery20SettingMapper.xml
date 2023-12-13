@@ -5,10 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="roomid" jdbcType="INTEGER" property="roomid" />
     <result column="gameopen" jdbcType="BIT" property="gameopen" />
-    <result column="da" jdbcType="REAL" property="da" />
-    <result column="xiao" jdbcType="REAL" property="xiao" />
-    <result column="dan" jdbcType="REAL" property="dan" />
-    <result column="shuang" jdbcType="REAL" property="shuang" />
+    <result column="dxds" jdbcType="REAL" property="dxds" />
     <result column="anythree" jdbcType="REAL" property="anythree" />
     <result column="anytwo" jdbcType="REAL" property="anytwo" />
     <result column="fourfix" jdbcType="REAL" property="fourfix" />
@@ -24,7 +21,7 @@
     <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, roomid, gameopen, da, xiao, dan, shuang, anythree, anytwo, fourfix, threefix, 
+    id, roomid, gameopen, dxds, anythree, anytwo, fourfix, threefix,
     twofix, onefix, touweifix, minbet, maxbet, fengtime
   </sql>
   <sql id="Blob_Column_List">
@@ -55,13 +52,13 @@
   </delete>
   <insert id="insert" parameterType="com.example.tt.Bean.Lottery20Setting">
     insert into fn_lottery20 (id, roomid, gameopen, 
-      da, xiao, dan, shuang, 
+       dxds,
       anythree, anytwo, fourfix, threefix, 
       twofix, onefix, touweifix, minbet, 
       maxbet, fengtime, rules
       )
     values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{gameopen,jdbcType=BIT}, 
-      #{da,jdbcType=REAL}, #{xiao,jdbcType=REAL}, #{dan,jdbcType=REAL}, #{shuang,jdbcType=REAL}, 
+       #{dxds,jdbcType=REAL},
       #{anythree,jdbcType=REAL}, #{anytwo,jdbcType=REAL}, #{fourfix,jdbcType=REAL}, #{threefix,jdbcType=REAL}, 
       #{twofix,jdbcType=REAL}, #{onefix,jdbcType=REAL}, #{touweifix,jdbcType=REAL}, #{minbet,jdbcType=REAL}, 
       #{maxbet,jdbcType=REAL}, #{fengtime,jdbcType=INTEGER}, #{rules,jdbcType=LONGVARCHAR}
@@ -79,17 +76,8 @@
       <if test="gameopen != null">
         gameopen,
       </if>
-      <if test="da != null">
-        da,
-      </if>
-      <if test="xiao != null">
-        xiao,
-      </if>
-      <if test="dan != null">
-        dan,
-      </if>
-      <if test="shuang != null">
-        shuang,
+      <if test="dxds != null">
+        dxds,
       </if>
       <if test="anythree != null">
         anythree,
@@ -135,17 +123,8 @@
       <if test="gameopen != null">
         #{gameopen,jdbcType=BIT},
       </if>
-      <if test="da != null">
-        #{da,jdbcType=REAL},
-      </if>
-      <if test="xiao != null">
-        #{xiao,jdbcType=REAL},
-      </if>
-      <if test="dan != null">
-        #{dan,jdbcType=REAL},
-      </if>
-      <if test="shuang != null">
-        #{shuang,jdbcType=REAL},
+      <if test="dxds != null">
+        #{dxds,jdbcType=REAL},
       </if>
       <if test="anythree != null">
         #{anythree,jdbcType=REAL},
@@ -191,17 +170,8 @@
       <if test="gameopen != null">
         gameopen = #{gameopen,jdbcType=BIT},
       </if>
-      <if test="da != null">
-        da = #{da,jdbcType=REAL},
-      </if>
-      <if test="xiao != null">
-        xiao = #{xiao,jdbcType=REAL},
-      </if>
-      <if test="dan != null">
-        dan = #{dan,jdbcType=REAL},
-      </if>
-      <if test="shuang != null">
-        shuang = #{shuang,jdbcType=REAL},
+      <if test="dxds != null">
+        dxds = #{dxds,jdbcType=REAL},
       </if>
       <if test="anythree != null">
         anythree = #{anythree,jdbcType=REAL},
@@ -243,10 +213,7 @@
     update fn_lottery20
     set roomid = #{roomid,jdbcType=INTEGER},
       gameopen = #{gameopen,jdbcType=BIT},
-      da = #{da,jdbcType=REAL},
-      xiao = #{xiao,jdbcType=REAL},
-      dan = #{dan,jdbcType=REAL},
-      shuang = #{shuang,jdbcType=REAL},
+        dxds = #{dxds,jdbcType=REAL},
       anythree = #{anythree,jdbcType=REAL},
       anytwo = #{anytwo,jdbcType=REAL},
       fourfix = #{fourfix,jdbcType=REAL},
@@ -264,10 +231,7 @@
     update fn_lottery20
     set roomid = #{roomid,jdbcType=INTEGER},
       gameopen = #{gameopen,jdbcType=BIT},
-      da = #{da,jdbcType=REAL},
-      xiao = #{xiao,jdbcType=REAL},
-      dan = #{dan,jdbcType=REAL},
-      shuang = #{shuang,jdbcType=REAL},
+        dxds = #{dxds,jdbcType=REAL},
       anythree = #{anythree,jdbcType=REAL},
       anytwo = #{anytwo,jdbcType=REAL},
       fourfix = #{fourfix,jdbcType=REAL},
@@ -293,17 +257,8 @@
       <if test="gameopen != null">
         gameopen,
       </if>
-      <if test="da != null">
-        da,
-      </if>
-      <if test="xiao != null">
-        xiao,
-      </if>
-      <if test="dan != null">
-        dan,
-      </if>
-      <if test="shuang != null">
-        shuang,
+      <if test="dxds != null">
+        dxds,
       </if>
       <if test="anythree != null">
         anythree,
@@ -349,17 +304,8 @@
       <if test="gameopen != null">
         #{gameopen,jdbcType=BIT},
       </if>
-      <if test="da != null">
-        #{da,jdbcType=REAL},
-      </if>
-      <if test="xiao != null">
-        #{xiao,jdbcType=REAL},
-      </if>
-      <if test="dan != null">
-        #{dan,jdbcType=REAL},
-      </if>
-      <if test="shuang != null">
-        #{shuang,jdbcType=REAL},
+      <if test="dxds != null">
+        #{dxds,jdbcType=REAL},
       </if>
       <if test="anythree != null">
         #{anythree,jdbcType=REAL},

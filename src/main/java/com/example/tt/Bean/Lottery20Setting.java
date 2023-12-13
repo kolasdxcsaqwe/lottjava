@@ -7,13 +7,7 @@ public class Lottery20Setting {
 
     private Boolean gameopen;
 
-    private Float da;
-
-    private Float xiao;
-
-    private Float dan;
-
-    private Float shuang;
+    private Float dxds;
 
     private Float anythree;
 
@@ -61,36 +55,12 @@ public class Lottery20Setting {
         this.gameopen = gameopen;
     }
 
-    public Float getDa() {
-        return da;
+    public Float getDxds() {
+        return dxds;
     }
 
-    public void setDa(Float da) {
-        this.da = da;
-    }
-
-    public Float getXiao() {
-        return xiao;
-    }
-
-    public void setXiao(Float xiao) {
-        this.xiao = xiao;
-    }
-
-    public Float getDan() {
-        return dan;
-    }
-
-    public void setDan(Float dan) {
-        this.dan = dan;
-    }
-
-    public Float getShuang() {
-        return shuang;
-    }
-
-    public void setShuang(Float shuang) {
-        this.shuang = shuang;
+    public void setDxds(Float dxds) {
+        this.dxds = dxds;
     }
 
     public Float getAnythree() {
