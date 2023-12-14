@@ -4,6 +4,7 @@ import com.example.tt.OpenResult.AnyChooseCalWin;
 import com.example.tt.utils.JSONArray;
 import com.example.tt.utils.JSONException;
 import com.example.tt.utils.JSONObject;
+import com.example.tt.utils.Strings;
 
 import java.util.*;
 
@@ -12,13 +13,14 @@ public class Test {
     public static Stack<Character> stack = new Stack<Character>();
 
     static int win = 0;
+    static int count=0;
 
     public static void main(String[] args) {
-        String kai = "3115";
+        String kai = "12345";
         String bet = "1924530";
-        int type = 3;// 选 2
+        int type = 2;// 选 2
 //        System.err.println(removeSameNum(kai));
-//        System.err.println("方式数--》" + calculateOrderAnyChoose(removeSameNum(kai).length(), type));
+        System.err.println("方式数--》" + calculateOrderAnyChoose(removeSameNum(kai).length(), type));
 //
 //        System.err.println("WIN--->" + AnyChooseCalWin.getInstance().getWinTimes(kai, bet, type));
 
@@ -34,16 +36,9 @@ public class Test {
 //            e.printStackTrace();
 //        }
 //        System.err.println(jsonObject.toString());
-
-        String kk="3,6,4,5,8,6,12";
-        String[] result =kk.split(",");
-        StringBuilder sb=new StringBuilder();
-        for (int i = 0; i < result.length-1; i++) {
-            sb.append(result[i]);
-        }
-        sb.append(",").append(result[result.length-1]);
-
-        System.err.println(sb.toString());
+        //豹子 10/220 顺子8/220 对子
+        cal("1234567890","123",3,0,0);
+        System.err.println("count-->"+count);
     }
 
     private static JSONObject makeJsonObj(String pos,String codes)
@@ -57,6 +52,47 @@ public class Test {
         }
         return jsonObject;
     }
+
+    /**
+     *
+     * @param shu   元素
+     * @param targ  要选多少个元素
+     * @param has   当前有多少个元素
+     * @param cur   当前选到的下标
+     * 1    2   3     //开始下标到2
+     * 1    2   4     //然后从3开始
+     */
+    private static void cal(String shu, String bet, int targ, int has, int cur) {
+        if(has == targ) {
+            System.err.println(stack);
+            count++;
+            for (int i = 0; i < stack.size(); i++) {
+                boolean hasChar= Strings.hasContainsChar(bet,stack.get(i));
+                if(hasChar)
+                {
+                    if(i==stack.size()-1)
+                    {
+                        win++;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return;
+        }
+
+        for(int i=cur;i<shu.length();i++) {
+            if(!stack.contains(shu.charAt(i))) {
+                stack.add(shu.charAt(i));
+                cal(shu, bet,targ, has+1, i);
+                stack.pop();
+            }
+        }
+
+    }
+
     private static String removeSameNum(String num) {
         StringBuilder sb = new StringBuilder();
         int pos = 0;

@@ -1,0 +1,48 @@
+CREATE TABLE `v9ym`.`fn_lottery22`  (
+  `id` int(11) NOT NULL DEFAULT 10029,
+  `roomid` int(11) NOT NULL DEFAULT 10029,
+  `gameopen` tinyint(1) NOT NULL DEFAULT 2,
+  `dxds` float  NULL DEFAULT 1.96,
+  `threefix` float  NULL DEFAULT 980 COMMENT '3星直选',
+  `twofix` float  NULL DEFAULT 98 COMMENT '2星直选',
+  `fivefix` float  NULL DEFAULT 20050 COMMENT '5星直选',
+  `anythree` float  NULL DEFAULT 340 COMMENT '任选三',
+  `anytwo` float  NULL DEFAULT 170 COMMENT '任选二',
+  `anyfour` float  NULL DEFAULT 98 COMMENT '任选四',
+  `douniu` float  NULL DEFAULT 98 COMMENT '斗牛',
+  `onefix` float  NULL DEFAULT 9.7 COMMENT '定位胆',
+  `rules` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '规则',
+  `minbet` float  NULL DEFAULT 5,
+  `maxbet` float  NULL DEFAULT 200000,
+  `fengtime` int(11)  NULL DEFAULT 20,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = FIXED;
+
+
+CREATE TABLE `fn_pl5dorder` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`userid`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`username`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`headimg`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`term`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`mingci`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '下注内容',
+`money`  int(11) NOT NULL ,
+`addtime`  datetime NOT NULL ,
+`status`  int(11) NOT NULL ,
+`jia`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`roomid`  int(11) NOT NULL ,
+`chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
+`gamename`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`gametype`  int(11) NOT NULL DEFAULT 0 ,
+`orderamount`  int(11) NOT NULL COMMENT '注单数量',
+`winrate`  float(11,4) NOT NULL DEFAULT 0.0000 ,
+`UnitPrice`  int(11) NOT NULL COMMENT '每注价格' ,
+PRIMARY KEY (`id`),
+INDEX `term` (`term`) USING BTREE
+)
+ENGINE=MyISAM
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;

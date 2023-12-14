@@ -1,0 +1,50 @@
+CREATE TABLE `v9ym`.`fn_lottery21`  (
+  `id` int(11) NOT NULL DEFAULT 10029,
+  `roomid` int(11) NOT NULL DEFAULT 10029,
+  `gameopen` tinyint(1) NOT NULL DEFAULT 2,
+  `dxds` float  NULL DEFAULT 1.96,
+  `threefix` float  NULL DEFAULT 960 COMMENT '3星直选',
+  `combinethree` float  NULL DEFAULT 340 COMMENT '3星组三',
+  `combinesix` float  NULL DEFAULT 170 COMMENT '3星组六',
+  `combinethreesum` float  NULL DEFAULT 340 COMMENT '3星组三和值',
+  `combinesixsum` float  NULL DEFAULT 170 COMMENT '3星组六和值',
+  `fronttwofix` float  NULL DEFAULT 98 COMMENT '2星前二直选',
+  `backtwofix` float  NULL DEFAULT 98 COMMENT '2星后二直选',
+  `onefix` float  NULL DEFAULT 9.7 COMMENT '定位胆',
+  `anyone` float  NULL DEFAULT 3.26 COMMENT ' 任选1',
+  `anytwo` float  NULL DEFAULT 16.32 COMMENT '任选2',
+  `rules` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '规则',
+  `minbet` float  NULL DEFAULT 5,
+  `maxbet` float  NULL DEFAULT 200000,
+  `fengtime` int(11)  NULL DEFAULT 20,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = FIXED;
+
+
+CREATE TABLE `fn_fc3dorder` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`userid`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`username`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`headimg`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`term`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`mingci`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '下注内容',
+`money`  int(11) NOT NULL ,
+`addtime`  datetime NOT NULL ,
+`status`  int(11) NOT NULL ,
+`jia`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`roomid`  int(11) NOT NULL ,
+`chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
+`gamename`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`gametype`  int(11) NOT NULL DEFAULT 0 ,
+`orderamount`  int(11) NOT NULL COMMENT '注单数量',
+`winrate`  float(11,4) NOT NULL DEFAULT 0.0000 ,
+`UnitPrice`  int(11) NOT NULL COMMENT '每注价格' ,
+PRIMARY KEY (`id`),
+INDEX `term` (`term`) USING BTREE
+)
+ENGINE=MyISAM
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;

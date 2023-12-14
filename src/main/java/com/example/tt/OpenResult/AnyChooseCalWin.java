@@ -56,6 +56,7 @@ public class AnyChooseCalWin {
      */
     private void cal(String shu,String bet,int targ, int has, int cur) {
         if(has == targ) {
+            System.err.println(stack);
             for (int i = 0; i < stack.size(); i++) {
                 boolean hasChar= Strings.hasContainsChar(bet,stack.get(i));
                 if(hasChar)
