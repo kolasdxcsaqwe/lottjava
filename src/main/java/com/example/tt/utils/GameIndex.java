@@ -98,8 +98,8 @@ public class GameIndex {
     }
 
     public enum QXCGameTypeCode {
-        ry3(1, "ry3", "任意3"),
-        ry4(2, "ry4", "任意2"),
+        ry3(1, "ry3", "任选3"),
+        ry4(2, "ry2", "任选2"),
         d4(3, "d4", "前4定位"),
         d3(4, "d3", "前3定位"),
         d2(5, "d2", "前2定位"),
