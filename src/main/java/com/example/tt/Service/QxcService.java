@@ -389,11 +389,16 @@ public class QxcService {
                         String time = jsonData.optString("preDrawTime", "");
 
                         String[] resultSplit =result.split(",");
+                        if(resultSplit.length<4)
+                        {
+                            MyLog.e("七星彩开奖结果错误");
+                            return;
+                        }
                         StringBuilder sb=new StringBuilder();
-                        for (int i = 0; i < resultSplit.length-1; i++) {
+                        for (int i = 0; i < 4; i++) {
                             sb.append(resultSplit[i]);
                         }
-                        sb.append(",").append(resultSplit[resultSplit.length-1]);
+//                        sb.append(",").append(resultSplit[resultSplit.length-1]);
                         result=sb.toString();
 
                         if (!Strings.isEmptyOrNullAmongOf(term, result, time)) {
@@ -408,7 +413,6 @@ public class QxcService {
                 }
             }
         });
-
 
         return ReturnDataBuilder.makeBaseJSON(null);
     }
@@ -545,7 +549,7 @@ public class QxcService {
             }
 
             //结算钱给客户
-            win(map,term,roomId,request);
+            win(map,codes,term,roomId,request);
         }
 
     }
@@ -569,7 +573,7 @@ public class QxcService {
     }
 
 
-    private void win(Map<String,Float> map,String term,String roomId,HttpServletRequest request)
+    private void win(Map<String,Float> map,String result,String term,String roomId,HttpServletRequest request)
     {
         //应该用事务的 但是数据库面目全非 算了
         for (Map.Entry<String, Float> entry : map.entrySet())
@@ -579,7 +583,15 @@ public class QxcService {
 
         //发开奖公告
         List<PostParamBean> params = new ArrayList<>();
-        params.add(new PostParamBean("content", "第 $kjqh 期&nbsp;开&nbsp;奖&nbsp;号&nbsp;码<br><br>$haomachuan<br><br>第 $term 期已开启下注!"));
+
+        StringBuilder sbContent=new StringBuilder();
+        sbContent.append("第 ").append(term).append(" 期&nbsp;开&nbsp;奖&nbsp;号&nbsp;码 <br><br>");
+        for (int i = 0; i < result.length(); i++) {
+            sbContent.append("<span class='pk_").append((result.charAt(i) - '0')).append("</span>");
+        }
+        sbContent.append("<br><br>第 ").append(Integer.parseInt(term)+1).append(" 期已开启下注!");
+
+        params.add(new PostParamBean("content", sbContent.toString()));
         params.add(new PostParamBean("userid", "system"));
         params.add(new PostParamBean("chatType", "U3"));
         params.add(new PostParamBean("roomid", roomId));
@@ -597,4 +609,25 @@ public class QxcService {
         HttpRequest.getInstance().post(sb.toString(), params);
     }
 
+    public Object getRemainTimeAndUser(String userId,String roomId,HttpServletRequest request)
+    {
+        Lottery20Setting lottery20Setting=LotteryConfigGetter.getInstance().getLottery20Setting();
+        LotteryOpenBean lotteryOpenBean=lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
+        BigDecimal money=userBeanMapper.selectMoneyByUserId(userId,Integer.parseInt(roomId));
+
+        if (!lottery20Setting.getGameopen() ) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if (lotteryOpenBean == null || lotteryOpenBean.getNextTime() == null) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
+        }
+
+        String remainTime=String.valueOf(lotteryOpenBean.getNextTime().getTime()/1000- (System.currentTimeMillis()/1000)- lottery20Setting.getFengtime());
+        Map<String,String> map=new HashMap<>();
+        map.put("remainTime",remainTime);
+        map.put("money",Strings.cutOff(money,2));
+
+        return ReturnDataBuilder.makeBaseJSON(map);
+    }
 }

@@ -22,7 +22,9 @@ public class GameIndex {
         azxy10(17, "azxy10", "台湾快三"),
         azxy5(18, "azxy5", "台湾快三"),
         ny28(19, "ny28", "纽约28"),
-        qxc(20, "qxc", "传统七星彩");
+        qxc(20, "qxc", "传统七星彩"),
+        fc3d(21, "fc3d", "福彩3D"),
+        pl5(22, "pl5", "排列5");
 
 
         private int code;
@@ -70,7 +72,7 @@ public class GameIndex {
 
         try
         {
-            lotteryTypeCodeList=LotteryTypeCodeList.valueOf(betGame);
+            lotteryTypeCodeList=LotteryTypeCodeList.valueOf(betGame.trim().toLowerCase());
         }
         catch (Exception ex)
         {

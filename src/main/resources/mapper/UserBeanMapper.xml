@@ -56,10 +56,16 @@
         and agent = #{agent,jdbcType=VARCHAR} limit 1
   </select>
 
-  <select id="selectByUserId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByUserId" resultMap="ResultMapWithBLOBs">
     select *
     from fn_user
-    where userid = #{userid,jdbcType=VARCHAR} limit 1
+    where userid = #{userid,jdbcType=VARCHAR} and roomid = #{roomId,jdbcType=INTEGER} limit 1
+  </select>
+
+  <select id="selectMoneyByUserId" resultType="java.math.BigDecimal">
+    select money
+    from fn_user
+    where userid = #{userid,jdbcType=VARCHAR} and roomid = #{roomId,jdbcType=INTEGER} limit 1
   </select>
 
   <select id="selectByUserAndRoomId" resultMap="ResultMapWithBLOBs">

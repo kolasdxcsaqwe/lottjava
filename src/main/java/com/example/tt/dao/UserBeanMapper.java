@@ -30,4 +30,6 @@ public interface UserBeanMapper {
 
     int addUserMoney(@Param("money")String money,@Param("userid")String userid);
 
+    BigDecimal selectMoneyByUserId(@Param("userid") String userId,@Param("roomId")int roomId);
+
 }

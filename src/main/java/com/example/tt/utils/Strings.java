@@ -1,5 +1,9 @@
 package com.example.tt.utils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Strings {
 
     public static boolean isNullAmongOf(String ... args)
@@ -120,5 +124,48 @@ public class Strings {
             }
         }
         return hasInKai;
+    }
+
+    //length 代表保留几位
+    public static String cutOff(BigDecimal val, int length)
+    {
+        if(val==null)
+        {
+            return "";
+        }
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("##0.");
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append("0");
+        }
+        DecimalFormat decimalFormat = new DecimalFormat(stringBuilder.toString());
+        decimalFormat.setRoundingMode(RoundingMode.FLOOR);
+        String format = decimalFormat.format(val);
+        return format;
+    }
+
+    //length 代表保留几位
+    public static String cutOff(String val,int length)
+    {
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("##0.");
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append("0");
+        }
+        DecimalFormat decimalFormat = new DecimalFormat(stringBuilder.toString());
+        decimalFormat.setRoundingMode(RoundingMode.FLOOR);
+        if(!Strings.isEmptyOrNullAmongOf(val))
+        {
+            try {
+                String format = decimalFormat.format(new BigDecimal(val));
+                return format;
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+
+        return val;
     }
 }

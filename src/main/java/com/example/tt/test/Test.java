@@ -38,7 +38,9 @@ public class Test {
 //        System.err.println(jsonObject.toString());
         //豹子 10/220 顺子8/220 对子
         cal("1234567890","123",3,0,0);
-        System.err.println("count-->"+count);
+        StringBuilder sbContent=new StringBuilder();
+        sbContent.append("1   ").append('4').append(116);
+        System.err.println(sbContent);
     }
 
     private static JSONObject makeJsonObj(String pos,String codes)
