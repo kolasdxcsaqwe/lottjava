@@ -20,22 +20,22 @@ public class MyInterceptor implements HandlerInterceptor {
 
         MyLog.e("preHandle--> "+request.getRequestURI());
         String userId=request.getParameter("userId");
-        if(Strings.isEmptyOrNullAmongOf(userId))
-        {
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().print(ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S14));
-            return false;
-        }
-        else
-        {
-            String token=RedisCache.getInstance().get(userId);
-            if(Strings.isEmptyOrNullAmongOf(token))
-            {
-                response.setContentType("text/html;charset=utf-8");
-                response.getWriter().print(ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S14));
-                return false;
-            }
-        }
+//        if(Strings.isEmptyOrNullAmongOf(userId))
+//        {
+//            response.setContentType("text/html;charset=utf-8");
+//            response.getWriter().print(ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S14));
+//            return false;
+//        }
+//        else
+//        {
+//            String token=RedisCache.getInstance().get(userId);
+//            if(Strings.isEmptyOrNullAmongOf(token))
+//            {
+//                response.setContentType("text/html;charset=utf-8");
+//                response.getWriter().print(ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S14));
+//                return false;
+//            }
+//        }
 
         return true;
     }

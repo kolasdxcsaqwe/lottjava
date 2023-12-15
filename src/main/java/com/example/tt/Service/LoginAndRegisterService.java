@@ -30,7 +30,7 @@ public class LoginAndRegisterService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S13);
         }
 
-        RedisCache.getInstance().set(userBean.getUserid()+userBean.getRoomid(),MD5Gen.getMD5Str(UUID.randomUUID().toString()),expireTime);
+        RedisCache.getInstance().set(userBean.getUserid(),MD5Gen.getMD5Str(UUID.randomUUID().toString()),expireTime);
         return ReturnDataBuilder.makeBaseJSON(userBean);
     }
 
@@ -66,7 +66,7 @@ public class LoginAndRegisterService {
         userBean.setKahao("");
 
         int code=userBeanMapper.insertSelective(userBean);
-        RedisCache.getInstance().set(userBean.getUserid()+userBean.getRoomid(),MD5Gen.getMD5Str(UUID.randomUUID().toString()),expireTime);
+        RedisCache.getInstance().set(userBean.getUserid(),MD5Gen.getMD5Str(UUID.randomUUID().toString()),expireTime);
         if(code<1)
         {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);

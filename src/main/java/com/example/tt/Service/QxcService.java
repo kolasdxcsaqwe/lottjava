@@ -206,7 +206,7 @@ public class QxcService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
         }
 
-        if (lotteryOpenBean.getNextTime().getTime() - System.currentTimeMillis() > fengTime * 1000) {
+        if (lotteryOpenBean.getNextTime().getTime() - System.currentTimeMillis() < fengTime * 1000L) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
         }
 
@@ -251,6 +251,13 @@ public class QxcService {
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, qxcGameTypeCode.getCode());
+                StringBuilder chatContent=new StringBuilder();
+                chatContent.append(qxcGameTypeCode.getExplain()).append(":");
+                for (int j = 0; j < codes.length(); j++) {
+                    JSONObject temp=codes.optJSONObject(j);
+                    chatContent.append(temp.optString("code")).append("|");
+                }
+                chatContent.deleteCharAt(chatContent.length()-1);
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
@@ -300,6 +307,8 @@ public class QxcService {
                 qxcOrder.setHeadimg(userBean.getHeadimg());
                 qxcOrder.setMingci("");
                 qxcOrder.setJia(userBean.getJia());
+                qxcOrder.setUserid(userId);
+                qxcOrder.setRoomid(Integer.parseInt(roomId));
                 int status = qxcOrderMapper.insertSelective(qxcOrder);
 
 
@@ -314,7 +323,7 @@ public class QxcService {
                     sb.append("/sendChat");
 
                     List<PostParamBean> params = new ArrayList<>();
-                    params.add(new PostParamBean("content", qxcOrder.getContent()));
+                    params.add(new PostParamBean("content", chatContent.toString()));
                     params.add(new PostParamBean("userid", userId));
                     params.add(new PostParamBean("chatType", "U3"));
                     params.add(new PostParamBean("roomid", roomId));
