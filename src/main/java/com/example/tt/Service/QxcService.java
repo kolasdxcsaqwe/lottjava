@@ -636,6 +636,7 @@ public class QxcService {
         Map<String,String> map=new HashMap<>();
         map.put("remainTime",remainTime);
         map.put("money",Strings.cutOff(money,2));
+        map.put("term",lotteryOpenBean.getNextTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);
     }
