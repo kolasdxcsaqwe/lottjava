@@ -91,7 +91,7 @@
 <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
-                     <table schema="" tableName="fn_marklog" domainObjectName="MarkLog"
+                     <table schema="" tableName="fn_buqi" domainObjectName="PreSetResult"
                        enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                        enableUpdateByExample="false" selectByExampleQueryId="false"/>
 

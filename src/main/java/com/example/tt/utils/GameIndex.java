@@ -2,6 +2,37 @@ package com.example.tt.utils;
 
 public class GameIndex {
 
+    public enum OrderCalculateStatus {
+        win(1,  "赢了"),
+        lost(2,  "输了"),
+        quit(9,  "撤单"),
+        unCalculate(0,  "未结算");
+
+        private int code;
+        private String explain;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getExplain() {
+            return explain;
+        }
+
+        public void setExplain(String explain) {
+            this.explain = explain;
+        }
+
+        OrderCalculateStatus(int code, String explain) {
+            this.code = code;
+            this.explain=explain;
+        }
+    }
+
     public enum LotteryTypeCodeList {
         pk10(1, "pk10", "北京赛车"),
         xyft(2, "xyft", "幸运飞艇"),

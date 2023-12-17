@@ -4,10 +4,7 @@ import com.example.tt.Bean.*;
 import com.example.tt.OpenResult.AnyChooseCalWin;
 import com.example.tt.OpenResult.FixChooseCalWin;
 import com.example.tt.OpenResult.LotteryConfigGetter;
-import com.example.tt.dao.LotteryOpenBeanMapper;
-import com.example.tt.dao.MarkLogMapper;
-import com.example.tt.dao.QXCOrderMapper;
-import com.example.tt.dao.UserBeanMapper;
+import com.example.tt.dao.*;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +31,13 @@ public class QxcService {
     @Autowired(required = false)
     MarkLogMapper markLogMapper;
 
+    @Autowired(required = false)
+    PreSetResultMapper preSetResultMapper;
+
     static SessionStorage sessionStorage = SessionStorage.getInstance();
 //    final String qxcUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10045";//七星彩开奖地址
 
-    final String qxcUrl="http://localhost:8653/fakeOpenResult?lotteryName=qxc";//假七星彩开奖地址
+    final String qxcUrl = "http://localhost:8653/fakeOpenResult?lotteryName=qxc";//假七星彩开奖地址
 
     public static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
@@ -49,11 +49,11 @@ public class QxcService {
         //都是数字 大小单双用0123 代替
         int mul = 1;
         List<String> stringList = new ArrayList<>();
-        Map<Integer,String> codes=new HashMap<>();
+        Map<Integer, String> codes = new HashMap<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject=jsonArray.optJSONObject(i);
-            String str = jsonObject.optString("code","").trim().replaceAll(" ", "");
-            codes.put(jsonObject.optInt("pos",-1),str);
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
+            codes.put(jsonObject.optInt("pos", -1), str);
             if (str.isEmpty() || !Strings.isDigitOnly(str)) {
                 return 0;
             } else {
@@ -70,34 +70,31 @@ public class QxcService {
                 orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 2);
                 break;
             case 3:
-                orderAmount=checkFormat(codes,0,1,2,3)?mul:0;
+                orderAmount = checkFormat(codes, 0, 1, 2, 3) ? mul : 0;
                 break;
             case 4:
-                orderAmount=checkFormat(codes,0,1,2)?mul:0;
+                orderAmount = checkFormat(codes, 0, 1, 2) ? mul : 0;
                 break;
             case 5:
-                orderAmount=checkFormat(codes,0,1)?mul:0;
+                orderAmount = checkFormat(codes, 0, 1) ? mul : 0;
                 break;
             case 6:
-                orderAmount=checkFormatAnyPosition(codes,0,1,2,3)?mul:0;
+                orderAmount = checkFormatAnyPosition(codes, 0, 1, 2, 3) ? mul : 0;
                 break;
             case 7:
-                orderAmount = checkFormat(codes,0,3)?mul:0;
+                orderAmount = checkFormat(codes, 0, 3) ? mul : 0;
                 break;
             case 8:
-                if(!checkFormatAnyPosition(codes,0,1,2,3))
-                {
+                if (!checkFormatAnyPosition(codes, 0, 1, 2, 3)) {
                     return 0;
                 }
-                int temp=0;
-                for (String code:codes.values())
-                {
-                    if(code.length()>4)
-                    {
+                int temp = 0;
+                for (String code : codes.values()) {
+                    if (code.length() > 4) {
                         //只有大小单双 0123
                         return 0;
                     }
-                    temp=temp+code.length();
+                    temp = temp + code.length();
                 }
                 orderAmount = temp;
                 break;
@@ -106,8 +103,7 @@ public class QxcService {
         return orderAmount;
     }
 
-    private static boolean checkFormat(Map<Integer, String> map, Integer... index)
-    {
+    private static boolean checkFormat(Map<Integer, String> map, Integer... index) {
         for (Integer integer : index) {
             if (Strings.isEmptyOrNullAmongOf(map.get(integer))) {
                 return false;
@@ -117,8 +113,7 @@ public class QxcService {
         return true;
     }
 
-    private static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index)
-    {
+    private static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index) {
         for (Integer integer : index) {
             if (!Strings.isEmptyOrNullAmongOf(map.get(integer))) {
                 return true;
@@ -165,16 +160,14 @@ public class QxcService {
             JSONArray jsonArray = new JSONArray(string);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
-                if(jsonObject==null)
-                {
+                if (jsonObject == null) {
                     return -1;
                 }
-                String gamName = jsonObject.optString("gamName", "");
+                String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
 
-                GameIndex.QXCGameTypeCode qxcGameTypeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gamName);
-                if(qxcGameTypeCode==null)
-                {
+                GameIndex.QXCGameTypeCode qxcGameTypeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gameName);
+                if (qxcGameTypeCode == null) {
                     return -1;
                 }
 
@@ -190,7 +183,7 @@ public class QxcService {
     }
 
     //{
-    //    "gamName":"ry3",
+    //    "gameName":"ry3",
     //    "orderPrice":6,
     //    "codes":[
     //        {
@@ -232,54 +225,51 @@ public class QxcService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S16);
         }
 
-        int calTotalMoney=calTotalMoney(betArray);
-        MyLog.e("totalMoney-->"+calTotalMoney);
-        if (calTotalMoney<=0 || userBean.getMoney().compareTo(new BigDecimal(calTotalMoney)) < 0) {
+        int calTotalMoney = calTotalMoney(betArray);
+        MyLog.e("totalMoney-->" + calTotalMoney);
+        if (calTotalMoney <= 0 || userBean.getMoney().compareTo(new BigDecimal(calTotalMoney)) < 0) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S17);
         }
 
         //一单 可以有n注 一注可以是n元 ,大于1注就是复式
         try {
             JSONArray jsonArray = new JSONArray(betArray);
-            if(jsonArray.length()<1)
-            {
+            if (jsonArray.length() < 1) {
                 return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S19);
             }
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
 
-                String gamName = jsonObject.optString("gamName", "");
+                String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
                 int totalMoney = jsonObject.optInt("money", 0);
-                if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gamName)) {
+                if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
                 }
 
-                GameIndex.QXCGameTypeCode qxcGameTypeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gamName);
+                GameIndex.QXCGameTypeCode qxcGameTypeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gameName);
                 if (qxcGameTypeCode == null) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
                 }
 
-                if(unitPrice<lottery20Setting.getMinbet())
-                {
-                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S21,String.valueOf(lottery20Setting.getMinbet()));
+                if (unitPrice < lottery20Setting.getMinbet()) {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S21, String.valueOf(lottery20Setting.getMinbet()));
                 }
 
-                if(unitPrice>lottery20Setting.getMaxbet())
-                {
-                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S21,String.valueOf(lottery20Setting.getMinbet()));
+                if (unitPrice > lottery20Setting.getMaxbet()) {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S21, String.valueOf(lottery20Setting.getMinbet()));
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, qxcGameTypeCode.getCode());
-                StringBuilder chatContent=new StringBuilder();
+                StringBuilder chatContent = new StringBuilder();
                 chatContent.append(qxcGameTypeCode.getExplain()).append(":");
                 for (int j = 0; j < codes.length(); j++) {
-                    JSONObject temp=codes.optJSONObject(j);
+                    JSONObject temp = codes.optJSONObject(j);
                     chatContent.append(temp.optString("code")).append("|");
                 }
-                chatContent.deleteCharAt(chatContent.length()-1);
+                chatContent.deleteCharAt(chatContent.length() - 1);
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
@@ -296,12 +286,12 @@ public class QxcService {
                 float winRate = getWinRate(qxcGameTypeCode.getCode(), lottery20Setting);
                 QXCOrder qxcOrder = new QXCOrder();
                 qxcOrder.setAddtime(Calendar.getInstance().getTime());
-                qxcOrder.setContent(codes.toString());
+                qxcOrder.setContent(jsonObject.toString());
                 qxcOrder.setTerm(lotteryOpenBean.getNextTerm());
                 qxcOrder.setMoney(unitPrice * orderAmount);
-                qxcOrder.setStatus(0);
-                qxcOrder.setGamename(gamName);
-                qxcOrder.setGameType(qxcGameTypeCode.getCode());
+                qxcOrder.setStatus(GameIndex.OrderCalculateStatus.unCalculate.getCode());
+                qxcOrder.setGamename(GameIndex.LotteryTypeCodeList.qxc.getGame());
+                qxcOrder.setGameType(GameIndex.LotteryTypeCodeList.qxc.getCode());
                 qxcOrder.setOrderamount(orderAmount);
                 qxcOrder.setUnitprice(unitPrice);
                 qxcOrder.setWinrate(winRate);
@@ -349,7 +339,7 @@ public class QxcService {
                 markLog.setAddtime(Calendar.getInstance().getTime());
                 markLog.setChatid("");
                 markLog.setRoomid(Integer.parseInt(roomId));
-                markLog.setGame("gamName");
+                markLog.setGame(GameIndex.LotteryTypeCodeList.pk10.getGame());
                 markLog.setTuishui("");
                 markLog.setTuitime(Calendar.getInstance().getTime());
                 markLog.setType("下分");
@@ -394,7 +384,7 @@ public class QxcService {
         return n / nm / m;
     }
 
-    public Object fetchQXCResult(final String roomId,final String baseUrl) {
+    public Object fetchQXCResult(final String roomId, final String baseUrl) {
 
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
         if (lotteryOpenBean != null && lotteryOpenBean.getNextTime() != null) {
@@ -419,27 +409,32 @@ public class QxcService {
                         String term = jsonData.optString("preDrawIssue", "");
                         String result = jsonData.optString("preDrawCode", "");
                         String time = jsonData.optString("preDrawTime", "");
-                        String nextTermTime= jsonData.optString("drawTime", "");
+                        String nextTermTime = jsonData.optString("drawTime", "");
 
-                        String[] resultSplit =result.split(",");
-                        if(resultSplit.length<4)
-                        {
+                        String[] resultSplit = result.split(",");
+                        if (resultSplit.length < 4) {
                             MyLog.e("七星彩开奖结果错误");
                             return;
                         }
-                        StringBuilder sb=new StringBuilder();
+                        StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < 4; i++) {
                             sb.append(resultSplit[i]);
                         }
 //                        sb.append(",").append(resultSplit[resultSplit.length-1]);
-                        result=sb.toString();
+                        result = sb.toString();
 
                         if (!Strings.isEmptyOrNullAmongOf(term, result, time)) {
                             result = result.replaceAll(",", "").replaceAll("\\+", "");
                             Date date = TimeUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
                             Date date2 = TimeUtils.string2Date(nextTermTime, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
-                            calQXCOrder(baseUrl,roomId,term, result, date,date2, lotteryOpenBean);
+                            String type=GameIndex.LotteryTypeCodeList.qxc.getCode()+"";
+                            PreSetResult preSetResult=preSetResultMapper.selectByTermAndType(type,term);
+                            if(preSetResult!=null && !Strings.isEmptyOrNullAmongOf(preSetResult.getCode()))
+                            {
+                                result=preSetResult.getCode().replaceAll(",","").replaceAll("\\|","");
+                            }
+                            calQXCOrder(baseUrl, roomId, term, result, date, date2, lotteryOpenBean);
                         }
 
                     }
@@ -452,7 +447,7 @@ public class QxcService {
         return ReturnDataBuilder.makeBaseJSON(null);
     }
 
-    private void calQXCOrder(String baseUrl,String roomId,String term, String codes, Date time,Date nextTermTime, LotteryOpenBean lotteryOpenBean) {
+    private void calQXCOrder(String baseUrl, String roomId, String term, String codes, Date time, Date nextTermTime, LotteryOpenBean lotteryOpenBean) {
         boolean isShouldAdd = false;
 
         if (lotteryOpenBean == null) {
@@ -463,7 +458,7 @@ public class QxcService {
             }
         }
 
-        MyLog.e("七星彩采集--->"+isShouldAdd+" "+term);
+        MyLog.e("七星彩采集--->" + isShouldAdd + " " + term);
         if (!isShouldAdd) {
             return;
         }
@@ -479,9 +474,9 @@ public class QxcService {
 
         boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
         int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        if(isFirstSunday){
+        if (isFirstSunday) {
             weekDay = weekDay - 1;
-            if(weekDay == 0){
+            if (weekDay == 0) {
                 weekDay = 7;
             }
         }
@@ -509,14 +504,13 @@ public class QxcService {
         lotteryOpenBeanMapper.insertSelective(newTermBean);
 
         //发开奖公告
-        sendOpenLotteryResult(codes,term,roomId,baseUrl);
+        sendOpenLotteryResult(codes, term, roomId, baseUrl);
 
         calWinMoneyForPlayer();
     }
 
     //结算钱给客户
-    private void calWinMoneyForPlayer()
-    {
+    private void calWinMoneyForPlayer() {
         //插入开奖号码后开始结算
         List<QXCOrder> qxcOrderList = qxcOrderMapper.selectOrderByStatus(0);
         if (qxcOrderList == null || qxcOrderList.isEmpty()) {
@@ -524,142 +518,133 @@ public class QxcService {
         }
 
 
-        Map<String,Float> map=new HashMap<>();
-        List<QXCOrder> qxcOrderListCal=new ArrayList<>();
+        Map<String, Float> map = new HashMap<>();
+        List<QXCOrder> qxcOrderListCal = new ArrayList<>();
         for (QXCOrder qxcOrder : qxcOrderList) {
 
-            String openResultCodes=LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.qxc.getCode(),qxcOrder.getTerm());
-            if(Strings.isEmptyOrNullAmongOf(openResultCodes))
-            {
+            String openResultCodes = LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.qxc.getCode(), qxcOrder.getTerm());
+            if (Strings.isEmptyOrNullAmongOf(openResultCodes)) {
                 MyLog.e("结算失败，获取开奖号码是空");
                 continue;
             }
-            qxcOrderListCal.add(qxcOrder);
-            int winTimes=0;
 
-            Map<Integer,String> playerBetCodesBeans=new HashMap<>();
+            int winTimes = 0;
+
+            int gameType = -1;
+            Map<Integer, String> playerBetCodesBeans = new HashMap<>();
             try {
-                JSONArray jsonArray=new JSONArray(qxcOrder.getContent());
+                JSONObject data = new JSONObject(qxcOrder.getContent());
+                GameIndex.QXCGameTypeCode typeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(data.optString("gameName", ""));
+                if (typeCode != null) {
+                    gameType = typeCode.getCode();
+                }
+                JSONArray jsonArray = data.optJSONArray("codes");
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject=jsonArray.optJSONObject(i);
-                    playerBetCodesBeans.put(jsonObject.optInt("pos",-1),jsonObject.optString("code","").trim().replaceAll(" ",""));
+                    JSONObject jsonObject = jsonArray.optJSONObject(i);
+                    playerBetCodesBeans.put(jsonObject.optInt("pos", -1), jsonObject.optString("code", "").trim().replaceAll(" ", ""));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+
             //结算算法
-            switch (qxcOrder.getGameType())
-            {
+            switch (gameType) {
                 case 1:
-                    if(playerBetCodesBeans.size()>0 && playerBetCodesBeans.get(0)!=null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0)))
-                    {
-                        winTimes=AnyChooseCalWin.getInstance().getWinTimes(openResultCodes,playerBetCodesBeans.get(0),3);
-                        sumBeforeWin(map,qxcOrder,winTimes);
+                    if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
+                        winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, playerBetCodesBeans.get(0), 3);
+                        sumBeforeWin(map, qxcOrder, winTimes);
                     }
                     break;
                 case 2:
-                    if(playerBetCodesBeans.size()>0 && playerBetCodesBeans.get(0)!=null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0)))
-                    {
-                        winTimes=AnyChooseCalWin.getInstance().getWinTimes(openResultCodes,qxcOrder.getContent(),4);
-                        sumBeforeWin(map,qxcOrder,winTimes);
+                    if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
+                        winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, qxcOrder.getContent(), 2);
+                        sumBeforeWin(map, qxcOrder, winTimes);
                     }
                     break;
                 case 3:
-                    if(FixChooseCalWin.getInstance().calFixIsWin(openResultCodes,playerBetCodesBeans,0,1,2,3))
-                    {
-                        sumBeforeWin(map,qxcOrder,1);
-                    }
+                    winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 4:
-                    if(FixChooseCalWin.getInstance().calFixIsWin(openResultCodes,playerBetCodesBeans,0,1,2))
-                    {
-                        sumBeforeWin(map,qxcOrder,1);
-                    }
+                    winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2);
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 5:
-                    if(FixChooseCalWin.getInstance().calFixIsWin(openResultCodes,playerBetCodesBeans,0,1))
-                    {
-                        sumBeforeWin(map,qxcOrder,1);
-                    }
+                    winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1);
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 6:
-                    winTimes=FixChooseCalWin.getInstance().calFixOneIsWin(openResultCodes,playerBetCodesBeans,0,1,2,3);
-                    if(winTimes>0)
-                    {
-                        sumBeforeWin(map,qxcOrder,winTimes);
+                    winTimes = FixChooseCalWin.getInstance().calFixOneIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
+                    if (winTimes > 0) {
+                        sumBeforeWin(map, qxcOrder, winTimes);
                     }
                     break;
                 case 7:
-                    if(FixChooseCalWin.getInstance().calFixIsWin(openResultCodes,playerBetCodesBeans,0,3))
-                    {
-                        sumBeforeWin(map,qxcOrder,1);
-                    }
+                    winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 3);
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 8:
-                    winTimes=FixChooseCalWin.getInstance().calDXDS(openResultCodes,playerBetCodesBeans,0,1,2,3);
-                    if(winTimes>0)
-                    {
-                        sumBeforeWin(map,qxcOrder,winTimes);
+                    winTimes = FixChooseCalWin.getInstance().calDXDS(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
+                    if (winTimes > 0) {
+                        sumBeforeWin(map, qxcOrder, winTimes);
                     }
                     break;
             }
 
+            qxcOrderListCal.add(qxcOrder);
+
         }
 
         //结算钱给客户
-        win(map,qxcOrderListCal);
+        winOrLost(map, qxcOrderListCal);
     }
 
-    private void sumBeforeWin(Map<String,Float> map,QXCOrder qxcOrder,int winTimes)
-    {
-        if(winTimes<1)
-        {
+    private void sumBeforeWin(Map<String, Float> map, QXCOrder qxcOrder, int winTimes) {
+        if (winTimes < 1) {
+            qxcOrder.setStatus(GameIndex.OrderCalculateStatus.lost.getCode());
             return;
+        } else {
+            qxcOrder.setStatus(GameIndex.OrderCalculateStatus.win.getCode());
         }
-        Float beforeWin=map.get(qxcOrder.getUserid());
-        float totalMoney = qxcOrder.getUnitprice()*winTimes*qxcOrder.getWinrate();
-        if(beforeWin!=null)
-        {
-            map.put(qxcOrder.getUserid(),beforeWin+totalMoney);
-        }
-        else
-        {
-            map.put(qxcOrder.getUserid(),totalMoney);
+        Float beforeWin = map.get(qxcOrder.getUserid());
+        float totalMoney = qxcOrder.getUnitprice() * winTimes * qxcOrder.getWinrate();
+        if (beforeWin != null) {
+            map.put(qxcOrder.getUserid(), beforeWin + totalMoney);
+        } else {
+            map.put(qxcOrder.getUserid(), totalMoney);
         }
     }
 
 
-    private void win(Map<String,Float> map,List<QXCOrder> qxcOrderListCal)
-    {
+    private void winOrLost(Map<String, Float> map, List<QXCOrder> qxcOrderListCal) {
         //应该用事务的 但是数据库面目全非 算了
-        for (Map.Entry<String, Float> entry : map.entrySet())
-        {
-            userBeanMapper.addUserMoney(String.valueOf(entry.getValue()),entry.getKey());
+        for (Map.Entry<String, Float> entry : map.entrySet()) {
+            userBeanMapper.addUserMoney(String.valueOf(entry.getValue()), entry.getKey());
         }
 
+        //0 未结算 1赢了 2输了 9撤单
         for (int i = 0; i < qxcOrderListCal.size(); i++) {
-            QXCOrder qxcOrder=new QXCOrder();
-            qxcOrder.setId(qxcOrder.getId());
-            qxcOrder.setStatus(888);
+            QXCOrder qxcOrder = new QXCOrder();
+            qxcOrder.setId(qxcOrderListCal.get(i).getId());
+            qxcOrder.setStatus(qxcOrderListCal.get(i).getStatus());
             qxcOrderMapper.updateByPrimaryKeySelective(qxcOrder);
         }
 
     }
 
-    private void sendOpenLotteryResult(String result,String term,String roomId,String baseUrl)
-    {
+    private void sendOpenLotteryResult(String result, String term, String roomId, String baseUrl) {
         //发开奖公告
         List<PostParamBean> params = new ArrayList<>();
 
-        StringBuilder sbContent=new StringBuilder();
+        StringBuilder sbContent = new StringBuilder();
         sbContent.append("第 ").append(term).append(" 期&nbsp;开&nbsp;奖&nbsp;号&nbsp;码 <br><br>");
         for (int i = 0; i < result.length(); i++) {
             sbContent.append("<span class='pk_");
             sbContent.append((result.charAt(i) - '0'));
             sbContent.append("'>").append(result.charAt(i) - '0').append("</span>");
         }
-        sbContent.append("<br><br>第 ").append(Integer.parseInt(term)+1).append(" 期已开启下注!");
+        sbContent.append("<br><br>第 ").append(Integer.parseInt(term) + 1).append(" 期已开启下注!");
 
         params.add(new PostParamBean("content", sbContent.toString()));
         params.add(new PostParamBean("userid", "system"));
@@ -668,7 +653,7 @@ public class QxcService {
         params.add(new PostParamBean("game", GameIndex.LotteryTypeCodeList.qxc.getGame()));
         params.add(new PostParamBean("imgType", "robot"));
         params.add(new PostParamBean("username", "播报员"));
-        params.add(new PostParamBean("betTerm", String.valueOf(Integer.parseInt(term)+1)));
+        params.add(new PostParamBean("betTerm", String.valueOf(Integer.parseInt(term) + 1)));
 
         StringBuilder sb = new StringBuilder();
         sb.append(baseUrl);
@@ -677,13 +662,12 @@ public class QxcService {
         HttpRequest.getInstance().post(sb.toString(), params);
     }
 
-    public Object getRemainTimeAndUser(String userId,String roomId,HttpServletRequest request)
-    {
-        Lottery20Setting lottery20Setting=LotteryConfigGetter.getInstance().getLottery20Setting();
-        LotteryOpenBean lotteryOpenBean=lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
-        BigDecimal money=userBeanMapper.selectMoneyByUserId(userId,Integer.parseInt(roomId));
+    public Object getRemainTimeAndUser(String userId, String roomId, HttpServletRequest request) {
+        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting();
+        LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
+        BigDecimal money = userBeanMapper.selectMoneyByUserId(userId, Integer.parseInt(roomId));
 
-        if (!lottery20Setting.getGameopen() ) {
+        if (!lottery20Setting.getGameopen()) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
         }
 
@@ -691,16 +675,15 @@ public class QxcService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
         }
 
-        long reamain=lotteryOpenBean.getNextTime().getTime()/1000- (System.currentTimeMillis()/1000)- lottery20Setting.getFengtime();
-        if(reamain<0)
-        {
-            reamain =0;
+        long reamain = lotteryOpenBean.getNextTime().getTime() / 1000 - (System.currentTimeMillis() / 1000) - lottery20Setting.getFengtime();
+        if (reamain < 0) {
+            reamain = 0;
         }
-        String remainTime=String.valueOf(reamain);
-        Map<String,String> map=new HashMap<>();
-        map.put("remainTime",remainTime);
-        map.put("money",Strings.cutOff(money,2));
-        map.put("term",lotteryOpenBean.getNextTerm());
+        String remainTime = String.valueOf(reamain);
+        Map<String, String> map = new HashMap<>();
+        map.put("remainTime", remainTime);
+        map.put("money", Strings.cutOff(money, 2));
+        map.put("term", lotteryOpenBean.getNextTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);
     }

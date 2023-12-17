@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.PreSetResultMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.PreSetResult">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="game" jdbcType="VARCHAR" property="game" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="opentime" jdbcType="TIMESTAMP" property="opentime" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="next_term" jdbcType="VARCHAR" property="nextTerm" />
+    <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
+    <result column="roomid" jdbcType="VARCHAR" property="roomid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, game, term, code, opentime, type, next_term, next_time, roomid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fn_buqi
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByTermAndType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fn_buqi
+    where term = #{term,jdbcType=VARCHAR} and type = #{type,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_buqi
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.PreSetResult">
+    insert into fn_buqi (id, game, term, 
+      code, opentime, type, 
+      next_term, next_time, roomid
+      )
+    values (#{id,jdbcType=INTEGER}, #{game,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{opentime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{nextTerm,jdbcType=VARCHAR}, #{nextTime,jdbcType=TIMESTAMP}, #{roomid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.PreSetResult">
+    insert into fn_buqi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="game != null">
+        game,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="opentime != null">
+        opentime,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="nextTerm != null">
+        next_term,
+      </if>
+      <if test="nextTime != null">
+        next_time,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="game != null">
+        #{game,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="opentime != null">
+        #{opentime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTerm != null">
+        #{nextTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.PreSetResult">
+    update fn_buqi
+    <set>
+      <if test="game != null">
+        game = #{game,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="opentime != null">
+        opentime = #{opentime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTerm != null">
+        next_term = #{nextTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.PreSetResult">
+    update fn_buqi
+    set game = #{game,jdbcType=VARCHAR},
+      term = #{term,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      opentime = #{opentime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      next_term = #{nextTerm,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      roomid = #{roomid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

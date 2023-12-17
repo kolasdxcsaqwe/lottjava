@@ -17,25 +17,25 @@ public class FixChooseCalWin {
     }
 
     //固定位置的结算
-    public boolean calFixIsWin(String openResult, Map<Integer,String> map,Integer...positions)
+    public int calFixIsWin(String openResult, Map<Integer,String> map,Integer...positions)
     {
         for (int i = 0; i < positions.length; i++) {
             String code=map.get(positions[i]);
             if(Strings.isEmptyOrNullAmongOf(code))
             {
-               return false;
+               return 0;
             }
             else
             {
                 boolean hasChar= Strings.hasContainsChar(code,openResult.charAt(positions[i]));
                 if(!hasChar)
                 {
-                    return false;
+                    return 0;
                 }
             }
         }
 
-        return true;
+        return 1;
     }
 
     //固定位置的结算 1字定位

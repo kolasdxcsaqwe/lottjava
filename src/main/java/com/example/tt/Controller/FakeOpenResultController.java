@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class FakeOpenResultController {
 
-    int period=60000;
+    int period=120000;
     int startQXCTerm=23144;
     long startTime=1702781820000l;
 

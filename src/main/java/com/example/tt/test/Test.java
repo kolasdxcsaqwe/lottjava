@@ -45,19 +45,7 @@ public class Test {
 //        int startQihao=23343;
 //        long qishiTime=1702781820000l;
 //        System.err.println(TimeUtils.convertToDetailTime(qishiTime));
-//        System.err.println(startQihao+((System.currentTimeMillis()-qishiTime)/120000));
-        doPostOrGet("http://localhost:8653/fetchQXCResult?roomId=10029");
-        HttpRequest.getInstance().get("http://localhost:8653/fetchQXCResult?roomId=10029", null, new HttpCallBack() {
-            @Override
-            public void onError(Exception ex) {
-
-            }
-
-            @Override
-            public void onSuccess(String data) {
-                MyLog.e(data);
-            }
-        });
+        System.err.println(AnyChooseCalWin.getInstance().getWinTimes("2103","213",3));
     }
 
 
