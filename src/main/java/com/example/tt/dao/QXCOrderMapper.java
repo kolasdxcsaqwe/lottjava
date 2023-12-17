@@ -20,5 +20,7 @@ public interface QXCOrderMapper {
 
     int updateByPrimaryKey(QXCOrder record);
 
-    List<QXCOrder> selectOrderByStatus(@Param("status")Integer status,@Param("term")String term);
+    List<QXCOrder> selectOrderByStatusAndTerm(@Param("status")Integer status,@Param("term")String term);
+
+    List<QXCOrder> selectOrderByStatus(@Param("status")Integer status);
 }

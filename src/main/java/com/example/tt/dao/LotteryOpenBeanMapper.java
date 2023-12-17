@@ -1,6 +1,7 @@
 package com.example.tt.dao;
 
 import com.example.tt.Bean.LotteryOpenBean;
+import org.apache.ibatis.annotations.Param;
 
 public interface LotteryOpenBeanMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,4 +21,6 @@ public interface LotteryOpenBeanMapper {
     String getOpenByTerm(Integer type);
 
     LotteryOpenBean getLastOpenData(Integer type);
+
+    String getOpenCodesByTermAndType(@Param("type") Integer type, @Param("term")String term);
 }

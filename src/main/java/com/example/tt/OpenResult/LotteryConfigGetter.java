@@ -384,5 +384,13 @@ public class LotteryConfigGetter {
         return gson.fromJson(UserBeanStr, UserBean.class);
     }
 
-
+    public String getOpenResultCodes(Integer gameType,String term) {
+        String codes = RedisCache.getInstance().get("OpenResultCodes");
+        if (Strings.isEmptyOrNullAmongOf(codes)) {
+            codes= lotteryOpenBeanMapper.getOpenCodesByTermAndType(gameType,term);
+            RedisCache.getInstance().set("OpenResultCodes", codes,userExpireTime);
+            return codes;
+        }
+        return codes;
+    }
 }

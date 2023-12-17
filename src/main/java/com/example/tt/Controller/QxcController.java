@@ -109,6 +109,12 @@ public class QxcController {
     @ResponseBody
     @RequestMapping(value = "/fetchQXCResult", method = RequestMethod.GET)
     public Object fetchQXCResult(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
-        return qxcService.fetchQXCResult(roomId,request);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(request.getScheme()).append("://");
+        sb.append(request.getServerName()).append(":");
+        sb.append(request.getServerPort());
+
+        return qxcService.fetchQXCResult(roomId,sb.toString());
     }
 }

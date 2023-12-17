@@ -1,11 +1,11 @@
 package com.example.tt.test;
 
 import com.example.tt.OpenResult.AnyChooseCalWin;
-import com.example.tt.utils.JSONArray;
-import com.example.tt.utils.JSONException;
-import com.example.tt.utils.JSONObject;
-import com.example.tt.utils.Strings;
+import com.example.tt.utils.*;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 public class Test {
@@ -37,10 +37,99 @@ public class Test {
 //        }
 //        System.err.println(jsonObject.toString());
         //豹子 10/220 顺子8/220 对子
-        cal("1234567890","123",3,0,0);
-        StringBuilder sbContent=new StringBuilder();
-        sbContent.append("1   ").append('4').append(116);
-        System.err.println(sbContent);
+//        cal("1234567890","123",3,0,0);
+//        StringBuilder sbContent=new StringBuilder();
+//        sbContent.append("1   ").append('4').append(116);
+//        System.err.println(sbContent);
+//        int period=120;
+//        int startQihao=23343;
+//        long qishiTime=1702781820000l;
+//        System.err.println(TimeUtils.convertToDetailTime(qishiTime));
+//        System.err.println(startQihao+((System.currentTimeMillis()-qishiTime)/120000));
+        doPostOrGet("http://localhost:8653/fetchQXCResult?roomId=10029");
+        HttpRequest.getInstance().get("http://localhost:8653/fetchQXCResult?roomId=10029", null, new HttpCallBack() {
+            @Override
+            public void onError(Exception ex) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                MyLog.e(data);
+            }
+        });
+    }
+
+
+    private static void doPostOrGet(String pathUrl) {
+        OutputStreamWriter out = null;
+        BufferedReader br = null;
+        String result = "";
+        try {
+            URL url = new URL(pathUrl);
+            // 打开和url之间的连接
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            // 请求方式
+            // conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
+
+            // 设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+            conn.setRequestProperty("Content-Type",
+                    "application/json;charset=utf-8");
+
+            // DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
+
+            /**
+             * 下面的三句代码，就是调用第三方http接口
+             */
+            // 获取URLConnection对象对应的输出流
+            out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+            // 发送请求参数即数据
+            // out.write(data);
+            // flush输出流的缓冲
+            out.flush();
+
+            /**
+             * 下面的代码相当于，获取调用第三方http接口后返回的结果
+             */
+            // 获取URLConnection对象对应的输入流
+            InputStream is = conn.getInputStream();
+            // 构造一个字符流缓存
+            br = new BufferedReader(new InputStreamReader(is));
+            String str = "";
+            while ((str = br.readLine()) != null) {
+                result += str + "\n";
+            }
+//			MyLog.e(pathUrl);
+//			System.out.println(result);
+            MyLog.e( result);
+            // 关闭流
+            is.close();
+            // 断开连接，disconnect是在底层tcp socket链接空闲时才切断，如果正在被其他线程使用就不切断。
+            conn.disconnect();
+
+        } catch (Exception e) {
+            MyLog.e(pathUrl+"--->"+e.getMessage());
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static JSONObject makeJsonObj(String pos,String codes)

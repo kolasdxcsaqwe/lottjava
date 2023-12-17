@@ -14,11 +14,12 @@
         <result column="code" jdbcType="LONGVARCHAR" property="code"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, type, term, next_term, time, next_time, roomid
-  </sql>
+        id
+        , type, term, next_term, time, next_time, roomid
+    </sql>
     <sql id="Blob_Column_List">
-    code
-  </sql>
+        code
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
         select
         <include refid="Base_Column_List"/>
@@ -29,31 +30,39 @@
     </select>
 
     <select id="getOpenByTerm" resultType="java.lang.String">
-    select
-    next_term
-    from fn_open
-    where type = #{type,jdbcType=INTEGER} order by next_term desc limit 1
-  </select>
+        select next_term
+        from fn_open
+        where type = #{type,jdbcType=INTEGER}
+        order by next_term desc limit 1
+    </select>
 
     <select id="getLastOpenData" resultMap="ResultMapWithBLOBs">
-    select
-    *
-    from fn_open
-    where type = #{type,jdbcType=INTEGER} order by next_term desc limit 1
-  </select>
+        select *
+        from fn_open
+        where type = #{type,jdbcType=INTEGER}
+        order by next_term desc limit 1
+    </select>
+
+    <select id="getOpenCodesByTermAndType" resultType="java.lang.String">
+        select code
+        from fn_open
+        where type = #{type,jdbcType=INTEGER} and term = #{term,jdbcType=VARCHAR}
+        order by term desc limit 1
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from fn_open
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+        delete
+        from fn_open
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.example.tt.Bean.LotteryOpenBean">
-    insert into fn_open (id, type, term, 
-      next_term, time, next_time, 
-      roomid, code)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}, 
-      #{nextTerm,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{nextTime,jdbcType=TIMESTAMP}, 
-      #{roomid,jdbcType=VARCHAR}, #{code,jdbcType=LONGVARCHAR})
-  </insert>
+        insert into fn_open (id, type, term,
+                             next_term, time, next_time,
+                             roomid, code)
+        values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR},
+                #{nextTerm,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{nextTime,jdbcType=TIMESTAMP},
+                #{roomid,jdbcType=VARCHAR}, #{code,jdbcType=LONGVARCHAR})
+    </insert>
     <insert id="insertSelective" parameterType="com.example.tt.Bean.LotteryOpenBean">
         insert into fn_open
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -137,24 +146,24 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.LotteryOpenBean">
-    update fn_open
-    set type = #{type,jdbcType=INTEGER},
-      term = #{term,jdbcType=VARCHAR},
-      next_term = #{nextTerm,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
-      next_time = #{nextTime,jdbcType=TIMESTAMP},
-      roomid = #{roomid,jdbcType=VARCHAR},
-      code = #{code,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update fn_open
+        set type      = #{type,jdbcType=INTEGER},
+            term      = #{term,jdbcType=VARCHAR},
+            next_term = #{nextTerm,jdbcType=VARCHAR},
+            time      = #{time,jdbcType=TIMESTAMP},
+            next_time = #{nextTime,jdbcType=TIMESTAMP},
+            roomid    = #{roomid,jdbcType=VARCHAR},
+            code      = #{code,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.LotteryOpenBean">
-    update fn_open
-    set type = #{type,jdbcType=INTEGER},
-      term = #{term,jdbcType=VARCHAR},
-      next_term = #{nextTerm,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
-      next_time = #{nextTime,jdbcType=TIMESTAMP},
-      roomid = #{roomid,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update fn_open
+        set type      = #{type,jdbcType=INTEGER},
+            term      = #{term,jdbcType=VARCHAR},
+            next_term = #{nextTerm,jdbcType=VARCHAR},
+            time      = #{time,jdbcType=TIMESTAMP},
+            next_time = #{nextTime,jdbcType=TIMESTAMP},
+            roomid    = #{roomid,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

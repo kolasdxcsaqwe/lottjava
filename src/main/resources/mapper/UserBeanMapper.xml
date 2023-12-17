@@ -32,7 +32,7 @@
     <result column="jia" jdbcType="LONGVARCHAR" property="jia" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, tixian, bzname, money, roomid, statustime, aztime, shuashui, tixianxianzhi, timeold, 
+    id, tixian, bzname, money, roomid, statustime, aztime, shuashui, tixianxianzhi, timeold,
     loginuser, loginpass, yinhang, huming, kahao, level, sessionid, isonline, robot
   </sql>
   <sql id="Blob_Column_List">
@@ -48,12 +48,12 @@
   </select>
 
   <select id="selectByUserAndRoomIdAndPassword" resultMap="ResultMapWithBLOBs">
-      select *
-      from fn_user
-      where loginuser = #{userName,jdbcType=VARCHAR}
-        and roomid = #{roomId,jdbcType=INTEGER}
-        and loginpass = #{password,jdbcType=VARCHAR}
-        and agent = #{agent,jdbcType=VARCHAR} limit 1
+    select *
+    from fn_user
+    where loginuser = #{userName,jdbcType=VARCHAR}
+      and roomid = #{roomId,jdbcType=INTEGER}
+      and loginpass = #{password,jdbcType=VARCHAR}
+      and agent = #{agent,jdbcType=VARCHAR} limit 1
   </select>
 
   <select id="selectByUserId" resultMap="ResultMapWithBLOBs">
@@ -95,24 +95,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.tt.Bean.UserBean">
-    insert into fn_user (id, tixian, bzname, 
-      money, roomid, statustime, 
-      aztime, shuashui, tixianxianzhi, 
-      timeold, loginuser, loginpass, 
-      yinhang, huming, kahao, 
-      level, sessionid, isonline, 
-      robot, userid, username, 
-      hmd, headimg, agent, 
-      isagent, jia)
-    values (#{id,jdbcType=INTEGER}, #{tixian,jdbcType=VARCHAR}, #{bzname,jdbcType=VARCHAR}, 
-      #{money,jdbcType=DECIMAL}, #{roomid,jdbcType=INTEGER}, #{statustime,jdbcType=INTEGER}, 
-      #{aztime,jdbcType=TIMESTAMP}, #{shuashui,jdbcType=VARCHAR}, #{tixianxianzhi,jdbcType=INTEGER}, 
-      #{timeold,jdbcType=DATE}, #{loginuser,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR}, 
-      #{yinhang,jdbcType=VARCHAR}, #{huming,jdbcType=VARCHAR}, #{kahao,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{sessionid,jdbcType=VARCHAR}, #{isonline,jdbcType=VARCHAR}, 
-      #{robot,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR}, 
-      #{hmd,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, #{agent,jdbcType=LONGVARCHAR}, 
-      #{isagent,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
+    insert into fn_user (id, tixian, bzname,
+                         money, roomid, statustime,
+                         aztime, shuashui, tixianxianzhi,
+                         timeold, loginuser, loginpass,
+                         yinhang, huming, kahao,
+                         level, sessionid, isonline,
+                         robot, userid, username,
+                         hmd, headimg, agent,
+                         isagent, jia)
+    values (#{id,jdbcType=INTEGER}, #{tixian,jdbcType=VARCHAR}, #{bzname,jdbcType=VARCHAR},
+            #{money,jdbcType=DECIMAL}, #{roomid,jdbcType=INTEGER}, #{statustime,jdbcType=INTEGER},
+            #{aztime,jdbcType=TIMESTAMP}, #{shuashui,jdbcType=VARCHAR}, #{tixianxianzhi,jdbcType=INTEGER},
+            #{timeold,jdbcType=DATE}, #{loginuser,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR},
+            #{yinhang,jdbcType=VARCHAR}, #{huming,jdbcType=VARCHAR}, #{kahao,jdbcType=VARCHAR},
+            #{level,jdbcType=INTEGER}, #{sessionid,jdbcType=VARCHAR}, #{isonline,jdbcType=VARCHAR},
+            #{robot,jdbcType=VARCHAR}, #{userid,jdbcType=LONGVARCHAR}, #{username,jdbcType=LONGVARCHAR},
+            #{hmd,jdbcType=LONGVARCHAR}, #{headimg,jdbcType=LONGVARCHAR}, #{agent,jdbcType=LONGVARCHAR},
+            #{isagent,jdbcType=LONGVARCHAR}, #{jia,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.tt.Bean.UserBean">
     insert into fn_user
@@ -361,52 +361,52 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.UserBean">
     update fn_user
     set tixian = #{tixian,jdbcType=VARCHAR},
-      bzname = #{bzname,jdbcType=VARCHAR},
-      money = #{money,jdbcType=DECIMAL},
-      roomid = #{roomid,jdbcType=INTEGER},
-      statustime = #{statustime,jdbcType=INTEGER},
-      aztime = #{aztime,jdbcType=TIMESTAMP},
-      shuashui = #{shuashui,jdbcType=VARCHAR},
-      tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
-      timeold = #{timeold,jdbcType=DATE},
-      loginuser = #{loginuser,jdbcType=VARCHAR},
-      loginpass = #{loginpass,jdbcType=VARCHAR},
-      yinhang = #{yinhang,jdbcType=VARCHAR},
-      huming = #{huming,jdbcType=VARCHAR},
-      kahao = #{kahao,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sessionid = #{sessionid,jdbcType=VARCHAR},
-      isonline = #{isonline,jdbcType=VARCHAR},
-      robot = #{robot,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=LONGVARCHAR},
-      username = #{username,jdbcType=LONGVARCHAR},
-      hmd = #{hmd,jdbcType=LONGVARCHAR},
-      headimg = #{headimg,jdbcType=LONGVARCHAR},
-      agent = #{agent,jdbcType=LONGVARCHAR},
-      isagent = #{isagent,jdbcType=LONGVARCHAR},
-      jia = #{jia,jdbcType=LONGVARCHAR}
+        bzname = #{bzname,jdbcType=VARCHAR},
+        money = #{money,jdbcType=DECIMAL},
+        roomid = #{roomid,jdbcType=INTEGER},
+        statustime = #{statustime,jdbcType=INTEGER},
+        aztime = #{aztime,jdbcType=TIMESTAMP},
+        shuashui = #{shuashui,jdbcType=VARCHAR},
+        tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
+        timeold = #{timeold,jdbcType=DATE},
+        loginuser = #{loginuser,jdbcType=VARCHAR},
+        loginpass = #{loginpass,jdbcType=VARCHAR},
+        yinhang = #{yinhang,jdbcType=VARCHAR},
+        huming = #{huming,jdbcType=VARCHAR},
+        kahao = #{kahao,jdbcType=VARCHAR},
+        level = #{level,jdbcType=INTEGER},
+        sessionid = #{sessionid,jdbcType=VARCHAR},
+        isonline = #{isonline,jdbcType=VARCHAR},
+        robot = #{robot,jdbcType=VARCHAR},
+        userid = #{userid,jdbcType=LONGVARCHAR},
+        username = #{username,jdbcType=LONGVARCHAR},
+        hmd = #{hmd,jdbcType=LONGVARCHAR},
+        headimg = #{headimg,jdbcType=LONGVARCHAR},
+        agent = #{agent,jdbcType=LONGVARCHAR},
+        isagent = #{isagent,jdbcType=LONGVARCHAR},
+        jia = #{jia,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.UserBean">
     update fn_user
     set tixian = #{tixian,jdbcType=VARCHAR},
-      bzname = #{bzname,jdbcType=VARCHAR},
-      money = #{money,jdbcType=DECIMAL},
-      roomid = #{roomid,jdbcType=INTEGER},
-      statustime = #{statustime,jdbcType=INTEGER},
-      aztime = #{aztime,jdbcType=TIMESTAMP},
-      shuashui = #{shuashui,jdbcType=VARCHAR},
-      tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
-      timeold = #{timeold,jdbcType=DATE},
-      loginuser = #{loginuser,jdbcType=VARCHAR},
-      loginpass = #{loginpass,jdbcType=VARCHAR},
-      yinhang = #{yinhang,jdbcType=VARCHAR},
-      huming = #{huming,jdbcType=VARCHAR},
-      kahao = #{kahao,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sessionid = #{sessionid,jdbcType=VARCHAR},
-      isonline = #{isonline,jdbcType=VARCHAR},
-      robot = #{robot,jdbcType=VARCHAR}
+        bzname = #{bzname,jdbcType=VARCHAR},
+        money = #{money,jdbcType=DECIMAL},
+        roomid = #{roomid,jdbcType=INTEGER},
+        statustime = #{statustime,jdbcType=INTEGER},
+        aztime = #{aztime,jdbcType=TIMESTAMP},
+        shuashui = #{shuashui,jdbcType=VARCHAR},
+        tixianxianzhi = #{tixianxianzhi,jdbcType=INTEGER},
+        timeold = #{timeold,jdbcType=DATE},
+        loginuser = #{loginuser,jdbcType=VARCHAR},
+        loginpass = #{loginpass,jdbcType=VARCHAR},
+        yinhang = #{yinhang,jdbcType=VARCHAR},
+        huming = #{huming,jdbcType=VARCHAR},
+        kahao = #{kahao,jdbcType=VARCHAR},
+        level = #{level,jdbcType=INTEGER},
+        sessionid = #{sessionid,jdbcType=VARCHAR},
+        isonline = #{isonline,jdbcType=VARCHAR},
+        robot = #{robot,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

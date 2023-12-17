@@ -113,11 +113,11 @@ public class FetchLotteryResultTask {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                if (list != null && list.size() > 0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        if (secNow % list.get(i).getSec() == 0) {
+                if (list != null && !list.isEmpty()) {
+                    for (RequestBean requestBean : list) {
+                        if (secNow % requestBean.getSec() == 0) {
                             if (isOpen) {
-                                doPostOrGet(list.get(i).getUrl());
+                                doPostOrGet(requestBean.getUrl());
                             }
                         }
                     }
@@ -161,74 +161,18 @@ public class FetchLotteryResultTask {
 
 	private static void doPostOrGet(String pathUrl) {
         writeFile(pathLog, "请求：--->" + secNow + "---->" + pathUrl + "\r\n", true);
-        OutputStreamWriter out = null;
-        BufferedReader br = null;
-        String result = "";
-        try {
-            URL url = new URL(pathUrl);
-            // 打开和url之间的连接
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            // 请求方式
-            // conn.setRequestMethod("POST");
-            conn.setRequestMethod("GET");
 
-            // 设置通用的请求属性
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
-            conn.setRequestProperty("Content-Type",
-                    "application/json;charset=utf-8");
-
-            // DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setConnectTimeout(3000);
-            conn.setReadTimeout(3000);
-
-            /**
-             * 下面的三句代码，就是调用第三方http接口
-             */
-            // 获取URLConnection对象对应的输出流
-            out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-            // 发送请求参数即数据
-            // out.write(data);
-            // flush输出流的缓冲
-            out.flush();
-
-            /**
-             * 下面的代码相当于，获取调用第三方http接口后返回的结果
-             */
-            // 获取URLConnection对象对应的输入流
-            InputStream is = conn.getInputStream();
-            // 构造一个字符流缓存
-            br = new BufferedReader(new InputStreamReader(is));
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                result += str + "\n";
+        HttpRequest.getInstance().get(pathUrl, null, new HttpCallBack() {
+            @Override
+            public void onError(Exception e) {
+                writeFile(pathLog, pathUrl+"--->"+e.getMessage(), true);
             }
-//			MyLog.e(pathUrl);
-//			System.out.println(result);
-            writeFile(pathLog, result, true);
-            // 关闭流
-            is.close();
-            // 断开连接，disconnect是在底层tcp socket链接空闲时才切断，如果正在被其他线程使用就不切断。
-            conn.disconnect();
 
-        } catch (Exception e) {
-            writeFile(pathLog, pathUrl+"--->"+e.getMessage(), true);
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            @Override
+            public void onSuccess(String data) {
+                writeFile(pathLog, data, true);
             }
-        }
+        });
     }
 
 
@@ -313,7 +257,6 @@ public class FetchLotteryResultTask {
     }
 
 	private static String openFile(String path) {
-        MyLog.e("打开文件：" + path);
         StringBuilder sb = new StringBuilder();
         try {
 
@@ -323,7 +266,6 @@ public class FetchLotteryResultTask {
             String line = "";
 
             while ((line = br.readLine()) != null) {
-                MyLog.e(line);
                 sb.append(line);
             }
             is.close();
@@ -336,7 +278,7 @@ public class FetchLotteryResultTask {
 
 	private static void writeFile(String path, String Content, boolean append) {
         File file = new File(path);
-        if (file != null && file.exists() && file.length() > 1024 * 1024) {
+        if (file != null && file.exists() && file.length() > 100 * 1024) {
             file.delete();
         }
 

@@ -24,7 +24,11 @@ public class ReturnDataBuilder {
         S15(-15, "复试投注金额需要是注数的倍数"),
         S16(-16, "查无此用户"),
         S17(-17, "余额不足支付注单，请联系客服上分"),
-        S18(-18, "该彩种查询结果为空,需要打开获取开奖");
+        S18(-18, "该彩种查询结果为空,需要打开获取开奖"),
+
+        S19(-19, "当前无注单,请下注"),
+        S20(-20, "单注不得小于%s元"),
+        S21(-21, "单注不得大于%s元");
 
         private int code;
         private String msg;
@@ -33,6 +37,18 @@ public class ReturnDataBuilder {
             this.code = code;
             this.msg = msg;
         }
+    }
+
+    public static String error(GameListNameEnum gameListNameEnum,Object...args) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("msg", String.format(gameListNameEnum.msg,args));
+            jsonObject.put("code", gameListNameEnum.code);
+            jsonObject.put("success", "false");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 
     public static String error(GameListNameEnum gameListNameEnum) {
