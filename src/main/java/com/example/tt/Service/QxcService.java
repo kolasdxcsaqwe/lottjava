@@ -39,7 +39,7 @@ public class QxcService {
 
     final String qxcUrl = "http://localhost:8653/fakeOpenResult?lotteryName=qxc";//假七星彩开奖地址
 
-    public static int check(JSONArray jsonArray, int type) {
+    private static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
 
         if (jsonArray == null || jsonArray.length() < 1) {
@@ -70,22 +70,22 @@ public class QxcService {
                 orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 2);
                 break;
             case 3:
-                orderAmount = checkFormat(codes, 0, 1, 2, 3) ? mul : 0;
+                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3) ? mul : 0;
                 break;
             case 4:
-                orderAmount = checkFormat(codes, 0, 1, 2) ? mul : 0;
+                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
                 break;
             case 5:
-                orderAmount = checkFormat(codes, 0, 1) ? mul : 0;
+                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
                 break;
             case 6:
-                orderAmount = checkFormatAnyPosition(codes, 0, 1, 2, 3) ? mul : 0;
+                orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3) ? mul : 0;
                 break;
             case 7:
-                orderAmount = checkFormat(codes, 0, 3) ? mul : 0;
+                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 3) ? mul : 0;
                 break;
             case 8:
-                if (!checkFormatAnyPosition(codes, 0, 1, 2, 3)) {
+                if (!AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3)) {
                     return 0;
                 }
                 int temp = 0;
@@ -103,25 +103,6 @@ public class QxcService {
         return orderAmount;
     }
 
-    private static boolean checkFormat(Map<Integer, String> map, Integer... index) {
-        for (Integer integer : index) {
-            if (Strings.isEmptyOrNullAmongOf(map.get(integer))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index) {
-        for (Integer integer : index) {
-            if (!Strings.isEmptyOrNullAmongOf(map.get(integer))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     private float getWinRate(int gameType, Lottery20Setting lottery20Setting) {
         float rate = 0.0f;
@@ -366,7 +347,7 @@ public class QxcService {
     }
 
 
-    //choose 用户选中 当前彩种任选几
+    //choose 用户选中（任选x） 当前有几注
     private static int calculateOrderAnyChoose(int choose, int need) {
         int n = 1;
         int nm = 1;
@@ -686,5 +667,19 @@ public class QxcService {
         map.put("term", lotteryOpenBean.getNextTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);
+    }
+
+    public String cancelOrder(String id)
+    {
+        if(!Strings.isDigitOnly(id))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
+        }
+        QXCOrder qxcOrder = new QXCOrder();
+        qxcOrder.setId(Integer.parseInt(id));
+        qxcOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
+        int status=qxcOrderMapper.updateByPrimaryKey(qxcOrder);
+
+        return ReturnDataBuilder.returnData(status>0);
     }
 }

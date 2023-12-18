@@ -9,6 +9,25 @@ public class FixChooseCalWin {
 
     static FixChooseCalWin fixChooseCalWin;
 
+    public static boolean checkFormatFixPosition(Map<Integer, String> map, Integer... index) {
+        for (Integer integer : index) {
+            if (Strings.isEmptyOrNullAmongOf(map.get(integer))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index) {
+        for (Integer integer : index) {
+            if (!Strings.isEmptyOrNullAmongOf(map.get(integer))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static FixChooseCalWin getInstance() {
         if (fixChooseCalWin == null) {
             fixChooseCalWin = new FixChooseCalWin();

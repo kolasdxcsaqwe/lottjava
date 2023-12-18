@@ -7,6 +7,9 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Test {
 
@@ -14,6 +17,9 @@ public class Test {
 
     static int win = 0;
     static int count=0;
+    static protected LinkedHashMap<Integer, Integer> coordinateIndexMap = new LinkedHashMap<>();
+    static ScheduledExecutorService threadPool = Executors
+            .newScheduledThreadPool(3);
 
     public static void main(String[] args) {
         String kai = "12345";
@@ -37,7 +43,7 @@ public class Test {
 //        }
 //        System.err.println(jsonObject.toString());
         //豹子 10/220 顺子8/220 对子
-//        cal("1234567890","123",3,0,0);
+//        cal("1234","123",3,0,0);
 //        StringBuilder sbContent=new StringBuilder();
 //        sbContent.append("1   ").append('4').append(116);
 //        System.err.println(sbContent);
@@ -45,7 +51,33 @@ public class Test {
 //        int startQihao=23343;
 //        long qishiTime=1702781820000l;
 //        System.err.println(TimeUtils.convertToDetailTime(qishiTime));
-        System.err.println(AnyChooseCalWin.getInstance().getWinTimes("2103","213",3));
+//        System.err.println(AnyChooseCalWin.getInstance().getWinTimes("2103","213",3));
+        for (int i = 0; i < 1000; i++) {
+            coordinateIndexMap.put(i,i%2);
+        }
+
+
+        threadPool.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (coordinateIndexMap)
+                {
+//                    Integer yy=coordinateIndexMap.get(1);
+//                    yy++;
+//                    coordinateIndexMap.put(1,yy);
+//                    coordinateIndexMap.remove(1000-yy);
+//                    coordinateIndexMap.keySet();
+                }
+                coordinateIndexMap.put(coordinateIndexMap.size()+1,0);
+
+            }
+        },0,200, TimeUnit.MILLISECONDS);
+
+        for (int i = 0; i < 1000; i++) {
+                LinkedHashMap<Integer, Integer> map=(LinkedHashMap<Integer, Integer>)coordinateIndexMap.clone();
+                map.keySet();
+        }
+
     }
 
 

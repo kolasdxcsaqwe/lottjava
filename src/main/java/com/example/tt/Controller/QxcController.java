@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
+@RequestMapping(value = "/qxc")
 public class QxcController {
 
     @Autowired(required = false)
@@ -33,13 +34,13 @@ public class QxcController {
     //         <p>1.093%  164.68  82.34 头尾定位</p>
 
     @ResponseBody
-    @RequestMapping(value = "/qxcLotterySetting", method = RequestMethod.POST)
+    @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
     public Object qxcLotterySetting() {
         return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery20Setting());
     }
 
     @ResponseBody
-    @RequestMapping(value = "/qxcLotterySettingEdit", method = RequestMethod.POST)
+    @RequestMapping(value = "/LotterySettingEdit", method = RequestMethod.POST)
     public Object qxcLotterySettingEdit(@RequestParam(name = "roomid") Integer roomid,
                                         @RequestParam(name = "dxds",required = false) Float dxds,
                                         @RequestParam(name = "anytwo",required = false) Float anytwo,
@@ -96,15 +97,6 @@ public class QxcController {
 
     }
 
-    //下注
-    @ResponseBody
-    @RequestMapping(value = "/QXCSendChat", method = RequestMethod.POST)
-    public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
-                              @RequestParam(name = "userId") String userId,
-                              @RequestParam(name = "roomId") String roomId, HttpServletRequest request) {
-        return qxcService.betQXC(betArray,userId,roomId,request);
-    }
-
     //获取开奖结果 和结算
     @ResponseBody
     @RequestMapping(value = "/fetchQXCResult", method = RequestMethod.GET)
@@ -116,5 +108,12 @@ public class QxcController {
         sb.append(request.getServerPort());
 
         return qxcService.fetchQXCResult(roomId,sb.toString());
+    }
+
+    //下注撤单
+    @ResponseBody
+    @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
+    public String QXCSendChat(@RequestParam(name = "id") String id,HttpServletRequest request) {
+        return qxcService.cancelOrder(id);
     }
 }

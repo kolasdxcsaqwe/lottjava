@@ -136,7 +136,7 @@ public class GameIndex {
         d4(3, "d4", "前4定位"),
         d3(4, "d3", "前3定位"),
         d2(5, "d2", "前2定位"),
-        d1(6, "d1", "1字定位"),
+        d1(6, "d1", "定位胆"),
         tw(7, "tw", "头尾"),
         dxds(8, "dxds", "大小单双");
 
@@ -182,6 +182,69 @@ public class GameIndex {
             try
             {
                 qxcGameTypeCode=QXCGameTypeCode.valueOf(gameName);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+            return qxcGameTypeCode;
+        }
+    }
+
+
+    public enum PL5GameTypeCode {
+        ry3(1, "ry3", "任选3"),
+        ry2(2, "ry2", "任选2"),
+        d5(3, "d5", "前5定位"),
+        d3(4, "d3", "前3定位"),
+        d2(5, "d2", "前2定位"),
+        d1(6, "d1", "定位胆"),
+        dn(7, "dn", "斗牛"),
+        dxds(8, "dxds", "大小单双");
+
+
+        private int code;
+        private String game;
+        private String explain;
+
+        PL5GameTypeCode(int code, String game, String explain) {
+            this.code = code;
+            this.game = game;
+            this.explain=explain;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getGame() {
+            return game;
+        }
+
+        public void setGame(String game) {
+            this.game = game;
+        }
+
+        public String getExplain() {
+            return explain;
+        }
+
+        public void setExplain(String explain) {
+            this.explain = explain;
+        }
+
+        public static PL5GameTypeCode getPL5GameTypeCode(String gameName) {
+
+            PL5GameTypeCode qxcGameTypeCode= null;
+
+            try
+            {
+                qxcGameTypeCode=PL5GameTypeCode.valueOf(gameName);
             }
             catch (Exception ex)
             {

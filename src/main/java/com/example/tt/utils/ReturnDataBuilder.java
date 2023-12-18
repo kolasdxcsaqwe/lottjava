@@ -93,4 +93,25 @@ public class ReturnDataBuilder {
         return map;
     }
 
+    public static String returnData(boolean isSuccess) {
+
+        if(isSuccess)
+        {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("msg", GameListNameEnum.S0);
+                jsonObject.put("code", GameListNameEnum.S0.code);
+                jsonObject.put("success", "false");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return jsonObject.toString();
+        }
+        else
+        {
+            return error(GameListNameEnum.S9);
+        }
+
+    }
+
 }

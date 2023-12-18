@@ -2,6 +2,7 @@ package com.example.tt.OpenResult;
 
 import com.example.tt.utils.Strings;
 
+import java.util.Map;
 import java.util.Stack;
 
 public class AnyChooseCalWin {
@@ -9,6 +10,16 @@ public class AnyChooseCalWin {
     static AnyChooseCalWin anyChooseCalWin;
     Stack<Character> stack = new Stack<Character>();
     int win = 0;
+
+
+    public static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index) {
+        for (Integer integer : index) {
+            if (!Strings.isEmptyOrNullAmongOf(map.get(integer))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static AnyChooseCalWin getInstance() {
         if (anyChooseCalWin == null) {

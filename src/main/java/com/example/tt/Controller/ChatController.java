@@ -2,6 +2,8 @@ package com.example.tt.Controller;
 
 import com.example.tt.Bean.*;
 import com.example.tt.OpenResult.LotteryConfigGetter;
+import com.example.tt.Service.PL5Service;
+import com.example.tt.Service.QxcService;
 import com.example.tt.dao.*;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +33,32 @@ public class ChatController {
     @Autowired(required = false)
     BanWordsMapper banWordsMapper;
 
+    @Autowired(required = false)
+    QxcService qxcService;
+
+    @Autowired(required = false)
+    PL5Service pl5Service;
+
     static HashMap<String, UserBean> userBeanHashMap = new HashMap<>();
+
+    //下注
+    @ResponseBody
+    @RequestMapping(value = "/newChatsJava", method = RequestMethod.POST)
+    public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
+                              @RequestParam(name = "game") String gameName,
+                              @RequestParam(name = "userId") String userId,
+                              @RequestParam(name = "roomId") String roomId, HttpServletRequest request) {
+        int type=GameIndex.getLotteryIndex("gameName");
+        switch (type)
+        {
+            case 20:
+                return qxcService.betQXC(betArray,userId,roomId,request);
+            case 22:
+                return pl5Service.betPL5(betArray,userId,roomId,request);
+
+        }
+        return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+    }
 
     @ResponseBody
     @RequestMapping(value = "/NewChats", method = RequestMethod.POST)

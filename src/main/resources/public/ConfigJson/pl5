@@ -3,12 +3,11 @@ CREATE TABLE `v9ym`.`fn_lottery22`  (
   `roomid` int(11) NOT NULL DEFAULT 10029,
   `gameopen` tinyint(1) NOT NULL DEFAULT 2,
   `dxds` float  NULL DEFAULT 1.96,
-  `threefix` float  NULL DEFAULT 980 COMMENT '3星直选',
-  `twofix` float  NULL DEFAULT 98 COMMENT '2星直选',
+  `threefix` float  NULL DEFAULT 980 COMMENT '前3直选',
+  `twofix` float  NULL DEFAULT 98 COMMENT '前2直选',
   `fivefix` float  NULL DEFAULT 20050 COMMENT '5星直选',
-  `anythree` float  NULL DEFAULT 340 COMMENT '任选三',
-  `anytwo` float  NULL DEFAULT 170 COMMENT '任选二',
-  `anyfour` float  NULL DEFAULT 98 COMMENT '任选四',
+  `anythree` float  NULL DEFAULT 22.52 COMMENT '任选三',
+  `anytwo` float  NULL DEFAULT 6.67 COMMENT '任选二',
   `douniu` float  NULL DEFAULT 98 COMMENT '斗牛',
   `onefix` float  NULL DEFAULT 9.7 COMMENT '定位胆',
   `rules` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '规则',
@@ -19,7 +18,7 @@ CREATE TABLE `v9ym`.`fn_lottery22`  (
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = FIXED;
 
 
-CREATE TABLE `fn_pl5dorder` (
+CREATE TABLE `fn_pl5order` (
 `id`  int(11) NOT NULL AUTO_INCREMENT ,
 `userid`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `username`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
@@ -41,7 +40,7 @@ CREATE TABLE `fn_pl5dorder` (
 PRIMARY KEY (`id`),
 INDEX `term` (`term`) USING BTREE
 )
-ENGINE=MyISAM
+ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 AUTO_INCREMENT=1
 ROW_FORMAT=DYNAMIC

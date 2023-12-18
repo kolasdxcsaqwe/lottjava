@@ -91,9 +91,13 @@
 <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
-                     <table schema="" tableName="fn_buqi" domainObjectName="PreSetResult"
+                     <table schema="" tableName="fn_pl5order" domainObjectName="PL5Order"
                        enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                        enableUpdateByExample="false" selectByExampleQueryId="false"/>
+
+        <table schema="" tableName="fn_lottery22" domainObjectName="Lottery22Setting"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" selectByExampleQueryId="false"/>
 
 
         <!--是否使用实际列名,默认为false-->
