@@ -3,7 +3,6 @@ package com.example.tt.Controller;
 import com.example.tt.Bean.Lottery22Setting;
 import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.Service.PL5Service;
-import com.example.tt.Service.QxcService;
 import com.example.tt.dao.Lottery20SettingMapper;
 import com.example.tt.dao.Lottery22SettingMapper;
 import com.example.tt.utils.ReturnDataBuilder;
@@ -88,13 +87,24 @@ public class PL5Controller {
 
     }
 
-
-
     //下注撤单
     @ResponseBody
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public String QXCSendChat(@RequestParam(name = "id") String id, HttpServletRequest request) {
+    public String cancelOrder(@RequestParam(name = "id") String id, HttpServletRequest request) {
         return pl5Service.cancelOrder(id);
+    }
+
+    //获取开奖结果 和结算
+    @ResponseBody
+    @RequestMapping(value = "/fetchPL5Result", method = RequestMethod.GET)
+    public Object fetchPL5Result(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(request.getScheme()).append("://");
+        sb.append(request.getServerName()).append(":");
+        sb.append(request.getServerPort());
+
+        return pl5Service.fetchPL5Result(roomId,sb.toString());
     }
 
 }

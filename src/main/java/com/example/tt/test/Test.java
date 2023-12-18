@@ -43,7 +43,7 @@ public class Test {
 //        }
 //        System.err.println(jsonObject.toString());
         //豹子 10/220 顺子8/220 对子
-//        cal("1234","123",3,0,0);
+        cal("12345","123",3,0,0);
 //        StringBuilder sbContent=new StringBuilder();
 //        sbContent.append("1   ").append('4').append(116);
 //        System.err.println(sbContent);
@@ -52,31 +52,31 @@ public class Test {
 //        long qishiTime=1702781820000l;
 //        System.err.println(TimeUtils.convertToDetailTime(qishiTime));
 //        System.err.println(AnyChooseCalWin.getInstance().getWinTimes("2103","213",3));
-        for (int i = 0; i < 1000; i++) {
-            coordinateIndexMap.put(i,i%2);
-        }
-
-
-        threadPool.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (coordinateIndexMap)
-                {
-//                    Integer yy=coordinateIndexMap.get(1);
-//                    yy++;
-//                    coordinateIndexMap.put(1,yy);
-//                    coordinateIndexMap.remove(1000-yy);
-//                    coordinateIndexMap.keySet();
-                }
-                coordinateIndexMap.put(coordinateIndexMap.size()+1,0);
-
-            }
-        },0,200, TimeUnit.MILLISECONDS);
-
-        for (int i = 0; i < 1000; i++) {
-                LinkedHashMap<Integer, Integer> map=(LinkedHashMap<Integer, Integer>)coordinateIndexMap.clone();
-                map.keySet();
-        }
+//        for (int i = 0; i < 1000; i++) {
+//            coordinateIndexMap.put(i,i%2);
+//        }
+//
+//
+//        threadPool.scheduleAtFixedRate(new Runnable() {
+//            @Override
+//            public void run() {
+//                synchronized (coordinateIndexMap)
+//                {
+////                    Integer yy=coordinateIndexMap.get(1);
+////                    yy++;
+////                    coordinateIndexMap.put(1,yy);
+////                    coordinateIndexMap.remove(1000-yy);
+////                    coordinateIndexMap.keySet();
+//                }
+//                coordinateIndexMap.put(coordinateIndexMap.size()+1,0);
+//
+//            }
+//        },0,200, TimeUnit.MILLISECONDS);
+//
+//        for (int i = 0; i < 1000; i++) {
+//                LinkedHashMap<Integer, Integer> map=(LinkedHashMap<Integer, Integer>)coordinateIndexMap.clone();
+//                map.keySet();
+//        }
 
     }
 
