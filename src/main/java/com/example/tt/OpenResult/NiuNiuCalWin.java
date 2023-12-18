@@ -26,53 +26,60 @@ public class NiuNiuCalWin {
     }
 
     //固定位置的结算 1字定位
-    public int calNiu(String openResult, Map<Integer,String[]> map,Integer...positions)
+    public int calNiu(String openResult, Map<Integer,String[]> map)
     {
-        int winTimes=0;
-        for (int i = 0; i < positions.length; i++) {
-            String codes[]=map.get(positions[i]);
-            if(!Strings.isEmptyOrNullAmongOf(codes))
+        int niu=syncBull(openResult);
+
+        String[] codes=map.get(0);
+        for (int i = 0; i < codes.length; i++) {
+            if(Strings.isDigitOnly(codes[i]))
             {
-                boolean hasChar= Strings.hasContainsChar(codes,openResult.charAt(positions[i]));
-                if(hasChar)
+                if(Integer.parseInt(codes[i])==niu)
                 {
-                    winTimes++;
+                    return 1;
                 }
             }
         }
 
-        return winTimes;
+        return 0;
     }
 
 
-    private static void cal(String shu, String bet, int targ, int has, int cur) {
-        if(has == targ) {
-            System.err.println(stack);
-            count++;
-            for (int i = 0; i < stack.size(); i++) {
-                boolean hasChar= Strings.hasContainsChar(bet,stack.get(i));
-                if(hasChar)
-                {
-                    if(i==stack.size()-1)
-                    {
-                        win++;
+    public static int syncBull(String codes) {
+
+        Integer[] cards=new Integer[codes.length()];
+        for (int i = 0; i < codes.length(); i++) {
+            cards[i]=codes.charAt(i)-'0';
+        }
+
+        // 计算总点数
+        int sums = 0;
+        for (int i = 0; i < cards.length; i++) {
+            if (cards[i] > 10) {
+                cards[i] = 10;
+            }
+            sums += cards[i];
+        }
+        //牛牛
+        if (sums % 10 == 0) {
+            return 10;
+        }
+        // 牛丁 ~ 牛九
+        int bull = 0;
+        for (int i = 0; i < cards.length - 2; i++) {
+            int cardI = cards[i];
+            for (int j = i + 1; j < cards.length; j++) {
+                int cardJ = cards[j];
+                for (int k = j + 1; k < cards.length; k++) {
+                    int cardK = cards[k];
+                    int total = cardI + cardJ + cardK;
+                    if (total % 10 == 0) {
+                        int n = (sums - total) % 10;
+                        bull = bull < n ? n : bull;
                     }
                 }
-                else
-                {
-                    break;
-                }
-            }
-            return;
-        }
-
-        for(int i=cur;i<shu.length();i++) {
-            if(!stack.contains(shu.charAt(i))) {
-                stack.add(shu.charAt(i));
-                cal(shu, bet,targ, has+1, i);
-                stack.pop();
             }
         }
-
+        return bull;
     }
 }

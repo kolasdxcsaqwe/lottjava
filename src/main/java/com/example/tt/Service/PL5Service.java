@@ -593,7 +593,7 @@ public class PL5Service {
                     }
                     break;
                 case 7:
-                    winTimes = NiuNiuCalWin.getInstance().calNiu(openResultCodes, playerBetCodesBeans, 0, 3);
+                    winTimes = NiuNiuCalWin.getInstance().calNiu(openResultCodes, playerBetCodesBeans);
                     sumBeforeWin(map, pl5Order, winTimes);
                     break;
                 case 8:

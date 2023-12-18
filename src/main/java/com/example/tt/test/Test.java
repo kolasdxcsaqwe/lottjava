@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class Test {
 
     public static Stack<Character> stack = new Stack<Character>();
+    public static Stack<Integer> stackIndex = new Stack<Integer>();
 
     static int win = 0;
     static int count=0;
@@ -24,7 +25,7 @@ public class Test {
     public static void main(String[] args) {
         String kai = "12345";
         String bet = "1924530";
-        int type = 2;// 选 2
+        int type = 3;// 选 2
 //        System.err.println(removeSameNum(kai));
         System.err.println("方式数--》" + calculateOrderAnyChoose(removeSameNum(kai).length(), type));
 //
@@ -43,7 +44,7 @@ public class Test {
 //        }
 //        System.err.println(jsonObject.toString());
         //豹子 10/220 顺子8/220 对子
-        cal("12345","123",3,0,0);
+//        cal("12345","123",3,0,0);
 //        StringBuilder sbContent=new StringBuilder();
 //        sbContent.append("1   ").append('4').append(116);
 //        System.err.println(sbContent);
@@ -78,8 +79,60 @@ public class Test {
 //                map.keySet();
 //        }
 
+//        cal("00145".toCharArray(),3,0,0);
+        System.err.println(syncBull(new Integer[]{8,1,2,4,6}));
     }
 
+
+    public static String syncBull(Integer[] cards) {
+        // 计算总点数
+        int sums = 0;
+        for (int i = 0; i < cards.length; i++) {
+            if (cards[i] > 10) {
+                cards[i] = 10;
+            }
+            sums += cards[i];
+        }
+        //牛牛
+        if (sums % 10 == 0) {
+            return "牛牛";
+        }
+        // 牛丁 ~ 牛九
+        int bull = 0;
+        for (int i = 0; i < cards.length - 2; i++) {
+            int cardI = cards[i];
+            for (int j = i + 1; j < cards.length; j++) {
+                int cardJ = cards[j];
+                for (int k = j + 1; k < cards.length; k++) {
+                    int cardK = cards[k];
+                    int total = cardI + cardJ + cardK;
+                    if (total % 10 == 0) {
+                        int n = (sums - total) % 10;
+                        bull = bull < n ? n : bull;
+                    }
+                }
+            }
+        }
+        if (bull == 0) {
+            return "无牛";
+        } else {
+            return "牛" + bull ;
+        }
+    }
+
+    private static void f(char[] shu, int targ, int cur) {
+        // TODO Auto-generated method stub
+        if(cur == targ) {
+            System.out.println(stack);
+            return;
+        }
+
+        for(int i=0;i<shu.length;i++) {
+            stack.add(shu[i]);
+            f(shu, targ, cur+1);
+            stack.pop();
+        }
+    }
 
     private static void doPostOrGet(String pathUrl) {
         OutputStreamWriter out = null;
