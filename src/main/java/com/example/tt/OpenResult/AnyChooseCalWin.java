@@ -12,7 +12,7 @@ public class AnyChooseCalWin {
     int win = 0;
 
 
-    public static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index) {
+    public static boolean checkFormatAnyPosition(Map<Integer, String[]> map, Integer... index) {
         for (Integer integer : index) {
             if (!Strings.isEmptyOrNullAmongOf(map.get(integer))) {
                 return true;
@@ -28,10 +28,10 @@ public class AnyChooseCalWin {
         return anyChooseCalWin;
     }
 
-    public int getWinTimes(String kai,String bet,int anyWhat)
+    public int getWinTimes(String kai,String bet[],int anyWhat)
     {
         win=0;
-        cal(removeSameNum(kai),bet,anyWhat,0,0);
+        cal(removeSameNum(kai),Strings.combineString(bet),anyWhat,0,0);
         return win;
     }
 

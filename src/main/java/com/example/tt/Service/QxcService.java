@@ -48,26 +48,25 @@ public class QxcService {
 
         //都是数字 大小单双用0123 代替
         int mul = 1;
-        List<String> stringList = new ArrayList<>();
-        Map<Integer, String> codes = new HashMap<>();
+        Map<Integer, String[]> codes = new HashMap<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
-            codes.put(jsonObject.optInt("pos", -1), str);
-            if (str.isEmpty() || !Strings.isDigitOnly(str)) {
+            String[] nums=str.split(",");
+            codes.put(jsonObject.optInt("pos", -1), nums);
+            if (nums.length == 0 || !Strings.isDigitOnly(nums)) {
                 return 0;
             } else {
-                stringList.add(str);
                 mul = mul * str.length();
             }
         }
 
         switch (type) {
             case 1:
-                orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 3);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 3);
                 break;
             case 2:
-                orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 2);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 2);
                 break;
             case 3:
                 orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3) ? mul : 0;
@@ -89,12 +88,12 @@ public class QxcService {
                     return 0;
                 }
                 int temp = 0;
-                for (String code : codes.values()) {
-                    if (code.length() > 4) {
+                for (String code[] : codes.values()) {
+                    if (code.length > 4) {
                         //只有大小单双 0123
                         return 0;
                     }
-                    temp = temp + code.length();
+                    temp = temp + code.length;
                 }
                 orderAmount = temp;
                 break;
@@ -169,11 +168,11 @@ public class QxcService {
     //    "codes":[
     //        {
     //            "pos":0,
-    //            "code":"453156"
+    //            "code":"4,5,3,1,5,6"
     //        },
     //        {
     //            "pos":4,
-    //            "code":"4342"
+    //            "code":"4,3,4,2"
     //        }
     //    ]
     //}
@@ -512,7 +511,7 @@ public class QxcService {
             int winTimes = 0;
 
             int gameType = -1;
-            Map<Integer, String> playerBetCodesBeans = new HashMap<>();
+            Map<Integer, String[]> playerBetCodesBeans = new HashMap<>();
             try {
                 JSONObject data = new JSONObject(qxcOrder.getContent());
                 GameIndex.QXCGameTypeCode typeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(data.optString("gameName", ""));
@@ -522,7 +521,8 @@ public class QxcService {
                 JSONArray jsonArray = data.optJSONArray("codes");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.optJSONObject(i);
-                    playerBetCodesBeans.put(jsonObject.optInt("pos", -1), jsonObject.optString("code", "").trim().replaceAll(" ", ""));
+                    String codes=jsonObject.optString("code", "").trim().replaceAll(" ", "");
+                    playerBetCodesBeans.put(jsonObject.optInt("pos", -1),codes.split(","));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -539,7 +539,7 @@ public class QxcService {
                     break;
                 case 2:
                     if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
-                        winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, qxcOrder.getContent(), 2);
+                        winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, playerBetCodesBeans.get(0), 2);
                         sumBeforeWin(map, qxcOrder, winTimes);
                     }
                     break;

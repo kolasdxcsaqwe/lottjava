@@ -39,26 +39,25 @@ public class PL5Service {
 
         //都是数字 大小单双用0123 代替
         int mul = 1;
-        List<String> stringList = new ArrayList<>();
-        Map<Integer, String> codes = new HashMap<>();
+        Map<Integer, String[]> codes = new HashMap<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
-            codes.put(jsonObject.optInt("pos", -1), str);
-            if (str.isEmpty() || !Strings.isDigitOnly(str)) {
+            String[] nums=str.split(",");
+            codes.put(jsonObject.optInt("pos", -1), nums);
+            if (str.isEmpty()) {
                 return 0;
             } else {
-                stringList.add(str);
                 mul = mul * str.length();
             }
         }
 
         switch (type) {
             case 1:
-                orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 3);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 3);
                 break;
             case 2:
-                orderAmount = calculateOrderAnyChoose(codes.get(0).length(), 2);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 2);
                 break;
             case 3:
                 orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3,4) ? mul : 0;

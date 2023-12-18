@@ -54,24 +54,28 @@ public class Strings {
         return false;
     }
 
-    public static boolean isDigitOnly(String string) {
+    public static boolean isDigitOnly(String...string) {
         if (isNullAmongOf(string)) return false;
-        for (int i = 0; i < string.length(); i++) {
-            int index = string.charAt(i);
-            //65 90 A Z
-            //97 122 a z
-            //48 57 0 9
-            boolean isNumber=index >= 48 && index <= 57;
-            boolean isSymbol=index=='-';
-            if(isSymbol && i>0)
-            {
-                return false;
+
+        for (int q = 0; q < string.length; q++) {
+            for (int j = 0; j < string[q].length(); j++) {
+                int index = string[q].charAt(j);
+                //65 90 A Z
+                //97 122 a z
+                //48 57 0 9
+                boolean isNumber=index >= 48 && index <= 57;
+                boolean isSymbol=index=='-';
+                if(isSymbol && j>0)
+                {
+                    return false;
+                }
+
+                if (isNumber) {
+                } else {
+                    return false;
+                }
             }
 
-            if (isNumber) {
-            } else {
-                return false;
-            }
         }
         return true;
     }
@@ -126,6 +130,28 @@ public class Strings {
         return hasInKai;
     }
 
+    public static boolean hasContainsChar(String target[], char arg)
+    {
+        boolean hasInKai=false;
+        for (int i = 0; i < target.length; i++) {
+            if(target[i] == null || target[i].length() != 1)
+            {
+                return false;
+            }
+            else
+            {
+                for (int j = 0; j < target[i].length(); j++) {
+                    if(target[i].charAt(j)==arg)
+                    {
+                        hasInKai=true;
+                    }
+                }
+            }
+        }
+
+        return hasInKai;
+    }
+
     //length 代表保留几位
     public static String cutOff(BigDecimal val, int length)
     {
@@ -167,5 +193,14 @@ public class Strings {
         }
 
         return val;
+    }
+
+    public static String combineString(String args[])
+    {
+        StringBuilder stringBuilder=new StringBuilder();
+        for (int i = 0; i < args.length; i++) {
+            stringBuilder.append(args[i]);
+        }
+        return stringBuilder.toString();
     }
 }

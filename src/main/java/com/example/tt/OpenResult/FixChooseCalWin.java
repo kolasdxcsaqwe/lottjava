@@ -9,7 +9,7 @@ public class FixChooseCalWin {
 
     static FixChooseCalWin fixChooseCalWin;
 
-    public static boolean checkFormatFixPosition(Map<Integer, String> map, Integer... index) {
+    public static boolean checkFormatFixPosition(Map<Integer, String[]> map, Integer... index) {
         for (Integer integer : index) {
             if (Strings.isEmptyOrNullAmongOf(map.get(integer))) {
                 return false;
@@ -17,15 +17,6 @@ public class FixChooseCalWin {
         }
 
         return true;
-    }
-
-    private static boolean checkFormatAnyPosition(Map<Integer, String> map, Integer... index) {
-        for (Integer integer : index) {
-            if (!Strings.isEmptyOrNullAmongOf(map.get(integer))) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static FixChooseCalWin getInstance() {
@@ -36,17 +27,17 @@ public class FixChooseCalWin {
     }
 
     //固定位置的结算
-    public int calFixIsWin(String openResult, Map<Integer,String> map,Integer...positions)
+    public int calFixIsWin(String openResult, Map<Integer,String[]> map,Integer...positions)
     {
         for (int i = 0; i < positions.length; i++) {
-            String code=map.get(positions[i]);
-            if(Strings.isEmptyOrNullAmongOf(code))
+            String codes[]=map.get(positions[i]);
+            if(Strings.isEmptyOrNullAmongOf(codes))
             {
                return 0;
             }
             else
             {
-                boolean hasChar= Strings.hasContainsChar(code,openResult.charAt(positions[i]));
+                boolean hasChar= Strings.hasContainsChar(codes,openResult.charAt(positions[i]));
                 if(!hasChar)
                 {
                     return 0;
@@ -58,14 +49,14 @@ public class FixChooseCalWin {
     }
 
     //固定位置的结算 1字定位
-    public int calFixOneIsWin(String openResult, Map<Integer,String> map,Integer...positions)
+    public int calFixOneIsWin(String openResult, Map<Integer,String[]> map,Integer...positions)
     {
         int winTimes=0;
         for (int i = 0; i < positions.length; i++) {
-            String code=map.get(positions[i]);
-            if(!Strings.isEmptyOrNullAmongOf(code))
+            String codes[]=map.get(positions[i]);
+            if(!Strings.isEmptyOrNullAmongOf(codes))
             {
-                boolean hasChar= Strings.hasContainsChar(code,openResult.charAt(positions[i]));
+                boolean hasChar= Strings.hasContainsChar(codes,openResult.charAt(positions[i]));
                 if(hasChar)
                 {
                     winTimes++;
@@ -77,19 +68,19 @@ public class FixChooseCalWin {
     }
 
     //大小单双结算 0123
-    public int calDXDS(String openResult, Map<Integer,String> map,Integer...positions)
+    public int calDXDS(String openResult, Map<Integer,String[]> map,Integer...positions)
     {
         int win=0;
         for (int i = 0; i < positions.length; i++) {
-            String code=map.get(positions[i]);
-            if(Strings.isEmptyOrNullAmongOf(code))
+            String codes[]=map.get(positions[i]);
+            if(Strings.isEmptyOrNullAmongOf(codes))
             {
                 return 0;
             }
             else
             {
                 int result=openResult.charAt(positions[i])-'0';
-                int bet=code.charAt(positions[i])-'0';
+                int bet=codes[positions[i]].charAt(0)-'0';
                 switch (bet)
                 {
                     case 0:
