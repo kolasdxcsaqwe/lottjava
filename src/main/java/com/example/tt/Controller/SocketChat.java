@@ -212,7 +212,7 @@ public class SocketChat {
         }
 
 
-        MyLog.e("sendChat-->"+content);
+        MyLog.e("sendChat-->"+game+"  "+content);
         return isSendSuccess;
     }
 

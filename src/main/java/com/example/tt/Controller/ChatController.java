@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class ChatController {
 
     @Autowired(required = false)
@@ -48,7 +49,7 @@ public class ChatController {
                               @RequestParam(name = "game") String gameName,
                               @RequestParam(name = "userId") String userId,
                               @RequestParam(name = "roomId") String roomId, HttpServletRequest request) {
-        int type=GameIndex.getLotteryIndex("gameName");
+        int type=GameIndex.getLotteryIndex(gameName);
         switch (type)
         {
             case 20:
@@ -58,6 +59,160 @@ public class ChatController {
 
         }
         return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+    }
+
+    //下注
+    @ResponseBody
+    @RequestMapping(value = "/getALlLotteryStatus", method = RequestMethod.POST)
+    public String getALlLotteryStatus(@RequestParam(name = "game") String game,HttpServletRequest request) {
+
+        if(Strings.isEmptyOrNullAmongOf(game))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+        }
+
+        String[] games=game.split(",");
+        if(games.length>1)
+        {
+            JSONObject main=new JSONObject();
+            for (int i = 0; i < games.length; i++) {
+                JSONObject item=new JSONObject();
+                int index=GameIndex.getLotteryIndex(games[i]);
+                switch (index)
+                {
+                    case 8:
+                        //极速时时彩
+                      Lottery8Setting lottery8Setting=LotteryConfigGetter.getInstance().getLottery8Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery8Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        break;
+                    case 14:
+                        //极速六合彩
+                        Lottery14Setting lottery14Setting=LotteryConfigGetter.getInstance().getLottery14Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery14Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 19:
+                        //纽约28
+                        Lottery19Setting lottery19Setting=LotteryConfigGetter.getInstance().getLottery19Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery19Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 4:
+                        //新加坡28
+                        Lottery4Setting lottery4Setting=LotteryConfigGetter.getInstance().getLottery4Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery4Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 5:
+                        //新加坡28
+                        Lottery5Setting lottery5Setting=LotteryConfigGetter.getInstance().getLottery5Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery5Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 15:
+                        //台湾快三
+                        Lottery15Setting lottery15Setting=LotteryConfigGetter.getInstance().getLottery15Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery15Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 13:
+                        //香港六合彩
+                        Lottery13Setting lottery13Setting=LotteryConfigGetter.getInstance().getLottery13Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery13Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 1:
+                        //北京赛车
+                        Lottery1Setting lottery1Setting=LotteryConfigGetter.getInstance().getLottery1Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery1Setting.getGameopen().equalsIgnoreCase("true")?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 20:
+                        //传统七星彩
+                        Lottery20Setting lottery20Setting=LotteryConfigGetter.getInstance().getLottery20Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery20Setting.getGameopen()?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case 22:
+                        //排列5
+                        Lottery22Setting lottery22Setting=LotteryConfigGetter.getInstance().getLottery22Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery22Setting.getGameopen()?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                }
+
+            }
+
+            if(main.length()>0)
+            {
+                return ReturnDataBuilder.makeJSON(main).toString();
+            }
+
+        }
+
+        return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
     }
 
     @ResponseBody

@@ -93,6 +93,41 @@ public class ReturnDataBuilder {
         return map;
     }
 
+    public static JSONObject makeJSON(JSONObject jsonObject) {
+
+        if (jsonObject != null) {
+            JSONObject json=new JSONObject();
+            try {
+                json.put("msg", "操作成功");
+                json.put("code", 0);
+                json.put("success", "true");
+                json.put("datas", jsonObject);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            return json;
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject makeJSON(JSONArray jsonArray) {
+
+        if (jsonArray != null) {
+            JSONObject json=new JSONObject();
+            try {
+                json.put("msg", "操作成功");
+                json.put("code", 0);
+                json.put("success", "true");
+                json.put("datas", jsonArray);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            return json;
+        }
+
+        return null;
+    }
+
     public static String returnData(boolean isSuccess) {
 
         if(isSuccess)

@@ -118,12 +118,24 @@ public class GameIndex {
         return -1;
     }
 
-    public static String getLotteryGameName(int gameName) {
+    public static String getLotteryGameName(int gameCode) {
         for(LotteryTypeCodeList lotteryTypeCodeList: LotteryTypeCodeList.values())
         {
-            if(lotteryTypeCodeList.code==gameName)
+            if(lotteryTypeCodeList.code==gameCode)
             {
                 return lotteryTypeCodeList.game;
+            }
+        }
+
+        return "";
+    }
+
+    public static String getLotteryGameExplain(int gameCode) {
+        for(LotteryTypeCodeList lotteryTypeCodeList: LotteryTypeCodeList.values())
+        {
+            if(lotteryTypeCodeList.code==gameCode)
+            {
+                return lotteryTypeCodeList.explain;
             }
         }
 
