@@ -72,6 +72,7 @@ public class LotteryConfigGetter {
 
     Lottery20SettingMapper lottery20SettingMapper;
 
+    Lottery21SettingMapper lottery21SettingMapper;
     Lottery22SettingMapper lottery22SettingMapper;
 
     private static LotteryConfigGetter result;
@@ -338,6 +339,22 @@ public class LotteryConfigGetter {
             return lottery20Setting;
         }
         return gson.fromJson(lottery20Setting1Str, Lottery20Setting.class);
+    }
+
+
+    public Lottery21Setting getLottery21Setting() {
+        String lottery21Setting1Str = RedisCache.getInstance().get("Lottery21Setting");
+        if (Strings.isEmptyOrNullAmongOf(lottery21Setting1Str)) {
+            Lottery21Setting lottery21Setting = lottery21SettingMapper.selectByRoomId(roomId);
+            if(lottery21Setting==null)
+            {
+                return new Lottery21Setting();
+            }
+            lottery21Setting1Str = gson.toJson(lottery21Setting);
+            RedisCache.getInstance().set("Lottery21Setting", lottery21Setting1Str,expireTime);
+            return lottery21Setting;
+        }
+        return gson.fromJson(lottery21Setting1Str, Lottery21Setting.class);
     }
 
     public Lottery22Setting getLottery22Setting() {

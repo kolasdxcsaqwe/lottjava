@@ -52,13 +52,17 @@ public class QxcService {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
-            String[] nums=str.split(",");
+            String[] nums = str.split(",");
             codes.put(jsonObject.optInt("pos", -1), nums);
             if (nums.length == 0 || !Strings.isDigitOnly(nums)) {
                 return 0;
             } else {
                 mul = mul * nums.length;
             }
+        }
+
+        if (codes.isEmpty()) {
+            return 0;
         }
 
         switch (type) {
@@ -408,11 +412,10 @@ public class QxcService {
                             Date date = TimeUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
                             Date date2 = TimeUtils.string2Date(nextTermTime, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
-                            String type=GameIndex.LotteryTypeCodeList.qxc.getCode()+"";
-                            PreSetResult preSetResult=preSetResultMapper.selectByTermAndType(type,term);
-                            if(preSetResult!=null && !Strings.isEmptyOrNullAmongOf(preSetResult.getCode()))
-                            {
-                                result=preSetResult.getCode().replaceAll(",","").replaceAll("\\|","");
+                            String type = GameIndex.LotteryTypeCodeList.qxc.getCode() + "";
+                            PreSetResult preSetResult = preSetResultMapper.selectByTermAndType(type, term);
+                            if (preSetResult != null && !Strings.isEmptyOrNullAmongOf(preSetResult.getCode())) {
+                                result = preSetResult.getCode().replaceAll(",", "").replaceAll("\\|", "");
                             }
                             calQXCOrder(baseUrl, roomId, term, result, date, date2, lotteryOpenBean);
                         }
@@ -521,8 +524,8 @@ public class QxcService {
                 JSONArray jsonArray = data.optJSONArray("codes");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.optJSONObject(i);
-                    String codes=jsonObject.optString("code", "").trim().replaceAll(" ", "");
-                    playerBetCodesBeans.put(jsonObject.optInt("pos", -1),codes.split(","));
+                    String codes = jsonObject.optString("code", "").trim().replaceAll(" ", "");
+                    playerBetCodesBeans.put(jsonObject.optInt("pos", -1), codes.split(","));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -534,14 +537,14 @@ public class QxcService {
                 case 1:
                     if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
                         winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, playerBetCodesBeans.get(0), 3);
-                        sumBeforeWin(map, qxcOrder, winTimes);
                     }
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 2:
                     if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
                         winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, playerBetCodesBeans.get(0), 2);
-                        sumBeforeWin(map, qxcOrder, winTimes);
                     }
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 3:
                     winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
@@ -557,9 +560,7 @@ public class QxcService {
                     break;
                 case 6:
                     winTimes = FixChooseCalWin.getInstance().calFixOneIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
-                    if (winTimes > 0) {
-                        sumBeforeWin(map, qxcOrder, winTimes);
-                    }
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
                 case 7:
                     winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 3);
@@ -567,9 +568,7 @@ public class QxcService {
                     break;
                 case 8:
                     winTimes = FixChooseCalWin.getInstance().calDXDS(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
-                    if (winTimes > 0) {
-                        sumBeforeWin(map, qxcOrder, winTimes);
-                    }
+                    sumBeforeWin(map, qxcOrder, winTimes);
                     break;
             }
 
@@ -669,17 +668,15 @@ public class QxcService {
         return ReturnDataBuilder.makeBaseJSON(map);
     }
 
-    public String cancelOrder(String id)
-    {
-        if(!Strings.isDigitOnly(id))
-        {
+    public String cancelOrder(String id) {
+        if (!Strings.isDigitOnly(id)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
         QXCOrder qxcOrder = new QXCOrder();
         qxcOrder.setId(Integer.parseInt(id));
         qxcOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status=qxcOrderMapper.updateByPrimaryKey(qxcOrder);
+        int status = qxcOrderMapper.updateByPrimaryKey(qxcOrder);
 
-        return ReturnDataBuilder.returnData(status>0);
+        return ReturnDataBuilder.returnData(status > 0);
     }
 }

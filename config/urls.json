@@ -35,11 +35,15 @@
 		"sec": 3600
 	},
 	{
-		"url": "http://localhost:8653/qxc/fetchQXCResult?roomId=10029",
+		"url": "http://localhost:8653/qxc/fetchResult?roomId=10029",
 		"sec": 3
 	},
 	{
-		"url": "http://localhost:8653/pl5/fetchPL5Result?roomId=10029",
+		"url": "http://localhost:8653/pl5/fetchResult?roomId=10029",
+		"sec": 3
+	},
+	{
+		"url": "http://localhost:8653/fc3d/fetchResult?roomId=10029",
 		"sec": 3
 	}
 ]

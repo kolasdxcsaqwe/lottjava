@@ -2,6 +2,7 @@ package com.example.tt.Controller;
 
 import com.example.tt.Bean.*;
 import com.example.tt.OpenResult.LotteryConfigGetter;
+import com.example.tt.Service.FC3DService;
 import com.example.tt.Service.PL5Service;
 import com.example.tt.Service.QxcService;
 import com.example.tt.dao.*;
@@ -40,6 +41,9 @@ public class ChatController {
     @Autowired(required = false)
     PL5Service pl5Service;
 
+    @Autowired(required = false)
+    FC3DService fc3DService;
+
     static HashMap<String, UserBean> userBeanHashMap = new HashMap<>();
 
     //下注
@@ -56,7 +60,8 @@ public class ChatController {
                 return qxcService.betQXC(betArray,userId,roomId,request);
             case 22:
                 return pl5Service.betPL5(betArray,userId,roomId,request);
-
+            case 21:
+                return fc3DService.betFC3D(betArray,userId,roomId,request);
         }
         return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
     }

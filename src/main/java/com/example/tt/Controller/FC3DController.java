@@ -19,7 +19,7 @@ public class FC3DController {
 
     @ResponseBody
     @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
-    public Object pl5LotterySetting() {
+    public Object LotterySetting() {
         return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery22Setting());
     }
 
@@ -33,8 +33,8 @@ public class FC3DController {
 
     //获取开奖结果 和结算
     @ResponseBody
-    @RequestMapping(value = "/fetchPL5Result", method = RequestMethod.GET)
-    public Object fetchPL5Result(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
+    @RequestMapping(value = "/fetchResult", method = RequestMethod.GET)
+    public Object fetchResult(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(request.getScheme()).append("://");
@@ -43,5 +43,7 @@ public class FC3DController {
 
         return fc3DService.fetchFC3DResult(roomId,sb.toString());
     }
+
+
 
 }

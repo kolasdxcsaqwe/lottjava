@@ -25,13 +25,13 @@ public class PL5Controller {
 
     @ResponseBody
     @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
-    public Object pl5LotterySetting() {
+    public Object LotterySetting() {
         return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery22Setting());
     }
 
     @ResponseBody
     @RequestMapping(value = "/LotterySettingEdit", method = RequestMethod.POST)
-    public Object pl5LotterySettingEdit(@RequestParam(name = "roomid") Integer roomid,
+    public Object LotterySettingEdit(@RequestParam(name = "roomid") Integer roomid,
                                         @RequestParam(name = "dxds",required = false) Float dxds,
                                         @RequestParam(name = "anytwo",required = false) Float anytwo,
                                         @RequestParam(name = "anythree",required = false) Float anythree,
@@ -96,8 +96,8 @@ public class PL5Controller {
 
     //获取开奖结果 和结算
     @ResponseBody
-    @RequestMapping(value = "/fetchPL5Result", method = RequestMethod.GET)
-    public Object fetchPL5Result(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
+    @RequestMapping(value = "/fetchResult", method = RequestMethod.GET)
+    public Object fetchResult(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(request.getScheme()).append("://");
