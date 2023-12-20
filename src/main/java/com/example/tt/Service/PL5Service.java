@@ -36,7 +36,7 @@ public class PL5Service {
 
     //    final String pl5Url="https://api.api68.com/QuanGuoCai/getLotteryInfo.do?lotCode=10044";//排列5开奖地址
 
-    final String pl5Url = "http://localhost:8653/fakeOpenResult?lotteryName=pl5";//假七星彩开奖地址
+    final String pl5Url = "http://localhost:8653/fakeOpenResult?lotteryName=pl5";//假排列5开奖地址
 
 
     private static int check(JSONArray jsonArray, int type) {
@@ -57,7 +57,7 @@ public class PL5Service {
             if (str.isEmpty()) {
                 return 0;
             } else {
-                mul = mul * str.length();
+                mul = mul * nums.length;
             }
         }
 

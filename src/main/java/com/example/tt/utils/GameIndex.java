@@ -266,4 +266,70 @@ public class GameIndex {
             return qxcGameTypeCode;
         }
     }
+
+
+    public enum FC3DGameTypeCode {
+        rx2(1, "rx2", "任选二"),
+        rx1(2, "rx1", "任选一"),
+        d3(3, "d3", "3星直选"),
+        d3c(4, "d3c", "3星组三"),
+        d3c6(5, "d3c6", "3星组六"),
+        d3c3sum(6, "d3c3sum", "3星组三和值"),
+        d3c6sum(7, "d3c6sum", "3星组六和值"),
+        d2f(8, "d2f", "2星前二直选"),
+        d2b(9, "d2b", "2星后二直选"),
+        d1(10, "d1", "定位胆"),
+        dxds(11, "dxds", "大小单双");
+
+
+        private int code;
+        private String game;
+        private String explain;
+
+        FC3DGameTypeCode(int code, String game, String explain) {
+            this.code = code;
+            this.game = game;
+            this.explain=explain;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getGame() {
+            return game;
+        }
+
+        public void setGame(String game) {
+            this.game = game;
+        }
+
+        public String getExplain() {
+            return explain;
+        }
+
+        public void setExplain(String explain) {
+            this.explain = explain;
+        }
+
+        public static FC3DGameTypeCode getFC3DGameTypeCode(String gameName) {
+
+            FC3DGameTypeCode qxcGameTypeCode= null;
+
+            try
+            {
+                qxcGameTypeCode=FC3DGameTypeCode.valueOf(gameName);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+            return qxcGameTypeCode;
+        }
+    }
 }

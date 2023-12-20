@@ -57,7 +57,7 @@ public class QxcService {
             if (nums.length == 0 || !Strings.isDigitOnly(nums)) {
                 return 0;
             } else {
-                mul = mul * str.length();
+                mul = mul * nums.length;
             }
         }
 

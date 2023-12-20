@@ -91,11 +91,11 @@
 <!--               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
-                     <table schema="" tableName="fn_pl5order" domainObjectName="PL5Order"
+                     <table schema="" tableName="fn_fc3dorder" domainObjectName="FC3DOrder"
                        enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                        enableUpdateByExample="false" selectByExampleQueryId="false"/>
 
-        <table schema="" tableName="fn_lottery22" domainObjectName="Lottery22Setting"
+        <table schema="" tableName="fn_lottery21" domainObjectName="Lottery21Setting"
                enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" selectByExampleQueryId="false"/>
 
