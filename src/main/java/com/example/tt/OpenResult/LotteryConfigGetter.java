@@ -108,6 +108,7 @@ public class LotteryConfigGetter {
         lottery18SettingMapper = TtApplication.getContext().getBean(Lottery18SettingMapper.class);
         lottery19SettingMapper = TtApplication.getContext().getBean(Lottery19SettingMapper.class);
         lottery20SettingMapper = TtApplication.getContext().getBean(Lottery20SettingMapper.class);
+        lottery21SettingMapper = TtApplication.getContext().getBean(Lottery21SettingMapper.class);
         lottery22SettingMapper = TtApplication.getContext().getBean(Lottery22SettingMapper.class);
         lotteryRoomSettingMapper = TtApplication.getContext().getBean(LotteryRoomSettingMapper.class);
         userBeanMapper= TtApplication.getContext().getBean(UserBeanMapper.class);

@@ -19,4 +19,6 @@ public interface Lottery21SettingMapper {
     int updateByPrimaryKey(Lottery21Setting record);
 
     Lottery21Setting selectByRoomId(Integer roomid);
+
+    int updateOrInsertById(Lottery21Setting lottery21Setting);
 }

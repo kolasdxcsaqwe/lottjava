@@ -128,7 +128,8 @@ public class PL5Service {
                 rate = lottery22Setting.getOnefix();
                 break;
             case 7:
-                rate = lottery22Setting.getDouniu();
+                //斗牛要重新算
+                rate = 0;
                 break;
             case 8:
                 rate = lottery22Setting.getDxds();
@@ -565,37 +566,39 @@ public class PL5Service {
                     if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
                         winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, playerBetCodesBeans.get(0), 3);
                     }
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
                 case 2:
                     if (!playerBetCodesBeans.isEmpty() && playerBetCodesBeans.get(0) != null && !Strings.isEmptyOrNullAmongOf(playerBetCodesBeans.get(0))) {
                         winTimes = AnyChooseCalWin.getInstance().getWinTimes(openResultCodes, playerBetCodesBeans.get(0), 2);
                     }
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
                 case 3:
                     winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3, 4);
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
                 case 4:
                     winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2);
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
                 case 5:
                     winTimes = FixChooseCalWin.getInstance().calFixIsWin(openResultCodes, playerBetCodesBeans, 0, 1);
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
                 case 6:
                     winTimes = FixChooseCalWin.getInstance().calFixOneIsWin(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
                 case 7:
+                    //斗牛排序 无牛到牛牛
                     winTimes = NiuNiuCalWin.getInstance().calNiu(openResultCodes, playerBetCodesBeans);
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    int niuWhat=NiuNiuCalWin.getInstance().syncBull(openResultCodes);
+                    sumBeforeWinNiuNiu(niuWhat,map, pl5Order, winTimes);
                     break;
                 case 8:
                     winTimes = FixChooseCalWin.getInstance().calDXDS(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
-                    sumBeforeWin(map, pl5Order, winTimes);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
             }
 
@@ -607,7 +610,7 @@ public class PL5Service {
         winOrLost(map, pl5OrderListCal);
     }
 
-    private void sumBeforeWin(Map<String, Float> map, PL5Order pl5Order, int winTimes) {
+    private void sumBeforeWinNiuNiu(int niuWhat,Map<String, Float> map, PL5Order pl5Order, int winTimes) {
         if (winTimes < 1) {
             pl5Order.setStatus(GameIndex.OrderCalculateStatus.lost.getCode());
             return;
@@ -615,6 +618,37 @@ public class PL5Service {
             pl5Order.setStatus(GameIndex.OrderCalculateStatus.win.getCode());
         }
         Float beforeWin = map.get(pl5Order.getUserid());
+
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        if(niuWhat==0)
+        {
+            //无牛
+            pl5Order.setWinrate(lottery22Setting.getWuniu());
+        }
+        else
+        {
+            //有牛
+            pl5Order.setWinrate(lottery22Setting.getYouniu());
+        }
+
+        float totalMoney = pl5Order.getUnitprice() * winTimes * pl5Order.getWinrate();
+        if (beforeWin != null) {
+            map.put(pl5Order.getUserid(), beforeWin + totalMoney);
+        } else {
+            map.put(pl5Order.getUserid(), totalMoney);
+        }
+    }
+
+    private void sumBeforeWin(int gameType,Map<String, Float> map, PL5Order pl5Order, int winTimes) {
+        if (winTimes < 1) {
+            pl5Order.setStatus(GameIndex.OrderCalculateStatus.lost.getCode());
+            return;
+        } else {
+            pl5Order.setStatus(GameIndex.OrderCalculateStatus.win.getCode());
+        }
+        Float beforeWin = map.get(pl5Order.getUserid());
+
+
         float totalMoney = pl5Order.getUnitprice() * winTimes * pl5Order.getWinrate();
         if (beforeWin != null) {
             map.put(pl5Order.getUserid(), beforeWin + totalMoney);

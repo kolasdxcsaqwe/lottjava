@@ -39,7 +39,8 @@ public class PL5Controller {
                                         @RequestParam(name = "threefix",required = false) Float threefix,
                                         @RequestParam(name = "twofix",required = false) Float twofix,
                                         @RequestParam(name = "onefix",required = false) Float onefix,
-                                        @RequestParam(name = "douniu",required = false) Float douniu,
+                                        @RequestParam(name = "youniu",required = false) Float youniu,
+                                        @RequestParam(name = "wuniu",required = false) Float wuniu,
                                         @RequestParam(name = "minbet",required = false) Float minbet,
                                         @RequestParam(name = "maxbet",required = false) Float maxbet,
                                         @RequestParam(name = "gameopen",required = false) String gameopen,
@@ -59,7 +60,9 @@ public class PL5Controller {
         lottery22Setting.setMinbet(minbet);
         lottery22Setting.setMaxbet(maxbet);
         lottery22Setting.setRules(rules);
-        lottery22Setting.setDouniu(douniu);
+        lottery22Setting.setYouniu(youniu);
+        lottery22Setting.setWuniu(wuniu);
+
         if(!Strings.isEmptyOrNullAmongOf(gameopen))
         {
             switch (gameopen.toLowerCase())

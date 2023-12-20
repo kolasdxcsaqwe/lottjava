@@ -206,6 +206,18 @@ public class ChatController {
                             throw new RuntimeException(e);
                         }
                         break;
+                    case 21:
+                        //福彩3D
+                        Lottery21Setting lottery21Setting=LotteryConfigGetter.getInstance().getLottery21Setting();
+                        try {
+                            item.put("title",GameIndex.getLotteryGameExplain(index));
+                            item.put("code",index);
+                            item.put("status",lottery21Setting.getGameopen()?1:0);
+                            main.put(games[i],item);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
                 }
 
             }

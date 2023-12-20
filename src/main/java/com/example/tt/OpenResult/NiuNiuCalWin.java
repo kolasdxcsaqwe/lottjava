@@ -45,7 +45,7 @@ public class NiuNiuCalWin {
     }
 
 
-    public static int syncBull(String codes) {
+    public int syncBull(String codes) {
 
         Integer[] cards=new Integer[codes.length()];
         for (int i = 0; i < codes.length(); i++) {
