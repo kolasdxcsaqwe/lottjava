@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tt.dao.Lottery21SettingMapper">
+  <resultMap id="BaseResultMap" type="com.example.tt.Bean.Lottery21Setting">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomid" jdbcType="INTEGER" property="roomid" />
+    <result column="gameopen" jdbcType="BIT" property="gameopen" />
+    <result column="dxds" jdbcType="REAL" property="dxds" />
+    <result column="threefix" jdbcType="REAL" property="threefix" />
+    <result column="combinethree" jdbcType="REAL" property="combinethree" />
+    <result column="combinesix" jdbcType="REAL" property="combinesix" />
+    <result column="combinethreesum" jdbcType="REAL" property="combinethreesum" />
+    <result column="combinesixsum" jdbcType="REAL" property="combinesixsum" />
+    <result column="fronttwofix" jdbcType="REAL" property="fronttwofix" />
+    <result column="backtwofix" jdbcType="REAL" property="backtwofix" />
+    <result column="onefix" jdbcType="REAL" property="onefix" />
+    <result column="anyone" jdbcType="REAL" property="anyone" />
+    <result column="anytwo" jdbcType="REAL" property="anytwo" />
+    <result column="minbet" jdbcType="REAL" property="minbet" />
+    <result column="maxbet" jdbcType="REAL" property="maxbet" />
+    <result column="fengtime" jdbcType="INTEGER" property="fengtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.tt.Bean.Lottery21Setting">
+    <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomid, gameopen, dxds, threefix, combinethree, combinesix, combinethreesum, 
+    combinesixsum, fronttwofix, backtwofix, onefix, anyone, anytwo, minbet, maxbet, fengtime
+  </sql>
+  <sql id="Blob_Column_List">
+    rules
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery21
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fn_lottery21
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.tt.Bean.Lottery21Setting">
+    insert into fn_lottery21 (id, roomid, gameopen, 
+      dxds, threefix, combinethree, 
+      combinesix, combinethreesum, combinesixsum, 
+      fronttwofix, backtwofix, onefix, 
+      anyone, anytwo, minbet, maxbet, 
+      fengtime, rules)
+    values (#{id,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{gameopen,jdbcType=BIT}, 
+      #{dxds,jdbcType=REAL}, #{threefix,jdbcType=REAL}, #{combinethree,jdbcType=REAL}, 
+      #{combinesix,jdbcType=REAL}, #{combinethreesum,jdbcType=REAL}, #{combinesixsum,jdbcType=REAL}, 
+      #{fronttwofix,jdbcType=REAL}, #{backtwofix,jdbcType=REAL}, #{onefix,jdbcType=REAL}, 
+      #{anyone,jdbcType=REAL}, #{anytwo,jdbcType=REAL}, #{minbet,jdbcType=REAL}, #{maxbet,jdbcType=REAL}, 
+      #{fengtime,jdbcType=INTEGER}, #{rules,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery21Setting">
+    insert into fn_lottery21
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="dxds != null">
+        dxds,
+      </if>
+      <if test="threefix != null">
+        threefix,
+      </if>
+      <if test="combinethree != null">
+        combinethree,
+      </if>
+      <if test="combinesix != null">
+        combinesix,
+      </if>
+      <if test="combinethreesum != null">
+        combinethreesum,
+      </if>
+      <if test="combinesixsum != null">
+        combinesixsum,
+      </if>
+      <if test="fronttwofix != null">
+        fronttwofix,
+      </if>
+      <if test="backtwofix != null">
+        backtwofix,
+      </if>
+      <if test="onefix != null">
+        onefix,
+      </if>
+      <if test="anyone != null">
+        anyone,
+      </if>
+      <if test="anytwo != null">
+        anytwo,
+      </if>
+      <if test="minbet != null">
+        minbet,
+      </if>
+      <if test="maxbet != null">
+        maxbet,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=BIT},
+      </if>
+      <if test="dxds != null">
+        #{dxds,jdbcType=REAL},
+      </if>
+      <if test="threefix != null">
+        #{threefix,jdbcType=REAL},
+      </if>
+      <if test="combinethree != null">
+        #{combinethree,jdbcType=REAL},
+      </if>
+      <if test="combinesix != null">
+        #{combinesix,jdbcType=REAL},
+      </if>
+      <if test="combinethreesum != null">
+        #{combinethreesum,jdbcType=REAL},
+      </if>
+      <if test="combinesixsum != null">
+        #{combinesixsum,jdbcType=REAL},
+      </if>
+      <if test="fronttwofix != null">
+        #{fronttwofix,jdbcType=REAL},
+      </if>
+      <if test="backtwofix != null">
+        #{backtwofix,jdbcType=REAL},
+      </if>
+      <if test="onefix != null">
+        #{onefix,jdbcType=REAL},
+      </if>
+      <if test="anyone != null">
+        #{anyone,jdbcType=REAL},
+      </if>
+      <if test="anytwo != null">
+        #{anytwo,jdbcType=REAL},
+      </if>
+      <if test="minbet != null">
+        #{minbet,jdbcType=REAL},
+      </if>
+      <if test="maxbet != null">
+        #{maxbet,jdbcType=REAL},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.Lottery21Setting">
+    update fn_lottery21
+    <set>
+      <if test="roomid != null">
+        roomid = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="gameopen != null">
+        gameopen = #{gameopen,jdbcType=BIT},
+      </if>
+      <if test="dxds != null">
+        dxds = #{dxds,jdbcType=REAL},
+      </if>
+      <if test="threefix != null">
+        threefix = #{threefix,jdbcType=REAL},
+      </if>
+      <if test="combinethree != null">
+        combinethree = #{combinethree,jdbcType=REAL},
+      </if>
+      <if test="combinesix != null">
+        combinesix = #{combinesix,jdbcType=REAL},
+      </if>
+      <if test="combinethreesum != null">
+        combinethreesum = #{combinethreesum,jdbcType=REAL},
+      </if>
+      <if test="combinesixsum != null">
+        combinesixsum = #{combinesixsum,jdbcType=REAL},
+      </if>
+      <if test="fronttwofix != null">
+        fronttwofix = #{fronttwofix,jdbcType=REAL},
+      </if>
+      <if test="backtwofix != null">
+        backtwofix = #{backtwofix,jdbcType=REAL},
+      </if>
+      <if test="onefix != null">
+        onefix = #{onefix,jdbcType=REAL},
+      </if>
+      <if test="anyone != null">
+        anyone = #{anyone,jdbcType=REAL},
+      </if>
+      <if test="anytwo != null">
+        anytwo = #{anytwo,jdbcType=REAL},
+      </if>
+      <if test="minbet != null">
+        minbet = #{minbet,jdbcType=REAL},
+      </if>
+      <if test="maxbet != null">
+        maxbet = #{maxbet,jdbcType=REAL},
+      </if>
+      <if test="fengtime != null">
+        fengtime = #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="rules != null">
+        rules = #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.tt.Bean.Lottery21Setting">
+    update fn_lottery21
+    set roomid = #{roomid,jdbcType=INTEGER},
+      gameopen = #{gameopen,jdbcType=BIT},
+      dxds = #{dxds,jdbcType=REAL},
+      threefix = #{threefix,jdbcType=REAL},
+      combinethree = #{combinethree,jdbcType=REAL},
+      combinesix = #{combinesix,jdbcType=REAL},
+      combinethreesum = #{combinethreesum,jdbcType=REAL},
+      combinesixsum = #{combinesixsum,jdbcType=REAL},
+      fronttwofix = #{fronttwofix,jdbcType=REAL},
+      backtwofix = #{backtwofix,jdbcType=REAL},
+      onefix = #{onefix,jdbcType=REAL},
+      anyone = #{anyone,jdbcType=REAL},
+      anytwo = #{anytwo,jdbcType=REAL},
+      minbet = #{minbet,jdbcType=REAL},
+      maxbet = #{maxbet,jdbcType=REAL},
+      fengtime = #{fengtime,jdbcType=INTEGER},
+      rules = #{rules,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.tt.Bean.Lottery21Setting">
+    update fn_lottery21
+    set roomid = #{roomid,jdbcType=INTEGER},
+      gameopen = #{gameopen,jdbcType=BIT},
+      dxds = #{dxds,jdbcType=REAL},
+      threefix = #{threefix,jdbcType=REAL},
+      combinethree = #{combinethree,jdbcType=REAL},
+      combinesix = #{combinesix,jdbcType=REAL},
+      combinethreesum = #{combinethreesum,jdbcType=REAL},
+      combinesixsum = #{combinesixsum,jdbcType=REAL},
+      fronttwofix = #{fronttwofix,jdbcType=REAL},
+      backtwofix = #{backtwofix,jdbcType=REAL},
+      onefix = #{onefix,jdbcType=REAL},
+      anyone = #{anyone,jdbcType=REAL},
+      anytwo = #{anytwo,jdbcType=REAL},
+      minbet = #{minbet,jdbcType=REAL},
+      maxbet = #{maxbet,jdbcType=REAL},
+      fengtime = #{fengtime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
