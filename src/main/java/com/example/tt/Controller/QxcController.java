@@ -35,13 +35,13 @@ public class QxcController {
 
     @ResponseBody
     @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
-    public Object qxcLotterySetting() {
+    public Object LotterySetting() {
         return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery20Setting());
     }
 
     @ResponseBody
     @RequestMapping(value = "/LotterySettingEdit", method = RequestMethod.POST)
-    public Object qxcLotterySettingEdit(@RequestParam(name = "roomid") Integer roomid,
+    public Object LotterySettingEdit(@RequestParam(name = "roomid") Integer roomid,
                                         @RequestParam(name = "dxds",required = false) Float dxds,
                                         @RequestParam(name = "anytwo",required = false) Float anytwo,
                                         @RequestParam(name = "anythree",required = false) Float anythree,
@@ -99,8 +99,8 @@ public class QxcController {
 
     //获取开奖结果 和结算
     @ResponseBody
-    @RequestMapping(value = "/fetchQXCResult", method = RequestMethod.GET)
-    public Object fetchQXCResult(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
+    @RequestMapping(value = "/fetchResult", method = RequestMethod.GET)
+    public Object fetchResult(@RequestParam(name = "roomId") String roomId,HttpServletRequest request) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(request.getScheme()).append("://");
@@ -113,7 +113,7 @@ public class QxcController {
     //下注撤单
     @ResponseBody
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public String QXCSendChat(@RequestParam(name = "id") String id,HttpServletRequest request) {
+    public String cancelOrder(@RequestParam(name = "id") String id,HttpServletRequest request) {
         return qxcService.cancelOrder(id);
     }
 }

@@ -1,6 +1,10 @@
 package com.example.tt.dao;
 
 import com.example.tt.Bean.FC3DOrder;
+import com.example.tt.Bean.PL5Order;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FC3DOrderMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +20,8 @@ public interface FC3DOrderMapper {
     int updateByPrimaryKeyWithBLOBs(FC3DOrder record);
 
     int updateByPrimaryKey(FC3DOrder record);
+
+    List<FC3DOrder> selectOrderByStatus(@Param("status")Integer status);
+
+    List<FC3DOrder> selectOrderByStatusAndTerm(@Param("status")Integer status,@Param("term")String term);
 }

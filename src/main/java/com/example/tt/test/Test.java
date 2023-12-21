@@ -1,7 +1,9 @@
 package com.example.tt.test;
 
+import com.example.tt.Bean.QXCOrder;
 import com.example.tt.OpenResult.AnyChooseCalWin;
 import com.example.tt.utils.*;
+import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -12,6 +14,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Test {
+
+    public final static int[] zu3={1,2,3,3,3,3,4,5,4,5,5,4,5,5,4,5,5,4,5,4,3,3,3,1,2,1};
+    public final static int[] zu6={1,1,2,3,4,5,7,8,9,10,10,10,10,9,8,7,5,4,3,2,1,1};
 
     public static Stack<Character> stack = new Stack<Character>();
     public static Stack<Integer> stackIndex = new Stack<Integer>();
@@ -80,9 +85,27 @@ public class Test {
 //        }
 
 //        cal("00145".toCharArray(),3,0,0);
-        System.err.println(syncBull(new Integer[]{8,1,2,4,6}));
+       System.err.println("88".split(",")[0]);
+        test();
     }
 
+    private static void test()
+    {
+        String[] betNums={"1","0","5"};
+        String openResult="519";
+        int resultCodeSum=openResult.charAt(0)+openResult.charAt(1)+openResult.charAt(2)-'0'-'0'-'0';
+        int count=0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < betNums.length; j++) {
+                if(betNums[j].charAt(0)==openResult.charAt(i))
+                {
+                    count++;
+                }
+            }
+        }
+        System.err.println("count--->"+count);
+        System.err.println("sum--->"+resultCodeSum);
+    }
 
     public static String syncBull(Integer[] cards) {
         // 计算总点数

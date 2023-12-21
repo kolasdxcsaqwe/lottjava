@@ -1,6 +1,6 @@
 package com.example.tt.dao;
 
-import com.example.tt.Bean.Lottery20Setting;
+import com.example.tt.Bean.Lottery21Setting;
 import com.example.tt.Bean.Lottery22Setting;
 
 public interface Lottery22SettingMapper {
@@ -20,5 +20,5 @@ public interface Lottery22SettingMapper {
 
     Lottery22Setting selectByRoomId(Integer roomid);
 
-    int updateOrInsertById(Lottery22Setting record);
+    int updateOrInsertById(Lottery22Setting lottery22Setting);
 }

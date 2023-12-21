@@ -38,6 +38,16 @@
     from fn_lottery21
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByRoomId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fn_lottery21
+    where roomid = #{roomid,jdbcType=INTEGER}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fn_lottery21
     where id = #{id,jdbcType=INTEGER}
@@ -56,6 +66,123 @@
       #{anyone,jdbcType=REAL}, #{anytwo,jdbcType=REAL}, #{minbet,jdbcType=REAL}, #{maxbet,jdbcType=REAL}, 
       #{fengtime,jdbcType=INTEGER}, #{rules,jdbcType=LONGVARCHAR})
   </insert>
+
+  <insert id="updateOrInsertById" parameterType="com.example.tt.Bean.Lottery21Setting">
+    replace into fn_lottery21
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomid != null">
+        roomid,
+      </if>
+      <if test="gameopen != null">
+        gameopen,
+      </if>
+      <if test="dxds != null">
+        dxds,
+      </if>
+      <if test="threefix != null">
+        threefix,
+      </if>
+      <if test="combinethree != null">
+        combinethree,
+      </if>
+      <if test="combinesix != null">
+        combinesix,
+      </if>
+      <if test="combinethreesum != null">
+        combinethreesum,
+      </if>
+      <if test="combinesixsum != null">
+        combinesixsum,
+      </if>
+      <if test="fronttwofix != null">
+        fronttwofix,
+      </if>
+      <if test="backtwofix != null">
+        backtwofix,
+      </if>
+      <if test="onefix != null">
+        onefix,
+      </if>
+      <if test="anyone != null">
+        anyone,
+      </if>
+      <if test="anytwo != null">
+        anytwo,
+      </if>
+      <if test="minbet != null">
+        minbet,
+      </if>
+      <if test="maxbet != null">
+        maxbet,
+      </if>
+      <if test="fengtime != null">
+        fengtime,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="gameopen != null">
+        #{gameopen,jdbcType=BIT},
+      </if>
+      <if test="dxds != null">
+        #{dxds,jdbcType=REAL},
+      </if>
+      <if test="threefix != null">
+        #{threefix,jdbcType=REAL},
+      </if>
+      <if test="combinethree != null">
+        #{combinethree,jdbcType=REAL},
+      </if>
+      <if test="combinesix != null">
+        #{combinesix,jdbcType=REAL},
+      </if>
+      <if test="combinethreesum != null">
+        #{combinethreesum,jdbcType=REAL},
+      </if>
+      <if test="combinesixsum != null">
+        #{combinesixsum,jdbcType=REAL},
+      </if>
+      <if test="fronttwofix != null">
+        #{fronttwofix,jdbcType=REAL},
+      </if>
+      <if test="backtwofix != null">
+        #{backtwofix,jdbcType=REAL},
+      </if>
+      <if test="onefix != null">
+        #{onefix,jdbcType=REAL},
+      </if>
+      <if test="anyone != null">
+        #{anyone,jdbcType=REAL},
+      </if>
+      <if test="anytwo != null">
+        #{anytwo,jdbcType=REAL},
+      </if>
+      <if test="minbet != null">
+        #{minbet,jdbcType=REAL},
+      </if>
+      <if test="maxbet != null">
+        #{maxbet,jdbcType=REAL},
+      </if>
+      <if test="fengtime != null">
+        #{fengtime,jdbcType=INTEGER},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
   <insert id="insertSelective" parameterType="com.example.tt.Bean.Lottery21Setting">
     insert into fn_lottery21
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -171,6 +298,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.Lottery21Setting">
     update fn_lottery21
     <set>

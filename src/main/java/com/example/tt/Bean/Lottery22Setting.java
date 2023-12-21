@@ -19,7 +19,9 @@ public class Lottery22Setting {
 
     private Float anytwo;
 
-    private Float douniu;
+    private Float youniu;
+
+    private Float wuniu;
 
     private Float onefix;
 
@@ -103,12 +105,20 @@ public class Lottery22Setting {
         this.anytwo = anytwo;
     }
 
-    public Float getDouniu() {
-        return douniu;
+    public Float getYouniu() {
+        return youniu;
     }
 
-    public void setDouniu(Float douniu) {
-        this.douniu = douniu;
+    public void setYouniu(Float youniu) {
+        this.youniu = youniu;
+    }
+
+    public Float getWuniu() {
+        return wuniu;
+    }
+
+    public void setWuniu(Float wuniu) {
+        this.wuniu = wuniu;
     }
 
     public Float getOnefix() {
