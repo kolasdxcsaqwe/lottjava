@@ -1,6 +1,8 @@
 package com.example.tt.Controller;
 
 import com.example.tt.Bean.PCOrderBean;
+import com.example.tt.Service.FC3DService;
+import com.example.tt.Service.PL5Service;
 import com.example.tt.Service.QxcService;
 import com.example.tt.dao.*;
 import com.example.tt.utils.*;
@@ -18,6 +20,12 @@ public class FetchLotteryResultController {
 
     @Autowired(required = false)
     QxcService qxcService;
+
+    @Autowired(required = false)
+    PL5Service pl5Service;
+
+    @Autowired(required = false)
+    FC3DService fc3DService;
 
     //获取单个彩种的倒计时和用户资料
     @ResponseBody
@@ -39,8 +47,14 @@ public class FetchLotteryResultController {
         switch (gameCode)
         {
             case 20:
-                //七星
+                //七星彩
                 return qxcService.getRemainTimeAndUser(userId,roomId,request);
+            case 22:
+                //排列5
+                return pl5Service.getRemainTimeAndUser(userId,roomId,request);
+            case 21:
+                //福彩3D
+                return fc3DService.getRemainTimeAndUser(userId,roomId,request);
         }
 
         return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);

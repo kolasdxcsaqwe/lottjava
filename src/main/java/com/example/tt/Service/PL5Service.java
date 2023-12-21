@@ -378,7 +378,7 @@ public class PL5Service {
         HttpRequest.getInstance().get(pl5Url, null, new HttpCallBack() {
             @Override
             public void onError(Exception ex) {
-                MyLog.e("七星彩开奖结果请求失败");
+                MyLog.e("排列5开奖结果请求失败");
             }
 
             @Override
@@ -449,34 +449,6 @@ public class PL5Service {
         newTermBean.setNextTerm(String.valueOf(Integer.parseInt(term) + 1));
         newTermBean.setTerm(term);
         newTermBean.setTime(time);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
-
-        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
-        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        if (isFirstSunday) {
-            weekDay = weekDay - 1;
-            if (weekDay == 0) {
-                weekDay = 7;
-            }
-        }
-
-        //周2 5 7开奖
-        switch (weekDay) {
-            case 2:
-                calendar.setTime(new Date(time.getTime() + (3 * 24 * 3600 * 1000)));
-                break;
-            case 5:
-            case 7:
-                calendar.setTime(new Date(time.getTime() + (2 * 24 * 3600 * 1000)));
-                break;
-            default:
-                //不是的话就假的开奖
-                return;
-        }
-
-        //暂时不用 开奖错误了再用
-//        newTermBean.setNextTime(calendar.getTime());
         newTermBean.setNextTime(nextTermTime);
         newTermBean.setRoomid(roomId);
         newTermBean.setCode(codes);
@@ -673,4 +645,29 @@ public class PL5Service {
 
     }
 
+    public Object getRemainTimeAndUser(String userId, String roomId, HttpServletRequest request) {
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.pl5.getCode());
+        BigDecimal money = userBeanMapper.selectMoneyByUserId(userId, Integer.parseInt(roomId));
+
+        if (!lottery22Setting.getGameopen()) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if (lotteryOpenBean == null || lotteryOpenBean.getNextTime() == null) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
+        }
+
+        long reamain = lotteryOpenBean.getNextTime().getTime() / 1000 - (System.currentTimeMillis() / 1000) - lottery22Setting.getFengtime();
+        if (reamain < 0) {
+            reamain = 0;
+        }
+        String remainTime = String.valueOf(reamain);
+        Map<String, String> map = new HashMap<>();
+        map.put("remainTime", remainTime);
+        map.put("money", Strings.cutOff(money, 2));
+        map.put("term", lotteryOpenBean.getNextTerm());
+
+        return ReturnDataBuilder.makeBaseJSON(map);
+    }
 }

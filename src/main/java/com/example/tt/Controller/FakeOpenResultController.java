@@ -41,10 +41,10 @@ public class FakeOpenResultController {
                         return jsonObject.toString();
                     case 21:
                         data.put("preDrawCode",random(3));
-                        break;
+                        return jsonObject.toString();
                     case 22:
                         data.put("preDrawCode",random(5));
-                        break;
+                        return jsonObject.toString();
                 }
             }
 

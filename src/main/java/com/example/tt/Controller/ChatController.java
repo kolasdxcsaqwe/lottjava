@@ -46,7 +46,6 @@ public class ChatController {
 
     static HashMap<String, UserBean> userBeanHashMap = new HashMap<>();
 
-    //下注
     @ResponseBody
     @RequestMapping(value = "/newChatsJava", method = RequestMethod.POST)
     public Object QXCSendChat(@RequestParam(name = "betArray") String betArray,
@@ -66,7 +65,6 @@ public class ChatController {
         return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
     }
 
-    //下注
     @ResponseBody
     @RequestMapping(value = "/getALlLotteryStatus", method = RequestMethod.POST)
     public String getALlLotteryStatus(@RequestParam(name = "game") String game,HttpServletRequest request) {

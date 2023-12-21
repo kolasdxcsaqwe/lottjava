@@ -383,13 +383,13 @@ public class FC3DService {
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
 
-                GameIndex.QXCGameTypeCode qxcGameTypeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gameName);
-                if (qxcGameTypeCode == null) {
+                GameIndex.FC3DGameTypeCode fc3DGameTypeCode = GameIndex.FC3DGameTypeCode.getFC3DGameTypeCode(gameName);
+                if (fc3DGameTypeCode == null) {
                     return -1;
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, qxcGameTypeCode.getCode());
+                int orderAmount = check(codes, fc3DGameTypeCode.getCode());
                 orderTotalMoney = orderTotalMoney + (unitPrice * orderAmount);
             }
         } catch (JSONException e) {
@@ -410,7 +410,7 @@ public class FC3DService {
         HttpRequest.getInstance().get(fc3dUrl, null, new HttpCallBack() {
             @Override
             public void onError(Exception ex) {
-                MyLog.e("七星彩开奖结果请求失败");
+                MyLog.e("福彩3D开奖结果请求失败");
             }
 
             @Override
@@ -693,5 +693,31 @@ public class FC3DService {
             fc3DOrderMapper.updateByPrimaryKeySelective(fc3DOrder);
         }
 
+    }
+
+    public Object getRemainTimeAndUser(String userId, String roomId, HttpServletRequest request) {
+        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting();
+        LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.fc3d.getCode());
+        BigDecimal money = userBeanMapper.selectMoneyByUserId(userId, Integer.parseInt(roomId));
+
+        if (!lottery21Setting.getGameopen()) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if (lotteryOpenBean == null || lotteryOpenBean.getNextTime() == null) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
+        }
+
+        long reamain = lotteryOpenBean.getNextTime().getTime() / 1000 - (System.currentTimeMillis() / 1000) - lottery21Setting.getFengtime();
+        if (reamain < 0) {
+            reamain = 0;
+        }
+        String remainTime = String.valueOf(reamain);
+        Map<String, String> map = new HashMap<>();
+        map.put("remainTime", remainTime);
+        map.put("money", Strings.cutOff(money, 2));
+        map.put("term", lotteryOpenBean.getNextTerm());
+
+        return ReturnDataBuilder.makeBaseJSON(map);
     }
 }
