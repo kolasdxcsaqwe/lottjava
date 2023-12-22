@@ -393,7 +393,7 @@ public class PL5Service {
                         String nextTermTime = jsonData.optString("drawTime", "");
 
                         String[] resultSplit = result.split(",");
-                        if (resultSplit.length < 4) {
+                        if (resultSplit.length < 5) {
                             MyLog.e("排列5开奖结果错误");
                             return;
                         }

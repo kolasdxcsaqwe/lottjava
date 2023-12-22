@@ -37,7 +37,7 @@ public class FC3DService {
 
 //    final String fc3dUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo1.do?lotCode=10041";//福彩3D开奖地址
 
-    final String fc3dUrl = "http://localhost:8653/fakeOpenResult?lotteryName=fc3d";//假排列5开奖地址
+    final String fc3dUrl = "http://localhost:8653/fakeOpenResult?lotteryName=fc3d";//假福彩3d开奖地址
 
 
     private static int check(JSONArray jsonArray, int type) {
@@ -425,12 +425,12 @@ public class FC3DService {
                         String nextTermTime = jsonData.optString("drawTime", "");
 
                         String[] resultSplit = result.split(",");
-                        if (resultSplit.length < 4) {
-                            MyLog.e("排列5开奖结果错误");
+                        if (resultSplit.length < 3) {
+                            MyLog.e("福彩3d开奖结果错误");
                             return;
                         }
                         StringBuilder sb = new StringBuilder();
-                        for (int i = 0; i < 4; i++) {
+                        for (int i = 0; i < 3; i++) {
                             sb.append(resultSplit[i]);
                         }
 //                        sb.append(",").append(resultSplit[resultSplit.length-1]);
