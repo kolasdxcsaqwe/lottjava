@@ -452,31 +452,31 @@ public class QxcService {
         newTermBean.setNextTerm(String.valueOf(Integer.parseInt(term) + 1));
         newTermBean.setTerm(term);
         newTermBean.setTime(time);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
-
-        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
-        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        if (isFirstSunday) {
-            weekDay = weekDay - 1;
-            if (weekDay == 0) {
-                weekDay = 7;
-            }
-        }
-
-        //周2 5 7开奖
-        switch (weekDay) {
-            case 2:
-                calendar.setTime(new Date(time.getTime() + (3 * 24 * 3600 * 1000)));
-                break;
-            case 5:
-            case 7:
-                calendar.setTime(new Date(time.getTime() + (2 * 24 * 3600 * 1000)));
-                break;
-            default:
-                //不是的话就假的开奖
-                return;
-        }
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(time);
+//
+//        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
+//        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+//        if (isFirstSunday) {
+//            weekDay = weekDay - 1;
+//            if (weekDay == 0) {
+//                weekDay = 7;
+//            }
+//        }
+//
+//        //周2 5 7开奖
+//        switch (weekDay) {
+//            case 2:
+//                calendar.setTime(new Date(time.getTime() + (3 * 24 * 3600 * 1000)));
+//                break;
+//            case 5:
+//            case 7:
+//                calendar.setTime(new Date(time.getTime() + (2 * 24 * 3600 * 1000)));
+//                break;
+//            default:
+//                //不是的话就假的开奖
+//                return;
+//        }
 
         //暂时不用 开奖错误了再用
 //        newTermBean.setNextTime(calendar.getTime());
@@ -600,7 +600,7 @@ public class QxcService {
     private void winOrLost(Map<String, Float> map, List<QXCOrder> qxcOrderListCal) {
         //应该用事务的 但是数据库面目全非 算了
         for (Map.Entry<String, Float> entry : map.entrySet()) {
-            userBeanMapper.addUserMoney(String.valueOf(entry.getValue()), entry.getKey());
+            userBeanMapper.addUserMoney(BigDecimal.valueOf(entry.getValue()), entry.getKey());
         }
 
         //0 未结算 1赢了 2输了 9撤单
@@ -689,7 +689,7 @@ public class QxcService {
         map.put("remainTime", remainTime);
         map.put("codes",lotteryOpenBean.getCode());
         map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
-        map.put("term", lotteryOpenBean.getNextTerm());
+        map.put("term", lotteryOpenBean.getTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);
     }
@@ -701,7 +701,7 @@ public class QxcService {
         QXCOrder qxcOrder = new QXCOrder();
         qxcOrder.setId(Integer.parseInt(id));
         qxcOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status = qxcOrderMapper.updateByPrimaryKey(qxcOrder);
+        int status = qxcOrderMapper.updateByPrimaryKeySelective(qxcOrder);
 
         return ReturnDataBuilder.returnData(status > 0);
     }

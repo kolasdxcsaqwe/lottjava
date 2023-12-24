@@ -361,7 +361,7 @@ public class PL5Service {
         PL5Order pl5Order = new PL5Order();
         pl5Order.setId(Integer.parseInt(id));
         pl5Order.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status = pl5OrderMapper.updateByPrimaryKey(pl5Order);
+        int status = pl5OrderMapper.updateByPrimaryKeySelective(pl5Order);
 
         return ReturnDataBuilder.returnData(status > 0);
     }
@@ -632,7 +632,7 @@ public class PL5Service {
     private void winOrLost(Map<String, Float> map, List<PL5Order> pl5OrderList) {
         //应该用事务的 但是数据库面目全非 算了
         for (Map.Entry<String, Float> entry : map.entrySet()) {
-            userBeanMapper.addUserMoney(String.valueOf(entry.getValue()), entry.getKey());
+            userBeanMapper.addUserMoney(BigDecimal.valueOf(entry.getValue()), entry.getKey());
         }
 
         //0 未结算 1赢了 2输了 9撤单
@@ -692,7 +692,7 @@ public class PL5Service {
         map.put("remainTime", remainTime);
         map.put("codes",lotteryOpenBean.getCode());
         map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
-        map.put("term", lotteryOpenBean.getNextTerm());
+        map.put("term", lotteryOpenBean.getTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);
     }

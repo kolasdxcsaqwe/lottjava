@@ -80,34 +80,37 @@ public class FixChooseCalWin {
             else
             {
                 int result=openResult.charAt(positions[i])-'0';
-                int bet=codes[positions[i]].charAt(0)-'0';
-                switch (bet)
-                {
-                    case 0:
-                        if(result>4)
-                        {
-                            win++;
-                        }
-                        break;
-                    case 1:
-                        if(result<5)
-                        {
-                            win++;
-                        }
-                        break;
-                    case 2:
-                        if(result%2!=0)
-                        {
-                            win++;
-                        }
-                        break;
-                    case 3:
-                        if(result%2==0)
-                        {
-                            win++;
-                        }
-                        break;
+                for (int j = 0; j < codes.length; j++) {
+                    int bet=codes[j].charAt(0)-'0';
+                    switch (bet)
+                    {
+                        case 0:
+                            if(result>4)
+                            {
+                                win++;
+                            }
+                            break;
+                        case 1:
+                            if(result<5)
+                            {
+                                win++;
+                            }
+                            break;
+                        case 2:
+                            if(result%2!=0)
+                            {
+                                win++;
+                            }
+                            break;
+                        case 3:
+                            if(result%2==0)
+                            {
+                                win++;
+                            }
+                            break;
+                    }
                 }
+
             }
         }
 

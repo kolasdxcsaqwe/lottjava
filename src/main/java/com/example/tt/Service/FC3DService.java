@@ -139,7 +139,7 @@ public class FC3DService {
         FC3DOrder fc3DOrder = new FC3DOrder();
         fc3DOrder.setId(Integer.parseInt(id));
         fc3DOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status = fc3DOrderMapper.updateByPrimaryKey(fc3DOrder);
+        int status = fc3DOrderMapper.updateByPrimaryKeySelective(fc3DOrder);
 
         return ReturnDataBuilder.returnData(status > 0);
     }
@@ -682,7 +682,7 @@ public class FC3DService {
     private void winOrLost(Map<String, Float> map, List<FC3DOrder> fc3DOrderList) {
         //应该用事务的 但是数据库面目全非 算了
         for (Map.Entry<String, Float> entry : map.entrySet()) {
-            userBeanMapper.addUserMoney(String.valueOf(entry.getValue()), entry.getKey());
+            userBeanMapper.addUserMoney(BigDecimal.valueOf(entry.getValue()), entry.getKey());
         }
 
         //0 未结算 1赢了 2输了 9撤单
@@ -742,7 +742,7 @@ public class FC3DService {
         map.put("remainTime", remainTime);
         map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
         map.put("codes",lotteryOpenBean.getCode());
-        map.put("term", lotteryOpenBean.getNextTerm());
+        map.put("term", lotteryOpenBean.getTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);
     }

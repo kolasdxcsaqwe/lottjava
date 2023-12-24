@@ -85,7 +85,7 @@
 
   <update id="addUserMoney">
     UPDATE fn_user
-    set money =+ #{money,jdbcType=VARCHAR}
+    set money = money + #{money,jdbcType=DECIMAL}
     WHERE userid = #{userid,jdbcType=LONGVARCHAR}
   </update>
 
