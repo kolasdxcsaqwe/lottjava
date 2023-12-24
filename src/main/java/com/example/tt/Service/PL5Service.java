@@ -438,7 +438,7 @@ public class PL5Service {
             }
         }
 
-        MyLog.e("排列5采集--->" + isShouldAdd + " " + term);
+        MyLog.l("排列5采集--->" + isShouldAdd + " " + term);
         if (!isShouldAdd) {
             return;
         }

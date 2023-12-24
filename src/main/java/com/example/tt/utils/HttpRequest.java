@@ -31,7 +31,7 @@ public class HttpRequest {
 
     public void post(String baseUrl, List<PostParamBean> params) {
 
-        MyLog.e(baseUrl + "-POST-->" + new Gson().toJson(params));
+        MyLog.l(baseUrl + "-POST-->" + new Gson().toJson(params));
 
         FormBody.Builder builder = new FormBody.Builder();
         for (PostParamBean postParamBean : params) {
@@ -45,7 +45,7 @@ public class HttpRequest {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                MyLog.e(baseUrl + "--->" + e.getMessage());
+                MyLog.l(baseUrl + "--->" + e.getMessage());
             }
 
             @Override
@@ -69,7 +69,7 @@ public class HttpRequest {
             sb.deleteCharAt(sb.length() - 1);
         }
 
-//        MyLog.e("GET-->" + sb.toString());
+//        MyLog.l("GET-->" + sb.toString());
 
         Request request = new Request.Builder().addHeader("content-type", "application/json")
                 .url(sb.toString()).get().build();
@@ -77,7 +77,7 @@ public class HttpRequest {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                MyLog.e(baseUrl + "--->" + e.getMessage());
+                MyLog.l(baseUrl + "--->" + e.getMessage());
                 if (httpCallBack != null) {
                     httpCallBack.onError(e);
                 }

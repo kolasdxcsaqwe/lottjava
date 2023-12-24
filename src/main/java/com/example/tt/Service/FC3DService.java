@@ -470,7 +470,7 @@ public class FC3DService {
             }
         }
 
-        MyLog.e("排列5采集--->" + isShouldAdd + " " + term);
+        MyLog.l("福彩3D采集--->" + isShouldAdd + " " + term);
         if (!isShouldAdd) {
             return;
         }

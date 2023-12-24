@@ -441,7 +441,7 @@ public class QxcService {
             }
         }
 
-        MyLog.e("七星彩采集--->" + isShouldAdd + " " + term);
+        MyLog.l("七星彩采集--->" + isShouldAdd + " " + term);
         if (!isShouldAdd) {
             return;
         }
