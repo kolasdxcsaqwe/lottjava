@@ -668,6 +668,32 @@ public class QxcService {
         return ReturnDataBuilder.makeBaseJSON(map);
     }
 
+    public Object getRemainTime(String userId, String roomId, HttpServletRequest request) {
+        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting();
+        LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
+
+        if (!lottery20Setting.getGameopen()) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if (lotteryOpenBean == null || lotteryOpenBean.getNextTime() == null) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
+        }
+
+        long reamain = lotteryOpenBean.getNextTime().getTime() / 1000 - (System.currentTimeMillis() / 1000) - lottery20Setting.getFengtime();
+        if (reamain < 0) {
+            reamain = 0;
+        }
+        String remainTime = String.valueOf(reamain);
+        Map<String, String> map = new HashMap<>();
+        map.put("remainTime", remainTime);
+        map.put("codes",lotteryOpenBean.getCode());
+        map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
+        map.put("term", lotteryOpenBean.getNextTerm());
+
+        return ReturnDataBuilder.makeBaseJSON(map);
+    }
+
     public String cancelOrder(String id) {
         if (!Strings.isDigitOnly(id)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);

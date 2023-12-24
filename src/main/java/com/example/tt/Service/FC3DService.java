@@ -720,4 +720,30 @@ public class FC3DService {
 
         return ReturnDataBuilder.makeBaseJSON(map);
     }
+
+    public Object getRemainTime(String userId, String roomId, HttpServletRequest request) {
+        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting();
+        LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.fc3d.getCode());
+
+        if (!lottery21Setting.getGameopen()) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if (lotteryOpenBean == null || lotteryOpenBean.getNextTime() == null) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
+        }
+
+        long reamain = lotteryOpenBean.getNextTime().getTime() / 1000 - (System.currentTimeMillis() / 1000) - lottery21Setting.getFengtime();
+        if (reamain < 0) {
+            reamain = 0;
+        }
+        String remainTime = String.valueOf(reamain);
+        Map<String, String> map = new HashMap<>();
+        map.put("remainTime", remainTime);
+        map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
+        map.put("codes",lotteryOpenBean.getCode());
+        map.put("term", lotteryOpenBean.getNextTerm());
+
+        return ReturnDataBuilder.makeBaseJSON(map);
+    }
 }

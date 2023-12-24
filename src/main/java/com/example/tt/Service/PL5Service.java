@@ -398,7 +398,7 @@ public class PL5Service {
                             return;
                         }
                         StringBuilder sb = new StringBuilder();
-                        for (int i = 0; i < 4; i++) {
+                        for (int i = 0; i < 5; i++) {
                             sb.append(resultSplit[i]);
                         }
 //                        sb.append(",").append(resultSplit[resultSplit.length-1]);
@@ -666,6 +666,32 @@ public class PL5Service {
         Map<String, String> map = new HashMap<>();
         map.put("remainTime", remainTime);
         map.put("money", Strings.cutOff(money, 2));
+        map.put("term", lotteryOpenBean.getNextTerm());
+
+        return ReturnDataBuilder.makeBaseJSON(map);
+    }
+
+    public Object getRemainTime(String userId, String roomId, HttpServletRequest request) {
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.pl5.getCode());
+
+        if (!lottery22Setting.getGameopen()) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S11);
+        }
+
+        if (lotteryOpenBean == null || lotteryOpenBean.getNextTime() == null) {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S18);
+        }
+
+        long reamain = lotteryOpenBean.getNextTime().getTime() / 1000 - (System.currentTimeMillis() / 1000) - lottery22Setting.getFengtime();
+        if (reamain < 0) {
+            reamain = 0;
+        }
+        String remainTime = String.valueOf(reamain);
+        Map<String, String> map = new HashMap<>();
+        map.put("remainTime", remainTime);
+        map.put("codes",lotteryOpenBean.getCode());
+        map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
         map.put("term", lotteryOpenBean.getNextTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);

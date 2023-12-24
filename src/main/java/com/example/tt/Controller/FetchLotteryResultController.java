@@ -30,7 +30,7 @@ public class FetchLotteryResultController {
     //获取单个彩种的倒计时和用户资料
     @ResponseBody
     @RequestMapping(value = "/fetchUserWithCountDown", method = RequestMethod.POST)
-    public Object QXCSendChat(@RequestParam(name = "userId") String userId,@RequestParam(name = "gameName") String gameName,
+    public Object fetchUserWithCountDown(@RequestParam(name = "userId") String userId,@RequestParam(name = "gameName") String gameName,
                               @RequestParam(name = "roomId") String roomId, HttpServletRequest request) {
 
         if(Strings.isEmptyOrNullAmongOf(userId,gameName,roomId) || !Strings.isDigitOnly(roomId))
@@ -55,6 +55,40 @@ public class FetchLotteryResultController {
             case 21:
                 //福彩3D
                 return fc3DService.getRemainTimeAndUser(userId,roomId,request);
+        }
+
+        return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
+    }
+
+
+    //获取单个彩种的倒计时
+    @ResponseBody
+    @RequestMapping(value = "/fetchOpenTime", method = RequestMethod.POST)
+    public Object fetchOpenTime(@RequestParam(name = "userId") String userId,@RequestParam(name = "gameName") String gameName,
+                              @RequestParam(name = "roomId") String roomId, HttpServletRequest request) {
+
+        if(Strings.isEmptyOrNullAmongOf(userId,gameName,roomId) || !Strings.isDigitOnly(roomId))
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S2);
+        }
+
+        int gameCode=GameIndex.getLotteryIndex(gameName);
+        if(gameCode<0)
+        {
+            return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S1);
+        }
+
+        switch (gameCode)
+        {
+            case 20:
+                //七星彩
+                return qxcService.getRemainTime(userId,roomId,request);
+            case 22:
+                //排列5
+                return pl5Service.getRemainTime(userId,roomId,request);
+            case 21:
+                //福彩3D
+                return fc3DService.getRemainTime(userId,roomId,request);
         }
 
         return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
