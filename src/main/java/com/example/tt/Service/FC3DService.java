@@ -271,12 +271,31 @@ public class FC3DService {
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, fc3DGameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append(fc3DGameTypeCode.getExplain()).append(":");
+                chatContent.append("<span style='color:#fe6c00';font-size:3rem>")
+                        .append(fc3DGameTypeCode.getExplain()).append("</span><br>");
                 for (int j = 0; j < codes.length(); j++) {
                     JSONObject temp = codes.optJSONObject(j);
-                    chatContent.append(temp.optString("code")).append("|");
+                    if(fc3DGameTypeCode.getCode()==GameIndex.FC3DGameTypeCode.dxds.getCode())
+                    {
+                        String[] codesArray=temp.optString("code","").split(",");
+                        if(codesArray.length>0)
+                        {
+                            for(String str:codesArray)
+                            {
+                                int num=str.charAt(0)-'0';
+                                if(GameIndex.DXDS.length>num)
+                                {
+                                    chatContent.append(GameIndex.DXDS[num]);
+                                }
+                            }
+                            chatContent.append("<br>");
+                        }
+                    }
+                    else
+                    {
+                        chatContent.append(temp.optString("code","")).append("<br>");
+                    }
                 }
-                chatContent.deleteCharAt(chatContent.length() - 1);
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
@@ -481,31 +500,6 @@ public class FC3DService {
         newTermBean.setNextTerm(String.valueOf(Integer.parseInt(term) + 1));
         newTermBean.setTerm(term);
         newTermBean.setTime(time);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
-
-        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
-        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        if (isFirstSunday) {
-            weekDay = weekDay - 1;
-            if (weekDay == 0) {
-                weekDay = 7;
-            }
-        }
-
-        //周2 5 7开奖
-        switch (weekDay) {
-            case 2:
-                calendar.setTime(new Date(time.getTime() + (3 * 24 * 3600 * 1000)));
-                break;
-            case 5:
-            case 7:
-                calendar.setTime(new Date(time.getTime() + (2 * 24 * 3600 * 1000)));
-                break;
-            default:
-                //不是的话就假的开奖
-                return;
-        }
 
         //暂时不用 开奖错误了再用
 //        newTermBean.setNextTime(calendar.getTime());

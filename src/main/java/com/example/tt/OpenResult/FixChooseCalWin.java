@@ -19,6 +19,7 @@ public class FixChooseCalWin {
         return true;
     }
 
+
     public static FixChooseCalWin getInstance() {
         if (fixChooseCalWin == null) {
             fixChooseCalWin = new FixChooseCalWin();

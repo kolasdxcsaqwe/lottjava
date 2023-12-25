@@ -2,6 +2,8 @@ package com.example.tt.utils;
 
 public class GameIndex {
 
+    public static final String[] DXDS={"大","小","单","双"};
+
     public enum OrderCalculateStatus {
         win(1,  "赢了"),
         lost(2,  "输了"),
@@ -156,6 +158,7 @@ public class GameIndex {
         private int code;
         private String game;
         private String explain;
+
 
         QXCGameTypeCode(int code, String game, String explain) {
             this.code = code;

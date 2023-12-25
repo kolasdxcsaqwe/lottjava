@@ -39,6 +39,7 @@ public class QxcService {
 
     final String qxcUrl = "http://localhost:8653/fakeOpenResult?lotteryName=qxc";//假七星彩开奖地址
 
+
     private static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
 
@@ -48,6 +49,7 @@ public class QxcService {
 
         //都是数字 大小单双用0123 代替
         int mul = 1;
+        int sum=0;
         Map<Integer, String[]> codes = new HashMap<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
@@ -58,6 +60,7 @@ public class QxcService {
                 return 0;
             } else {
                 mul = mul * nums.length;
+                sum=sum+nums.length;
             }
         }
 
@@ -82,7 +85,7 @@ public class QxcService {
                 orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
                 break;
             case 6:
-                orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3) ? mul : 0;
+                orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3) ? sum : 0;
                 break;
             case 7:
                 orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 3) ? mul : 0;
@@ -227,7 +230,6 @@ public class QxcService {
 
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
-                int totalMoney = jsonObject.optInt("money", 0);
                 if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
                 }
@@ -248,17 +250,40 @@ public class QxcService {
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, qxcGameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append(qxcGameTypeCode.getExplain()).append(":");
+                chatContent.append("<span style='color:blue';font-size:3rem>")
+                        .append(qxcGameTypeCode.getExplain()).append("</span><br>");
+
                 for (int j = 0; j < codes.length(); j++) {
                     JSONObject temp = codes.optJSONObject(j);
-                    chatContent.append(temp.optString("code")).append("|");
+                    if(qxcGameTypeCode.getCode()==GameIndex.QXCGameTypeCode.dxds.getCode())
+                    {
+                        String[] codesArray=temp.optString("code","").split(",");
+                        if(codesArray.length>0)
+                        {
+                            for(String str:codesArray)
+                            {
+                                int num=str.charAt(0)-'0';
+                                if(GameIndex.DXDS.length>num)
+                                {
+                                    chatContent.append(GameIndex.DXDS[num]);
+                                }
+                            }
+                            chatContent.append("<br>");
+                        }
+                    }
+                    else
+                    {
+                        chatContent.append(temp.optString("code","")).append("<br>");
+                    }
+
                 }
+
                 chatContent.deleteCharAt(chatContent.length() - 1);
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
 
-                if (orderAmount > 1 && totalMoney % orderAmount != 0) {
+                if (orderAmount > 1 && calTotalMoney % orderAmount != 0) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
                 }
 

@@ -207,10 +207,29 @@ public class PL5Service {
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, pl5GameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append(pl5GameTypeCode.getExplain()).append(":");
+                chatContent.append("<span style='color:#ec4127';font-size:3rem>").append(pl5GameTypeCode.getExplain()).append("</span><br>");
                 for (int j = 0; j < codes.length(); j++) {
                     JSONObject temp = codes.optJSONObject(j);
-                    chatContent.append(temp.optString("code")).append("|");
+                    if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dxds.getCode())
+                    {
+                        String[] codesArray=temp.optString("code","").split(",");
+                        if(codesArray.length>0)
+                        {
+                            for(String str:codesArray)
+                            {
+                                int num=str.charAt(0)-'0';
+                                if(GameIndex.DXDS.length>num)
+                                {
+                                    chatContent.append(GameIndex.DXDS[num]);
+                                }
+                            }
+                            chatContent.append("<br>");
+                        }
+                    }
+                    else
+                    {
+                        chatContent.append(temp.optString("code","")).append("<br>");
+                    }
                 }
                 chatContent.deleteCharAt(chatContent.length() - 1);
                 if (orderAmount < 1) {
