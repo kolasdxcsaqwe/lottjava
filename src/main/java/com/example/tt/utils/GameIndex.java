@@ -3,6 +3,7 @@ package com.example.tt.utils;
 public class GameIndex {
 
     public static final String[] DXDS={"大","小","单","双"};
+    public static final String[] douNiuTitles = {"无牛", "牛一", "牛二", "牛三", "牛四", "牛五", "牛六", "牛七", "牛八", "牛九", "牛牛"};
 
     public enum OrderCalculateStatus {
         win(1,  "赢了"),
@@ -145,25 +146,35 @@ public class GameIndex {
     }
 
     public enum QXCGameTypeCode {
-        ry3(1, "ry3", "任选3"),
-        ry2(2, "ry2", "任选2"),
-        d4(3, "d4", "前4定位"),
-        d3(4, "d3", "前3定位"),
-        d2(5, "d2", "前2定位"),
-        d1(6, "d1", "定位胆"),
-        tw(7, "tw", "头尾"),
-        dxds(8, "dxds", "大小单双");
+        ry3(1, "ry3", "任选3",1),
+        ry2(2, "ry2", "任选2",1),
+        d4(3, "d4", "前4定位",4),
+        d3(4, "d3", "前3定位",3),
+        d2(5, "d2", "前2定位",2),
+        d1(6, "d1", "定位胆",4),
+        tw(7, "tw", "头尾",2),
+        dxds(8, "dxds", "大小单双",4);
 
 
         private int code;
         private String game;
         private String explain;
 
+        private int line;
 
-        QXCGameTypeCode(int code, String game, String explain) {
+        QXCGameTypeCode(int code, String game, String explain,int line) {
             this.code = code;
             this.game = game;
             this.explain=explain;
+            this.line=line;
+        }
+
+        public int getLine() {
+            return line;
+        }
+
+        public void setLine(int line) {
+            this.line = line;
         }
 
         public int getCode() {
@@ -209,24 +220,35 @@ public class GameIndex {
 
 
     public enum PL5GameTypeCode {
-        ry3(1, "ry3", "任选3"),
-        ry2(2, "ry2", "任选2"),
-        d5(3, "d5", "前5定位"),
-        d3(4, "d3", "前3定位"),
-        d2(5, "d2", "前2定位"),
-        d1(6, "d1", "定位胆"),
-        dn(7, "dn", "斗牛"),
-        dxds(8, "dxds", "大小单双");
+        ry3(1, "ry3", "任选3",1),
+        ry2(2, "ry2", "任选2",1),
+        d5(3, "d5", "前5定位",5),
+        d3(4, "d3", "前3定位",3),
+        d2(5, "d2", "前2定位",2),
+        d1(6, "d1", "定位胆",5),
+        dn(7, "dn", "斗牛",1),
+        dxds(8, "dxds", "大小单双",5);
 
 
         private int code;
         private String game;
         private String explain;
 
-        PL5GameTypeCode(int code, String game, String explain) {
+        private int line;
+
+        PL5GameTypeCode(int code, String game, String explain,int line) {
             this.code = code;
             this.game = game;
             this.explain=explain;
+            this.line=line;
+        }
+
+        public int getLine() {
+            return line;
+        }
+
+        public void setLine(int line) {
+            this.line = line;
         }
 
         public int getCode() {
@@ -272,27 +294,38 @@ public class GameIndex {
 
 
     public enum FC3DGameTypeCode {
-        rx2(1, "rx2", "任选二"),
-        rx1(2, "rx1", "任选一"),
-        d3(3, "d3", "3星直选"),
-        d3z3(4, "d3z3", "3星组三"),
-        d3z6(5, "d3z6", "3星组六"),
-        d3z3sum(6, "d3z3sum", "3星组三和值"),
-        d3z6sum(7, "d3z6sum", "3星组六和值"),
-        d2f(8, "d2f", "2星前二直选"),
-        d2b(9, "d2b", "2星后二直选"),
-        d1(10, "d1", "定位胆"),
-        dxds(11, "dxds", "大小单双");
+        rx2(1, "rx2", "任选二",1),
+        rx1(2, "rx1", "任选一",1),
+        d3(3, "d3", "3星直选",3),
+        d3z3(4, "d3z3", "3星组三",1),
+        d3z6(5, "d3z6", "3星组六",1),
+        d3z3sum(6, "d3z3sum", "3星组三和值",1),
+        d3z6sum(7, "d3z6sum", "3星组六和值",1),
+        d2f(8, "d2f", "2星前二直选",2),
+        d2b(9, "d2b", "2星后二直选",2),
+        d1(10, "d1", "定位胆",3),
+        dxds(11, "dxds", "大小单双",3);
 
 
         private int code;
         private String game;
         private String explain;
 
-        FC3DGameTypeCode(int code, String game, String explain) {
+        private int line;
+
+        FC3DGameTypeCode(int code, String game, String explain,int line) {
             this.code = code;
             this.game = game;
             this.explain=explain;
+            this.line=line;
+        }
+
+        public int getLine() {
+            return line;
+        }
+
+        public void setLine(int line) {
+            this.line = line;
         }
 
         public int getCode() {

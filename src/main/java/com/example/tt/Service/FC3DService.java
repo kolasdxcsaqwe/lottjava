@@ -38,7 +38,7 @@ public class FC3DService {
 //    final String fc3dUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo1.do?lotCode=10041";//福彩3D开奖地址
 
     final String fc3dUrl = "http://localhost:8653/fakeOpenResult?lotteryName=fc3d";//假福彩3d开奖地址
-
+    final String[] titles={"百位","十位","个位"};
 
     private static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
@@ -70,10 +70,10 @@ public class FC3DService {
 
         switch (type) {
             case 1:
-                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 3);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 2);
                 break;
             case 2:
-                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 2);
+                orderAmount = calculateOrderAnyChoose(codes.get(0).length, 1);
                 break;
             case 3:
                 orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
@@ -102,7 +102,7 @@ public class FC3DService {
                         if (Strings.isDigitOnly(codes.get(0)[i])) {
                             int num = Integer.parseInt(codes.get(0)[i]);
                             if (num > 2 && num < 25) {
-                                orderAmount = orderAmount + zu6[num - 1];
+                                orderAmount = orderAmount + zu6[num - 3];
                             }
                         }
                     }
@@ -271,10 +271,18 @@ public class FC3DService {
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, fc3DGameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append("<span style='color:#fe6c00';font-size:3rem>")
-                        .append(fc3DGameTypeCode.getExplain()).append("</span><br>");
+                chatContent.append(Strings.makeBoldSpan(fc3DGameTypeCode.getExplain(),"#fe6c00","4rem"));
+                chatContent.append("<br>");
+
                 for (int j = 0; j < codes.length(); j++) {
                     JSONObject temp = codes.optJSONObject(j);
+
+                    int pos=temp.optInt("pos",-1);
+                    if(fc3DGameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
+                    {
+                        chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
+                    }
+
                     if(fc3DGameTypeCode.getCode()==GameIndex.FC3DGameTypeCode.dxds.getCode())
                     {
                         String[] codesArray=temp.optString("code","").split(",");

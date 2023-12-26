@@ -38,6 +38,18 @@ public class Strings {
         return false;
     }
 
+    public static String makeSpan(String msg,String color,String textSize)
+    {
+        String temple="<span style='color:%s;font-size:%s;'>%s</span>";
+        return String.format(temple,color,textSize,msg);
+    }
+
+    public static String makeBoldSpan(String msg,String color,String textSize)
+    {
+        String temple="<span style='color:%s;font-size:%s;font-weight:bold'>%s</span>";
+        return String.format(temple,color,textSize,msg);
+    }
+
     public static boolean isEqualsIgnoreCaseAmongOf(String val,String ... args)
     {
         if(args==null || val==null)

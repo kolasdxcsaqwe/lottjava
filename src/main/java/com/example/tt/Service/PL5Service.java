@@ -38,6 +38,7 @@ public class PL5Service {
 
     final String pl5Url = "http://localhost:8653/fakeOpenResult?lotteryName=pl5";//假排列5开奖地址
 
+    final String[] titles={"万位","千位","百位","十位","个位"};
 
     private static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
@@ -82,7 +83,7 @@ public class PL5Service {
                 orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
                 break;
             case 6:
-                orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3) ? mul : 0;
+                orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3,4) ? mul : 0;
                 break;
             case 7:
                 orderAmount = NiuNiuCalWin.getInstance().calNiu(codes, 0);
@@ -207,9 +208,17 @@ public class PL5Service {
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, pl5GameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append("<span style='color:#ec4127';font-size:3rem>").append(pl5GameTypeCode.getExplain()).append("</span><br>");
+                chatContent.append(Strings.makeBoldSpan(pl5GameTypeCode.getExplain(),"#ec4127","4rem"));
+                chatContent.append("<br>");
+
                 for (int j = 0; j < codes.length(); j++) {
                     JSONObject temp = codes.optJSONObject(j);
+
+                    int pos=temp.optInt("pos",-1);
+                    if(pl5GameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
+                    {
+                        chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
+                    }
                     if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dxds.getCode())
                     {
                         String[] codesArray=temp.optString("code","").split(",");
@@ -226,12 +235,32 @@ public class PL5Service {
                             chatContent.append("<br>");
                         }
                     }
+                    else if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dn.getCode())
+                    {
+                        String[] codesArray=temp.optString("code","").split(",");
+                        if(codesArray.length>0)
+                        {
+                            for(String str:codesArray)
+                            {
+                                int num=str.charAt(0)-'0';
+                                if(GameIndex.douNiuTitles.length>num)
+                                {
+                                    chatContent.append(GameIndex.douNiuTitles[num]).append(",");
+                                }
+                            }
+                            if(chatContent.length()>0)
+                            {
+                                chatContent.deleteCharAt(chatContent.length()-1);
+                            }
+                            chatContent.append("<br>");
+                        }
+                    }
                     else
                     {
                         chatContent.append(temp.optString("code","")).append("<br>");
                     }
                 }
-                chatContent.deleteCharAt(chatContent.length() - 1);
+
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }

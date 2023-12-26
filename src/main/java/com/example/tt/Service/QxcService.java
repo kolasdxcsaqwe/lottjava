@@ -39,6 +39,7 @@ public class QxcService {
 
     final String qxcUrl = "http://localhost:8653/fakeOpenResult?lotteryName=qxc";//假七星彩开奖地址
 
+    final String[] titles={"千位","百位","十位","个位"};
 
     private static int check(JSONArray jsonArray, int type) {
         int orderAmount = 0;
@@ -250,11 +251,18 @@ public class QxcService {
                 JSONArray codes = jsonObject.optJSONArray("codes");
                 int orderAmount = check(codes, qxcGameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append("<span style='color:blue';font-size:3rem>")
-                        .append(qxcGameTypeCode.getExplain()).append("</span><br>");
+                chatContent.append(Strings.makeBoldSpan(qxcGameTypeCode.getExplain(),"blue","4rem"));
+                chatContent.append("<br>");
 
                 for (int j = 0; j < codes.length(); j++) {
                     JSONObject temp = codes.optJSONObject(j);
+
+                    int pos=temp.optInt("pos",-1);
+                    if(qxcGameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
+                    {
+                        chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
+                    }
+
                     if(qxcGameTypeCode.getCode()==GameIndex.QXCGameTypeCode.dxds.getCode())
                     {
                         String[] codesArray=temp.optString("code","").split(",");
@@ -278,7 +286,6 @@ public class QxcService {
 
                 }
 
-                chatContent.deleteCharAt(chatContent.length() - 1);
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
