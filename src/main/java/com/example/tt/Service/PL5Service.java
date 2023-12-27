@@ -141,7 +141,7 @@ public class PL5Service {
 
 
     public Object betPL5(String betArray, String userId, String roomId, HttpServletRequest request) {
-        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting(false);
         int fengTime = lottery22Setting.getFengtime();
 
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.pl5.getCode());
@@ -265,6 +265,10 @@ public class PL5Service {
                     isFormatOk = false;
                 }
 
+                if (orderAmount>100) {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
+                }
+
                 if (orderAmount > 1 && totalMoney % orderAmount != 0) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
                 }
@@ -273,6 +277,8 @@ public class PL5Service {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
                 }
 
+                //加入行数字段
+                jsonObject.put("lines",pl5GameTypeCode.getLine());
 
                 float winRate = getWinRate(pl5GameTypeCode.getCode(), lottery22Setting);
                 PL5Order pl5Order = new PL5Order();
@@ -639,7 +645,7 @@ public class PL5Service {
         }
         Float beforeWin = map.get(pl5Order.getUserid());
 
-        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting(false);
         if(niuWhat==0)
         {
             //无牛
@@ -652,6 +658,7 @@ public class PL5Service {
         }
 
         float totalMoney = pl5Order.getUnitprice() * winTimes * pl5Order.getWinrate();
+        pl5Order.setWinmoney(totalMoney);
         if (beforeWin != null) {
             map.put(pl5Order.getUserid(), beforeWin + totalMoney);
         } else {
@@ -670,6 +677,7 @@ public class PL5Service {
 
 
         float totalMoney = pl5Order.getUnitprice() * winTimes * pl5Order.getWinrate();
+        pl5Order.setWinmoney(totalMoney);
         if (beforeWin != null) {
             map.put(pl5Order.getUserid(), beforeWin + totalMoney);
         } else {
@@ -688,13 +696,15 @@ public class PL5Service {
             PL5Order pl5Order = new PL5Order();
             pl5Order.setId(pl5OrderList.get(i).getId());
             pl5Order.setStatus(pl5OrderList.get(i).getStatus());
+            pl5Order.setWinrate(pl5OrderList.get(i).getWinrate());
+            pl5Order.setWinmoney(pl5OrderList.get(i).getWinmoney());
             pl5OrderMapper.updateByPrimaryKeySelective(pl5Order);
         }
 
     }
 
     public Object getRemainTimeAndUser(String userId, String roomId, HttpServletRequest request) {
-        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting(false);
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.pl5.getCode());
         BigDecimal money = userBeanMapper.selectMoneyByUserId(userId, Integer.parseInt(roomId));
 
@@ -720,7 +730,7 @@ public class PL5Service {
     }
 
     public Object getRemainTime(String userId, String roomId, HttpServletRequest request) {
-        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting();
+        Lottery22Setting lottery22Setting = LotteryConfigGetter.getInstance().getLottery22Setting(false);
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.pl5.getCode());
 
         if (!lottery22Setting.getGameopen()) {

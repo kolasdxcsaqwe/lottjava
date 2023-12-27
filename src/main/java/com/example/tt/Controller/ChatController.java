@@ -182,7 +182,7 @@ public class ChatController {
                         break;
                     case 20:
                         //传统七星彩
-                        Lottery20Setting lottery20Setting=LotteryConfigGetter.getInstance().getLottery20Setting();
+                        Lottery20Setting lottery20Setting=LotteryConfigGetter.getInstance().getLottery20Setting(false);
                         try {
                             item.put("title",GameIndex.getLotteryGameExplain(index));
                             item.put("code",index);
@@ -194,7 +194,7 @@ public class ChatController {
                         break;
                     case 22:
                         //排列5
-                        Lottery22Setting lottery22Setting=LotteryConfigGetter.getInstance().getLottery22Setting();
+                        Lottery22Setting lottery22Setting=LotteryConfigGetter.getInstance().getLottery22Setting(false);
                         try {
                             item.put("title",GameIndex.getLotteryGameExplain(index));
                             item.put("code",index);
@@ -206,7 +206,7 @@ public class ChatController {
                         break;
                     case 21:
                         //福彩3D
-                        Lottery21Setting lottery21Setting=LotteryConfigGetter.getInstance().getLottery21Setting();
+                        Lottery21Setting lottery21Setting=LotteryConfigGetter.getInstance().getLottery21Setting(false);
                         try {
                             item.put("title",GameIndex.getLotteryGameExplain(index));
                             item.put("code",index);

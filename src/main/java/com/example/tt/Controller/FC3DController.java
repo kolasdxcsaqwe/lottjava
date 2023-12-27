@@ -26,7 +26,7 @@ public class FC3DController {
     @ResponseBody
     @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
     public Object LotterySetting() {
-        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery21Setting());
+        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery21Setting(false));
     }
 
     @ResponseBody
@@ -84,6 +84,11 @@ public class FC3DController {
         int status=lottery21SettingMapper.updateOrInsertById(lottery21Setting);
         if(status>0)
         {
+            if(!lottery21Setting.getGameopen())
+            {
+                LotteryConfigGetter.getInstance().getLottery21Setting(true);
+            }
+
             return ReturnDataBuilder.makeBaseJSON(null);
         }
         else

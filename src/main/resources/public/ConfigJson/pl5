@@ -32,7 +32,7 @@ CREATE TABLE `fn_pl5order` (
 `status`  int(11) NOT NULL ,
 `jia`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `roomid`  int(11) NOT NULL ,
-`chatid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标识' ,
+`winmoney` float(11, 4) NULL DEFAULT 0.0000 COMMENT '中奖金额',
 `gamename`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
 `gametype`  int(11) NOT NULL DEFAULT 0 ,
 `orderamount`  int(11) NOT NULL COMMENT '注单数量',

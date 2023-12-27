@@ -15,7 +15,7 @@ public class QXCOrder {
 
     private Integer roomid;
 
-    private String chatid;
+    private Float winmoney;
 
     private String gamename;
 
@@ -87,12 +87,12 @@ public class QXCOrder {
         this.roomid = roomid;
     }
 
-    public String getChatid() {
-        return chatid;
+    public Float getWinmoney() {
+        return winmoney;
     }
 
-    public void setChatid(String chatid) {
-        this.chatid = chatid == null ? null : chatid.trim();
+    public void setWinmoney(Float winmoney) {
+        this.winmoney = winmoney;
     }
 
     public String getGamename() {

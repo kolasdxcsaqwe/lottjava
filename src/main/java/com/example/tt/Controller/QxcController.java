@@ -36,7 +36,7 @@ public class QxcController {
     @ResponseBody
     @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
     public Object LotterySetting() {
-        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery20Setting());
+        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery20Setting(false));
     }
 
     @ResponseBody
@@ -86,8 +86,14 @@ public class QxcController {
 
 
         int status=lottery20SettingMapper.updateOrInsertById(lottery20Setting);
+
         if(status>0)
         {
+            if(!lottery20Setting.getGameopen())
+            {
+                LotteryConfigGetter.getInstance().getLottery20Setting(true);
+            }
+
             return ReturnDataBuilder.makeBaseJSON(null);
         }
         else

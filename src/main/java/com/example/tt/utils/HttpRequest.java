@@ -51,6 +51,7 @@ public class HttpRequest {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.body() != null) {
+                    response.close();
                 }
 
             }

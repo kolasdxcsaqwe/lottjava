@@ -204,7 +204,7 @@ public class FC3DService {
     }
 
     public Object betFC3D(String betArray, String userId, String roomId, HttpServletRequest request) {
-        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting();
+        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting(false);
         int fengTime = lottery21Setting.getFengtime();
 
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.fc3d.getCode());
@@ -308,6 +308,10 @@ public class FC3DService {
                     isFormatOk = false;
                 }
 
+                if (orderAmount>100) {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
+                }
+
                 if (orderAmount > 1 && totalMoney % orderAmount != 0) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
                 }
@@ -316,6 +320,9 @@ public class FC3DService {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
                 }
 
+
+                //加入行数字段
+                jsonObject.put("lines",fc3DGameTypeCode.getLine());
 
                 float winRate = getWinRate(fc3DGameTypeCode.getCode(), lottery21Setting);
                 FC3DOrder fc3DOrder = new FC3DOrder();
@@ -674,6 +681,7 @@ public class FC3DService {
         }
         Float beforeWin = map.get(fc3DOrder.getUserid());
         float totalMoney = fc3DOrder.getUnitprice() * winTimes * fc3DOrder.getWinrate();
+        fc3DOrder.setWinmoney(totalMoney);
         if (beforeWin != null) {
             map.put(fc3DOrder.getUserid(), beforeWin + totalMoney);
         } else {
@@ -692,13 +700,15 @@ public class FC3DService {
             FC3DOrder fc3DOrder = new FC3DOrder();
             fc3DOrder.setId(fc3DOrderList.get(i).getId());
             fc3DOrder.setStatus(fc3DOrderList.get(i).getStatus());
+            fc3DOrder.setWinrate(fc3DOrderList.get(i).getWinrate());
+            fc3DOrder.setWinmoney(fc3DOrderList.get(i).getWinmoney());
             fc3DOrderMapper.updateByPrimaryKeySelective(fc3DOrder);
         }
 
     }
 
     public Object getRemainTimeAndUser(String userId, String roomId, HttpServletRequest request) {
-        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting();
+        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting(false);
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.fc3d.getCode());
         BigDecimal money = userBeanMapper.selectMoneyByUserId(userId, Integer.parseInt(roomId));
 
@@ -724,7 +734,7 @@ public class FC3DService {
     }
 
     public Object getRemainTime(String userId, String roomId, HttpServletRequest request) {
-        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting();
+        Lottery21Setting lottery21Setting = LotteryConfigGetter.getInstance().getLottery21Setting(false);
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.fc3d.getCode());
 
         if (!lottery21Setting.getGameopen()) {

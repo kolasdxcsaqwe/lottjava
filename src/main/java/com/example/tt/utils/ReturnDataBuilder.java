@@ -28,7 +28,8 @@ public class ReturnDataBuilder {
 
         S19(-19, "当前无注单,请下注"),
         S20(-20, "单注不得小于%s元"),
-        S21(-21, "单注不得大于%s元");
+        S21(-21, "单注不得大于%s元"),
+        S22(-22, "单次下注最多100注");
 
         private int code;
         private String msg;

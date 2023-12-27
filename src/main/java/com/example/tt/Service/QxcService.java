@@ -185,7 +185,7 @@ public class QxcService {
     //    ]
     //}
     public Object betQXC(String betArray, String userId, String roomId, HttpServletRequest request) {
-        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting();
+        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting(false);
         int fengTime = lottery20Setting.getFengtime();
 
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
@@ -290,6 +290,10 @@ public class QxcService {
                     isFormatOk = false;
                 }
 
+                if (orderAmount>100) {
+                    return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
+                }
+
                 if (orderAmount > 1 && calTotalMoney % orderAmount != 0) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
                 }
@@ -298,6 +302,9 @@ public class QxcService {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S10);
                 }
 
+
+                //加入行数字段
+                jsonObject.put("lines",qxcGameTypeCode.getLine());
 
                 float winRate = getWinRate(qxcGameTypeCode.getCode(), lottery20Setting);
                 QXCOrder qxcOrder = new QXCOrder();
@@ -621,6 +628,7 @@ public class QxcService {
         }
         Float beforeWin = map.get(qxcOrder.getUserid());
         float totalMoney = qxcOrder.getUnitprice() * winTimes * qxcOrder.getWinrate();
+        qxcOrder.setWinmoney(totalMoney);
         if (beforeWin != null) {
             map.put(qxcOrder.getUserid(), beforeWin + totalMoney);
         } else {
@@ -640,6 +648,8 @@ public class QxcService {
             QXCOrder qxcOrder = new QXCOrder();
             qxcOrder.setId(qxcOrderListCal.get(i).getId());
             qxcOrder.setStatus(qxcOrderListCal.get(i).getStatus());
+            qxcOrder.setWinrate(qxcOrderListCal.get(i).getWinrate());
+            qxcOrder.setWinmoney(qxcOrderListCal.get(i).getWinmoney());
             qxcOrderMapper.updateByPrimaryKeySelective(qxcOrder);
         }
 
@@ -675,7 +685,7 @@ public class QxcService {
     }
 
     public Object getRemainTimeAndUser(String userId, String roomId, HttpServletRequest request) {
-        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting();
+        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting(false);
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
         BigDecimal money = userBeanMapper.selectMoneyByUserId(userId, Integer.parseInt(roomId));
 
@@ -701,7 +711,7 @@ public class QxcService {
     }
 
     public Object getRemainTime(String userId, String roomId, HttpServletRequest request) {
-        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting();
+        Lottery20Setting lottery20Setting = LotteryConfigGetter.getInstance().getLottery20Setting(false);
         LotteryOpenBean lotteryOpenBean = lotteryOpenBeanMapper.getLastOpenData(GameIndex.LotteryTypeCodeList.qxc.getCode());
 
         if (!lottery20Setting.getGameopen()) {

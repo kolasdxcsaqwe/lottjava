@@ -327,9 +327,9 @@ public class LotteryConfigGetter {
         return gson.fromJson(lottery19Setting1Str, Lottery19Setting.class);
     }
 
-    public Lottery20Setting getLottery20Setting() {
+    public Lottery20Setting getLottery20Setting(boolean refreshCache) {
         String lottery20Setting1Str = RedisCache.getInstance().get("Lottery20Setting");
-        if (Strings.isEmptyOrNullAmongOf(lottery20Setting1Str)) {
+        if (refreshCache || Strings.isEmptyOrNullAmongOf(lottery20Setting1Str)) {
             Lottery20Setting lottery20Setting = lottery20SettingMapper.selectByRoomId(roomId);
             if(lottery20Setting==null)
             {
@@ -343,9 +343,9 @@ public class LotteryConfigGetter {
     }
 
 
-    public Lottery21Setting getLottery21Setting() {
+    public Lottery21Setting getLottery21Setting(boolean refreshCache) {
         String lottery21Setting1Str = RedisCache.getInstance().get("Lottery21Setting");
-        if (Strings.isEmptyOrNullAmongOf(lottery21Setting1Str)) {
+        if (refreshCache || Strings.isEmptyOrNullAmongOf(lottery21Setting1Str)) {
             Lottery21Setting lottery21Setting = lottery21SettingMapper.selectByRoomId(roomId);
             if(lottery21Setting==null)
             {
@@ -358,9 +358,9 @@ public class LotteryConfigGetter {
         return gson.fromJson(lottery21Setting1Str, Lottery21Setting.class);
     }
 
-    public Lottery22Setting getLottery22Setting() {
+    public Lottery22Setting getLottery22Setting(boolean refreshCache) {
         String lottery22Setting1Str = RedisCache.getInstance().get("Lottery22Setting");
-        if (Strings.isEmptyOrNullAmongOf(lottery22Setting1Str)) {
+        if (refreshCache || Strings.isEmptyOrNullAmongOf(lottery22Setting1Str)) {
             Lottery22Setting lottery22Setting = lottery22SettingMapper.selectByRoomId(roomId);
             if(lottery22Setting==null)
             {

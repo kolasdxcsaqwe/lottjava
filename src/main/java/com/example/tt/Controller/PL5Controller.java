@@ -5,6 +5,7 @@ import com.example.tt.OpenResult.LotteryConfigGetter;
 import com.example.tt.Service.PL5Service;
 import com.example.tt.dao.Lottery20SettingMapper;
 import com.example.tt.dao.Lottery22SettingMapper;
+import com.example.tt.utils.GameIndex;
 import com.example.tt.utils.ReturnDataBuilder;
 import com.example.tt.utils.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class PL5Controller {
     @ResponseBody
     @RequestMapping(value = "/LotterySetting", method = RequestMethod.POST)
     public Object LotterySetting() {
-        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery22Setting());
+        return ReturnDataBuilder.makeBaseJSON(LotteryConfigGetter.getInstance().getLottery22Setting(false));
     }
 
     @ResponseBody
@@ -63,6 +64,8 @@ public class PL5Controller {
         lottery22Setting.setYouniu(youniu);
         lottery22Setting.setWuniu(wuniu);
 
+
+
         if(!Strings.isEmptyOrNullAmongOf(gameopen))
         {
             switch (gameopen.toLowerCase())
@@ -77,10 +80,15 @@ public class PL5Controller {
         }
         lottery22Setting.setFengtime(fengtime);
 
-
         int status=lottery22SettingMapper.updateOrInsertById(lottery22Setting);
+
         if(status>0)
         {
+            if(!lottery22Setting.getGameopen())
+            {
+                LotteryConfigGetter.getInstance().getLottery22Setting(true);
+            }
+
             return ReturnDataBuilder.makeBaseJSON(null);
         }
         else
