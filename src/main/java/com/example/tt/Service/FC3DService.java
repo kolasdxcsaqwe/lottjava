@@ -85,7 +85,7 @@ public class FC3DService {
                 orderAmount = mul > 2 ? mul * (mul - 1) * (mul - 2) / 6 : 0;
                 break;
             case 6:
-                if (codes.get(0).length > 1) {
+                if (codes.get(0).length > 0) {
                     for (int i = 0; i < codes.get(0).length; i++) {
                         if (Strings.isDigitOnly(codes.get(0)[i])) {
                             int num = Integer.parseInt(codes.get(0)[i]);
@@ -97,7 +97,7 @@ public class FC3DService {
                 }
                 break;
             case 7:
-                if (codes.get(0).length > 1) {
+                if (codes.get(0).length > 0) {
                     for (int i = 0; i < codes.get(0).length; i++) {
                         if (Strings.isDigitOnly(codes.get(0)[i])) {
                             int num = Integer.parseInt(codes.get(0)[i]);
@@ -234,7 +234,13 @@ public class FC3DService {
 
         int calTotalMoney = calTotalMoney(betArray);
         MyLog.e("totalMoney-->" + calTotalMoney);
-        if (calTotalMoney <= 0 || userBean.getMoney().compareTo(new BigDecimal(calTotalMoney)) < 0) {
+
+        if(calTotalMoney <= 0)
+        {
+            isFormatOk=false;
+        }
+
+        if (userBean.getMoney().compareTo(new BigDecimal(calTotalMoney)) < 0) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S17);
         }
 
