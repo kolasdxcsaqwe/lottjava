@@ -561,7 +561,7 @@ public class PL5Service {
 
             String openResultCodes = LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.pl5.getCode(), pl5Order.getTerm());
             if (Strings.isEmptyOrNullAmongOf(openResultCodes)) {
-                MyLog.e("结算失败，获取开奖号码是空");
+                MyLog.e("第"+pl5Order.getTerm()+"期,结算失败，获取开奖号码是空");
                 continue;
             }
 

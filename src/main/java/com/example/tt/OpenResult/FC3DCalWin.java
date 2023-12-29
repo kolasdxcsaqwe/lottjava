@@ -61,14 +61,14 @@ public class FC3DCalWin {
             return 0;
         }
 
-        String[] betNums=map.get(0);
-
         if(openResult.charAt(0)==openResult.charAt(1) || openResult.charAt(2)==openResult.charAt(1)
                 || openResult.charAt(2)==openResult.charAt(0))
         {
             //不能有相同的
             return 0;
         }
+
+        String[] betNums=map.get(0);
 
         int count=0;
         for (int i = 0; i < 3; i++) {

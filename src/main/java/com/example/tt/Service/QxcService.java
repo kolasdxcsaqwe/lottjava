@@ -546,7 +546,7 @@ public class QxcService {
 
             String openResultCodes = LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.qxc.getCode(), qxcOrder.getTerm());
             if (Strings.isEmptyOrNullAmongOf(openResultCodes)) {
-                MyLog.e("结算失败，获取开奖号码是空");
+                MyLog.e("第"+qxcOrder.getTerm()+"期,结算失败，获取开奖号码是空");
                 continue;
             }
 

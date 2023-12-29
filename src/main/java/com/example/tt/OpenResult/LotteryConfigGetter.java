@@ -421,12 +421,12 @@ public class LotteryConfigGetter {
     }
 
     public String getOpenResultCodes(Integer gameType,String term) {
-        String codes = RedisCache.getInstance().get("OpenResultCodes");
+        String codes = RedisCache.getInstance().get("OpenResultCodes"+gameType+term);
         if (Strings.isEmptyOrNullAmongOf(codes)) {
             codes= lotteryOpenBeanMapper.getOpenCodesByTermAndType(gameType,term);
             if(!Strings.isEmptyOrNullAmongOf(codes))
             {
-                RedisCache.getInstance().set("OpenResultCodes", codes,userExpireTime);
+                RedisCache.getInstance().set("OpenResultCodes"+gameType+term, codes,userExpireTime);
             }
             else
             {

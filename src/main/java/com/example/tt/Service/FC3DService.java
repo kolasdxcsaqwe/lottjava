@@ -582,7 +582,7 @@ public class FC3DService {
 
             String openResultCodes = LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.fc3d.getCode(), fc3DOrder.getTerm());
             if (Strings.isEmptyOrNullAmongOf(openResultCodes)) {
-                MyLog.e("结算失败，获取开奖号码是空");
+                MyLog.e("第"+fc3DOrder.getTerm()+"期,结算失败，获取开奖号码是空");
                 continue;
             }
 
