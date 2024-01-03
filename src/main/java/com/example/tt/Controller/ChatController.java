@@ -67,7 +67,9 @@ public class ChatController {
 
     @ResponseBody
     @RequestMapping(value = "/getALlLotteryStatus", method = RequestMethod.POST)
-    public String getALlLotteryStatus(@RequestParam(name = "game") String game,HttpServletRequest request) {
+    public String getALlLotteryStatus(@RequestParam(name = "game") String game,
+                                      @RequestParam(name = "gameType",required = false) String gameType,
+                                      HttpServletRequest request) {
 
         if(Strings.isEmptyOrNullAmongOf(game))
         {
@@ -220,9 +222,75 @@ public class ChatController {
 
             }
 
+            JSONArray details=new JSONArray();
+            if(Strings.isDigitOnly(gameType))
+            {
+
+                switch (Integer.parseInt(gameType))
+                {
+                    //七星彩
+                    case 20:
+                        GameIndex.QXCGameTypeCode[] qxcCodes= GameIndex.QXCGameTypeCode.values();
+                        for (GameIndex.QXCGameTypeCode qxcCode : qxcCodes) {
+                            JSONObject gameIndexDetail = new JSONObject();
+                            try {
+                                gameIndexDetail.put("code", qxcCode.getCode());
+                                gameIndexDetail.put("game", qxcCode.getGame());
+                                gameIndexDetail.put("explain", qxcCode.getExplain());
+                                gameIndexDetail.put("line", qxcCode.getLine());
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            details.put(gameIndexDetail);
+                        }
+                        break;
+                        //福彩3D
+                    case 21:
+                        GameIndex.FC3DGameTypeCode[] fc3DGameTypeCodes= GameIndex.FC3DGameTypeCode.values();
+                        for (GameIndex.FC3DGameTypeCode fc3DGameTypeCode : fc3DGameTypeCodes) {
+                            JSONObject gameIndexDetail = new JSONObject();
+                            try {
+                                gameIndexDetail.put("code", fc3DGameTypeCode.getCode());
+                                gameIndexDetail.put("game", fc3DGameTypeCode.getGame());
+                                gameIndexDetail.put("explain", fc3DGameTypeCode.getExplain());
+                                gameIndexDetail.put("line", fc3DGameTypeCode.getLine());
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            details.put(gameIndexDetail);
+                        }
+                        break;
+                        //排列5
+                    case 22:
+                        GameIndex.PL5GameTypeCode[] pl5GameTypeCodes= GameIndex.PL5GameTypeCode.values();
+                        for (GameIndex.PL5GameTypeCode pl5GameTypeCode : pl5GameTypeCodes) {
+                            JSONObject gameIndexDetail = new JSONObject();
+                            try {
+                                gameIndexDetail.put("code", pl5GameTypeCode.getCode());
+                                gameIndexDetail.put("game", pl5GameTypeCode.getGame());
+                                gameIndexDetail.put("explain", pl5GameTypeCode.getExplain());
+                                gameIndexDetail.put("line", pl5GameTypeCode.getLine());
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            details.put(gameIndexDetail);
+                        }
+                        break;
+                }
+            }
+
+
+
             if(main.length()>0)
             {
-                return ReturnDataBuilder.makeJSON(main).toString();
+                JSONObject jsonObject=new JSONObject();
+                try {
+                    jsonObject.put("statusList",main);
+                    jsonObject.put("detail",details);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                return ReturnDataBuilder.makeJSON(jsonObject).toString();
             }
 
         }

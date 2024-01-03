@@ -85,8 +85,7 @@ public class Test {
 //        }
 
 //        cal("00145".toCharArray(),3,0,0);
-       System.err.println("88".split(",")[0]);
-        test();
+       System.err.println(GameIndex.PL5GameTypeCode.values());
     }
 
     private static void test()
