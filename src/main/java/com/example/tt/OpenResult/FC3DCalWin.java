@@ -17,7 +17,7 @@ public class FC3DCalWin {
     public int calZu3(String openResult, Map<Integer,String[]> map)
     {
 
-        if(map==null || map.isEmpty() || openResult.length()!=3)
+        if(map==null || map.isEmpty() || openResult.length()<3)
         {
             return 0;
         }
@@ -56,7 +56,7 @@ public class FC3DCalWin {
     public int calZu6(String openResult, Map<Integer,String[]> map)
     {
 
-        if(map==null || map.isEmpty() || openResult.length()!=3)
+        if(map==null || map.isEmpty() || openResult.length()<3)
         {
             return 0;
         }

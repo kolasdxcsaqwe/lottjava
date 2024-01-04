@@ -4,6 +4,8 @@ CREATE TABLE `v9ym`.`fn_lottery22`  (
   `gameopen` tinyint(1) NOT NULL DEFAULT 2,
   `dxds` float  NULL DEFAULT 1.96,
   `threefix` float  NULL DEFAULT 980 COMMENT '前3直选',
+  `combinethree` float  NULL DEFAULT 340 COMMENT '3星组三',
+ `combinesix` float  NULL DEFAULT 170 COMMENT '3星组六',
   `twofix` float  NULL DEFAULT 98 COMMENT '前2直选',
   `fivefix` float  NULL DEFAULT 20050 COMMENT '5星直选',
   `anythree` float  NULL DEFAULT 22.52 COMMENT '任选三',

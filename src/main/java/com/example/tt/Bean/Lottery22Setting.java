@@ -11,6 +11,10 @@ public class Lottery22Setting {
 
     private Float threefix;
 
+    private Float combinethree;
+
+    private Float combinesix;
+
     private Float twofix;
 
     private Float fivefix;
@@ -71,6 +75,22 @@ public class Lottery22Setting {
 
     public void setThreefix(Float threefix) {
         this.threefix = threefix;
+    }
+
+    public Float getCombinethree() {
+        return combinethree;
+    }
+
+    public void setCombinethree(Float combinethree) {
+        this.combinethree = combinethree;
+    }
+
+    public Float getCombinesix() {
+        return combinesix;
+    }
+
+    public void setCombinesix(Float combinesix) {
+        this.combinesix = combinesix;
     }
 
     public Float getTwofix() {

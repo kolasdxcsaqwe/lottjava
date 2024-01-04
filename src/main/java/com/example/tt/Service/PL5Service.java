@@ -1,10 +1,7 @@
 package com.example.tt.Service;
 
 import com.example.tt.Bean.*;
-import com.example.tt.OpenResult.AnyChooseCalWin;
-import com.example.tt.OpenResult.FixChooseCalWin;
-import com.example.tt.OpenResult.LotteryConfigGetter;
-import com.example.tt.OpenResult.NiuNiuCalWin;
+import com.example.tt.OpenResult.*;
 import com.example.tt.dao.*;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
@@ -102,6 +99,12 @@ public class PL5Service {
                 }
                 orderAmount = temp;
                 break;
+            case 9:
+                orderAmount = mul > 1 ? mul * (mul - 1) : 0;
+                break;
+            case 10:
+                orderAmount = mul > 2 ? mul * (mul - 1) * (mul - 2) / 6 : 0;
+                break;
         }
 
         return orderAmount;
@@ -134,6 +137,12 @@ public class PL5Service {
                 break;
             case 8:
                 rate = lottery22Setting.getDxds();
+                break;
+            case 9:
+                rate = lottery22Setting.getCombinethree();
+                break;
+            case 10:
+                rate = lottery22Setting.getCombinesix();
                 break;
         }
         return rate;
@@ -624,6 +633,14 @@ public class PL5Service {
                     break;
                 case 8:
                     winTimes = FixChooseCalWin.getInstance().calDXDS(openResultCodes, playerBetCodesBeans, 0, 1, 2, 3);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
+                    break;
+                case 9:
+                    winTimes = FC3DCalWin.getInstance().calZu3(openResultCodes, playerBetCodesBeans);
+                    sumBeforeWin(gameType,map, pl5Order, winTimes);
+                    break;
+                case 10:
+                    winTimes = FC3DCalWin.getInstance().calZu6(openResultCodes, playerBetCodesBeans);
                     sumBeforeWin(gameType,map, pl5Order, winTimes);
                     break;
             }

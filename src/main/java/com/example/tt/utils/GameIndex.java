@@ -224,12 +224,13 @@ public class GameIndex {
         ry2(2, "ry2", "任选2",1),
         d5(3, "d5", "5星直选",5),
         d3(4, "d3", "3星直选",3),
+        sxzs(9, "sxzs", "3星组三",1),
+        sxzl(10, "sxzl", "3星组六",1),
         d2(5, "d2", "2星直选",2),
         d1(6, "d1", "定位胆",5),
         dn(7, "dn", "斗牛",1),
-        dxds(8, "dxds", "大小单双",5),
-        sxzs(9, "sxzs", "3星组三",1),
-        sxzl(10, "sxzl", "3星组六",1);
+        dxds(8, "dxds", "大小单双",5);
+
 
 
         private int code;
