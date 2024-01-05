@@ -81,10 +81,10 @@ public class FC3DController {
         lottery21Setting.setFengtime(fengtime);
 
 
-        int status=lottery21SettingMapper.updateOrInsertById(lottery21Setting);
+        int status=lottery21SettingMapper.updateByPrimaryKeySelective(lottery21Setting);
         if(status>0)
         {
-            if(!lottery21Setting.getGameopen())
+            if(lottery21Setting.getGameopen()!=null)
             {
                 LotteryConfigGetter.getInstance().getLottery21Setting(true);
             }

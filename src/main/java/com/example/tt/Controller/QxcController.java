@@ -85,11 +85,11 @@ public class QxcController {
         lottery20Setting.setFengtime(fengtime);
 
 
-        int status=lottery20SettingMapper.updateOrInsertById(lottery20Setting);
+        int status=lottery20SettingMapper.updateByPrimaryKeySelective(lottery20Setting);
 
         if(status>0)
         {
-            if(!lottery20Setting.getGameopen())
+            if(lottery20Setting.getGameopen()!=null)
             {
                 LotteryConfigGetter.getInstance().getLottery20Setting(true);
             }

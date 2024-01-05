@@ -77,14 +77,17 @@ public class PL5Controller {
                     lottery22Setting.setGameopen(false);
                     break;
             }
+
         }
+
+
         lottery22Setting.setFengtime(fengtime);
 
-        int status=lottery22SettingMapper.updateOrInsertById(lottery22Setting);
+        int status=lottery22SettingMapper.updateByPrimaryKeySelective(lottery22Setting);
 
         if(status>0)
         {
-            if(!lottery22Setting.getGameopen())
+            if(lottery22Setting.getGameopen()!=null)
             {
                 LotteryConfigGetter.getInstance().getLottery22Setting(true);
             }
