@@ -231,6 +231,8 @@ public class QxcService {
 
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
+                int singleOrderMoney = jsonObject.optInt("money", 0);
+
                 if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
                 }
@@ -294,7 +296,7 @@ public class QxcService {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
                 }
 
-                if (orderAmount > 1 && calTotalMoney % orderAmount != 0) {
+                if (orderAmount > 1 && singleOrderMoney % orderAmount != 0) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
                 }
 

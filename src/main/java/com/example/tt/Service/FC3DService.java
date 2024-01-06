@@ -256,7 +256,7 @@ public class FC3DService {
 
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
-                int totalMoney = jsonObject.optInt("money", 0);
+                int singleOrderMoney = jsonObject.optInt("money", 0);
                 if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
                 }
@@ -318,7 +318,7 @@ public class FC3DService {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
                 }
 
-                if (orderAmount > 1 && totalMoney % orderAmount != 0) {
+                if (orderAmount > 1 && singleOrderMoney % orderAmount != 0) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S15);
                 }
 

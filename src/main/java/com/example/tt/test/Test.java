@@ -86,6 +86,63 @@ public class Test {
 
 //        cal("00145".toCharArray(),3,0,0);
        System.err.println(GameIndex.PL5GameTypeCode.values());
+        Map<Integer,String[]> map =new HashMap<>();
+        map.put(0,new String[]{"0","2"});
+        map.put(1,new String[]{"1","2"});
+        map.put(2,new String[]{"0","3"});
+        map.put(3,new String[]{"0","3"});
+        map.put(4,new String[]{"1","2"});
+
+       System.err.println("xcxxx-->"+calDXDS("01311",map,0,1,2,3,4));
+    }
+
+    public static int calDXDS(String openResult, Map<Integer,String[]> map,Integer...positions)
+    {
+        int win=0;
+        for (int i = 0; i < positions.length; i++) {
+            String codes[]=map.get(positions[i]);
+            if(Strings.isEmptyOrNullAmongOf(codes))
+            {
+                return 0;
+            }
+            else
+            {
+                int result=openResult.charAt(positions[i])-'0';
+                for (int j = 0; j < codes.length; j++) {
+                    int bet=codes[j].charAt(0)-'0';
+                    switch (bet)
+                    {
+                        case 0:
+                            if(result>4)
+                            {
+                                win++;
+                            }
+                            break;
+                        case 1:
+                            if(result<5)
+                            {
+                                win++;
+                            }
+                            break;
+                        case 2:
+                            if(result%2!=0)
+                            {
+                                win++;
+                            }
+                            break;
+                        case 3:
+                            if(result%2==0)
+                            {
+                                win++;
+                            }
+                            break;
+                    }
+                }
+
+            }
+        }
+
+        return win;
     }
 
     private static void test()

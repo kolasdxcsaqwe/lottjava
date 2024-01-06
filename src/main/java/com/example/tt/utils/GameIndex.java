@@ -297,8 +297,8 @@ public class GameIndex {
 
 
     public enum FC3DGameTypeCode {
-        rx2(1, "ry2", "任选二",1),
-        rx1(2, "ry1", "任选一",1),
+        ry2(1, "ry2", "任选二",1),
+        ry1(2, "ry1", "任选一",1),
         d3(3, "d3", "3星直选",3),
         d3z3(4, "d3z3", "3星组三",1),
         d3z6(5, "d3z6", "3星组六",1),
