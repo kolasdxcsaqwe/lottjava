@@ -37,7 +37,7 @@ public class PL5Service {
 
     final String[] titles={"万位","千位","百位","十位","个位"};
 
-    private static int check(JSONArray jsonArray, int type) {
+    private static int check(boolean isMultiBet,JSONArray jsonArray, int type) {
         int orderAmount = 0;
 
         if (jsonArray == null || jsonArray.length() < 1) {
@@ -47,19 +47,22 @@ public class PL5Service {
         //都是数字 大小单双用0123 代替
         int mul = 1;
         Map<Integer, String[]> codes = new HashMap<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.optJSONObject(i);
-            String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
-            String[] nums = str.split(",");
-            codes.put(jsonObject.optInt("pos", -1), nums);
-            if (nums.length == 0) {
-                return 0;
-            } else {
-                mul = mul * nums.length;
+        if(isMultiBet)
+        {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
+                String[] nums = str.split(",");
+                codes.put(jsonObject.optInt("pos", -1), nums);
+                if (nums.length == 0) {
+                    return 0;
+                } else {
+                    mul = mul * nums.length;
+                }
             }
         }
 
-        if (codes.isEmpty()) {
+        if (isMultiBet && codes.isEmpty()) {
             return 0;
         }
 
@@ -71,13 +74,34 @@ public class PL5Service {
                 orderAmount = calculateOrderAnyChoose(codes.get(0).length, 2);
                 break;
             case 3:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3, 4) ? mul : 0;
+                if(isMultiBet)
+                {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3, 4) ? mul : 0;
+                }
+                else
+                {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(5,jsonArray);
+                }
                 break;
             case 4:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
+                if(isMultiBet)
+                {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
+                }
+                else
+                {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(3,jsonArray);
+                }
                 break;
             case 5:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
+                if(isMultiBet)
+                {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
+                }
+                else
+                {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(2,jsonArray);
+                }
                 break;
             case 6:
                 orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3,4) ? mul : 0;
@@ -197,6 +221,9 @@ public class PL5Service {
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
                 int singleOrderMoney = jsonObject.optInt("money", 0);
+                boolean combineChatContent = jsonObject.optBoolean("combineChatContent", false);
+                boolean isMultiBet = jsonObject.optBoolean("isMultiBet", true);
+
                 if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
                 }
@@ -215,58 +242,65 @@ public class PL5Service {
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, pl5GameTypeCode.getCode());
+                int orderAmount = check(isMultiBet,codes, pl5GameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
                 chatContent.append(Strings.makeBoldSpan(pl5GameTypeCode.getExplain(),"#ec4127","4rem"));
                 chatContent.append("<br>");
 
-                for (int j = 0; j < codes.length(); j++) {
-                    JSONObject temp = codes.optJSONObject(j);
+                if(!isMultiBet)
+                {
+                    chatContent.append(codes.toString());
+                }
+                else
+                {
+                    for (int j = 0; j < codes.length(); j++) {
+                        JSONObject temp = codes.optJSONObject(j);
 
-                    int pos=temp.optInt("pos",-1);
-                    if(pl5GameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
-                    {
-                        chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
-                    }
-                    if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dxds.getCode())
-                    {
-                        String[] codesArray=temp.optString("code","").split(",");
-                        if(codesArray.length>0)
+                        int pos=temp.optInt("pos",-1);
+                        if(pl5GameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
                         {
-                            for(String str:codesArray)
-                            {
-                                int num=str.charAt(0)-'0';
-                                if(GameIndex.DXDS.length>num)
-                                {
-                                    chatContent.append(GameIndex.DXDS[num]);
-                                }
-                            }
-                            chatContent.append("<br>");
+                            chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
                         }
-                    }
-                    else if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dn.getCode())
-                    {
-                        String[] codesArray=temp.optString("code","").split(",");
-                        if(codesArray.length>0)
+                        if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dxds.getCode())
                         {
-                            for(String str:codesArray)
+                            String[] codesArray=temp.optString("code","").split(",");
+                            if(codesArray.length>0)
                             {
-                                int num=str.charAt(0)-'0';
-                                if(GameIndex.douNiuTitles.length>num)
+                                for(String str:codesArray)
                                 {
-                                    chatContent.append(GameIndex.douNiuTitles[num]).append(",");
+                                    int num=str.charAt(0)-'0';
+                                    if(GameIndex.DXDS.length>num)
+                                    {
+                                        chatContent.append(GameIndex.DXDS[num]);
+                                    }
                                 }
+                                chatContent.append("<br>");
                             }
-                            if(chatContent.length()>0)
-                            {
-                                chatContent.deleteCharAt(chatContent.length()-1);
-                            }
-                            chatContent.append("<br>");
                         }
-                    }
-                    else
-                    {
-                        chatContent.append(temp.optString("code","")).append("<br>");
+                        else if(pl5GameTypeCode.getCode()==GameIndex.PL5GameTypeCode.dn.getCode())
+                        {
+                            String[] codesArray=temp.optString("code","").split(",");
+                            if(codesArray.length>0)
+                            {
+                                for(String str:codesArray)
+                                {
+                                    int num=str.charAt(0)-'0';
+                                    if(GameIndex.douNiuTitles.length>num)
+                                    {
+                                        chatContent.append(GameIndex.douNiuTitles[num]).append(",");
+                                    }
+                                }
+                                if(chatContent.length()>0)
+                                {
+                                    chatContent.deleteCharAt(chatContent.length()-1);
+                                }
+                                chatContent.append("<br>");
+                            }
+                        }
+                        else
+                        {
+                            chatContent.append(temp.optString("code","")).append("<br>");
+                        }
                     }
                 }
 
@@ -289,6 +323,7 @@ public class PL5Service {
                 //加入行数字段
                 jsonObject.put("lines",pl5GameTypeCode.getLine());
 
+                int status =0;
                 float winRate = getWinRate(pl5GameTypeCode.getCode(), lottery22Setting);
                 PL5Order pl5Order = new PL5Order();
                 pl5Order.setAddtime(Calendar.getInstance().getTime());
@@ -307,7 +342,28 @@ public class PL5Service {
                 pl5Order.setJia(userBean.getJia());
                 pl5Order.setUserid(userId);
                 pl5Order.setRoomid(Integer.parseInt(roomId));
-                int status = pl5OrderMapper.insertSelective(pl5Order);
+
+                if(isMultiBet)
+                {
+                    status =pl5OrderMapper.insertSelective(pl5Order);
+                }
+                else
+                {
+                    int len=0;
+                    switch (pl5GameTypeCode.getCode())
+                    {
+                        case 3:
+                            len=5;
+                            break;
+                        case 4:
+                            len=3;
+                            break;
+                        case 5:
+                            len=2;
+                            break;
+                    }
+                    status =pl5OrderMapper.insertOrderList(SingleBetCalBetOrder.getInstance().converterOrderJson(len,codes,pl5Order));
+                }
 
 
                 if (status < 1) {
@@ -381,6 +437,8 @@ public class PL5Service {
                 }
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
+                boolean combineChatContent = jsonObject.optBoolean("combineChatContent", false);
+                boolean isMultiBet = jsonObject.optBoolean("isMultiBet", true);
 
                 GameIndex.PL5GameTypeCode pl5GameTypeCode = GameIndex.PL5GameTypeCode.getPL5GameTypeCode(gameName);
                 if (pl5GameTypeCode == null) {
@@ -388,7 +446,7 @@ public class PL5Service {
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, pl5GameTypeCode.getCode());
+                int orderAmount = check(isMultiBet,codes, pl5GameTypeCode.getCode());
                 orderTotalMoney = orderTotalMoney + (unitPrice * orderAmount);
             }
         } catch (JSONException e) {

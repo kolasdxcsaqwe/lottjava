@@ -192,6 +192,25 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="insertOrderList" parameterType="java.util.List">
+    insert into fn_pl5order ( term, money,addtime, status, roomid,winmoney, gamename, gametype,
+    orderamount, winrate, UnitPrice,
+    userid, username, headimg,
+    mingci, content, jia
+    ) values
+    <foreach collection="list" separator="," item="item">
+      (
+       #{item.term,jdbcType=VARCHAR}, #{item.money,jdbcType=INTEGER},
+      #{item.addtime,jdbcType=TIMESTAMP}, #{item.status,jdbcType=INTEGER}, #{item.roomid,jdbcType=INTEGER},
+      #{item.winmoney,jdbcType=REAL}, #{item.gamename,jdbcType=VARCHAR}, #{item.gametype,jdbcType=INTEGER},
+      #{item.orderamount,jdbcType=INTEGER}, #{item.winrate,jdbcType=REAL}, #{item.unitprice,jdbcType=INTEGER},
+      #{item.userid,jdbcType=LONGVARCHAR}, #{item.username,jdbcType=LONGVARCHAR}, #{item.headimg,jdbcType=LONGVARCHAR},
+      #{item.mingci,jdbcType=LONGVARCHAR}, #{item.content,jdbcType=LONGVARCHAR}, #{item.jia,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.tt.Bean.PL5Order">
     update fn_pl5order
     <set>

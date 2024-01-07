@@ -2,7 +2,7 @@ package com.example.tt.Bean;
 
 import java.util.Date;
 
-public class PL5Order {
+public class PL5Order implements Cloneable{
     private Integer id;
 
     private String term;
@@ -181,5 +181,16 @@ public class PL5Order {
 
     public void setJia(String jia) {
         this.jia = jia == null ? null : jia.trim();
+    }
+
+    @Override
+    public PL5Order clone() {
+        try {
+            PL5Order clone = (PL5Order) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

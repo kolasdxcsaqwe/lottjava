@@ -25,4 +25,5 @@ public interface PL5OrderMapper {
 
     List<PL5Order> selectOrderByStatusAndTerm(@Param("status")Integer status,@Param("term")String term);
 
+    int insertOrderList(List<PL5Order> list);
 }
