@@ -786,15 +786,39 @@ public class QxcService {
         return ReturnDataBuilder.makeBaseJSON(map);
     }
 
-    public String cancelOrder(String id) {
+    public String cancelOrder(String id,String userId) {
         if (!Strings.isDigitOnly(id)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
-        QXCOrder qxcOrder = new QXCOrder();
-        qxcOrder.setId(Integer.parseInt(id));
-        qxcOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status = qxcOrderMapper.updateByPrimaryKeySelective(qxcOrder);
 
-        return ReturnDataBuilder.returnData(status > 0);
+        if(RedisCache.getInstance().get(userId)!=null)
+        {
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
+        }
+
+        QXCOrder qxcOrder=qxcOrderMapper.selectByPrimaryKey(Integer.valueOf(id));
+        if(qxcOrder==null)
+        {
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S25);
+        }
+        if(qxcOrder.getStatus()!=0)
+        {
+            RedisCache.getInstance().delete(userId);
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
+        }
+        else
+        {
+            qxcOrder.setId(Integer.parseInt(id));
+            qxcOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
+            int status = qxcOrderMapper.updateByPrimaryKeySelective(qxcOrder);
+
+            if(status>0)
+            {
+                userBeanMapper.addUserMoney(new BigDecimal(qxcOrder.getMoney()),userId);
+                RedisCache.getInstance().delete(userId);
+            }
+        }
+
+        return ReturnDataBuilder.returnData(true);
     }
 }

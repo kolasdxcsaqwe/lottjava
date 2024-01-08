@@ -119,7 +119,8 @@ public class QxcController {
     //下注撤单
     @ResponseBody
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public String cancelOrder(@RequestParam(name = "id") String id,HttpServletRequest request) {
-        return qxcService.cancelOrder(id);
+    public String cancelOrder(@RequestParam(name = "id") String id,
+                              @RequestParam(name = "userId") String userId,HttpServletRequest request) {
+        return qxcService.cancelOrder(id,userId);
     }
 }

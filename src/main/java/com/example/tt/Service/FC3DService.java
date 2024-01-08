@@ -40,6 +40,7 @@ public class FC3DService {
     final String fc3dUrl = "http://localhost:8653/fakeOpenResult?lotteryName=fc3d";//假福彩3d开奖地址
     final String[] titles = {"百位", "十位", "个位"};
 
+
     private static int check(boolean isMultiBet, JSONArray jsonArray, int type) {
         int orderAmount = 0;
 
@@ -143,16 +144,42 @@ public class FC3DService {
         return orderAmount;
     }
 
-    public String cancelOrder(String id) {
+    public String cancelOrder(String id,String userId) {
         if (!Strings.isDigitOnly(id)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
-        FC3DOrder fc3DOrder = new FC3DOrder();
-        fc3DOrder.setId(Integer.parseInt(id));
-        fc3DOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status = fc3DOrderMapper.updateByPrimaryKeySelective(fc3DOrder);
 
-        return ReturnDataBuilder.returnData(status > 0);
+        if(RedisCache.getInstance().get(userId)!=null)
+        {
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
+        }
+
+        RedisCache.getInstance().set(userId,id);
+        FC3DOrder fc3DOrder=fc3DOrderMapper.selectByPrimaryKey(Integer.valueOf(id));
+        if(fc3DOrder==null)
+        {
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S25);
+        }
+
+        if(fc3DOrder.getStatus()!=0)
+        {
+            RedisCache.getInstance().delete(userId);
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
+        }
+        else
+        {
+            fc3DOrder.setId(Integer.parseInt(id));
+            fc3DOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
+            int status = fc3DOrderMapper.updateByPrimaryKeySelective(fc3DOrder);
+
+            if(status>0)
+            {
+                userBeanMapper.addUserMoney(new BigDecimal(fc3DOrder.getMoney()),userId);
+            }
+        }
+        RedisCache.getInstance().delete(userId);
+
+        return ReturnDataBuilder.returnData(true);
     }
 
 

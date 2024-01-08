@@ -101,8 +101,9 @@ public class FC3DController {
     //下注撤单
     @ResponseBody
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public String cancelOrder(@RequestParam(name = "id") String id, HttpServletRequest request) {
-        return fc3DService.cancelOrder(id);
+    public String cancelOrder(@RequestParam(name = "id") String id,
+                              @RequestParam(name = "userId") String userId,HttpServletRequest request) {
+        return fc3DService.cancelOrder(id,userId);
     }
 
     //获取开奖结果 和结算

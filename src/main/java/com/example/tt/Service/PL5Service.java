@@ -475,16 +475,40 @@ public class PL5Service {
         return n / nm / m;
     }
 
-    public String cancelOrder(String id) {
+    public String cancelOrder(String id,String userId) {
         if (!Strings.isDigitOnly(id)) {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
-        PL5Order pl5Order = new PL5Order();
-        pl5Order.setId(Integer.parseInt(id));
-        pl5Order.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
-        int status = pl5OrderMapper.updateByPrimaryKeySelective(pl5Order);
 
-        return ReturnDataBuilder.returnData(status > 0);
+        if(RedisCache.getInstance().get(userId)!=null)
+        {
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
+        }
+
+        PL5Order pl5Order=pl5OrderMapper.selectByPrimaryKey(Integer.valueOf(id));
+        if(pl5Order==null)
+        {
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S25);
+        }
+        if(pl5Order.getStatus()!=0)
+        {
+            RedisCache.getInstance().delete(userId);
+            return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
+        }
+        else
+        {
+            pl5Order.setId(Integer.parseInt(id));
+            pl5Order.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
+            int status = pl5OrderMapper.updateByPrimaryKeySelective(pl5Order);
+
+            if(status>0)
+            {
+                userBeanMapper.addUserMoney(new BigDecimal(pl5Order.getMoney()),userId);
+            }
+        }
+        RedisCache.getInstance().delete(userId);
+
+        return ReturnDataBuilder.returnData(true);
     }
 
     public Object fetchPL5Result(final String roomId, final String baseUrl) {

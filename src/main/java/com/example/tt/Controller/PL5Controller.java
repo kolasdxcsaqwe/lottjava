@@ -104,8 +104,9 @@ public class PL5Controller {
     //下注撤单
     @ResponseBody
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public String cancelOrder(@RequestParam(name = "id") String id, HttpServletRequest request) {
-        return pl5Service.cancelOrder(id);
+    public String cancelOrder(@RequestParam(name = "id") String id,
+                              @RequestParam(name = "userId") String userId,HttpServletRequest request) {
+        return pl5Service.cancelOrder(id,userId);
     }
 
     //获取开奖结果 和结算

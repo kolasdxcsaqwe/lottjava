@@ -29,7 +29,10 @@ public class ReturnDataBuilder {
         S19(-19, "当前无注单,请下注"),
         S20(-20, "单注不得小于%s元"),
         S21(-21, "单注不得大于%s元"),
-        S22(-22, "单次下注最多100注");
+        S22(-22, "单次下注最多100注"),
+        S23(-23, "操作频繁，请稍后再试"),
+        S24(-24, "撤单失败该单子已经结算"),
+        S25(-25, "该单子不存在");
 
         private int code;
         private String msg;
@@ -135,9 +138,9 @@ public class ReturnDataBuilder {
         {
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("msg", GameListNameEnum.S0);
+                jsonObject.put("msg", GameListNameEnum.S0.msg);
                 jsonObject.put("code", GameListNameEnum.S0.code);
-                jsonObject.put("success", "false");
+                jsonObject.put("success", "true");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -149,5 +152,11 @@ public class ReturnDataBuilder {
         }
 
     }
+
+    public static String returnData(GameListNameEnum gameListNameEnum) {
+        return error(gameListNameEnum);
+
+    }
+
 
 }
