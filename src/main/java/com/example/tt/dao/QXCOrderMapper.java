@@ -23,4 +23,6 @@ public interface QXCOrderMapper {
     List<QXCOrder> selectOrderByStatusAndTerm(@Param("status")Integer status,@Param("term")String term);
 
     List<QXCOrder> selectOrderByStatus(@Param("status")Integer status);
+
+    int insertOrderList(List<QXCOrder> qxcOrders);
 }

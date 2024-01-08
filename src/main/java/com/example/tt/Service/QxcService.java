@@ -4,6 +4,7 @@ import com.example.tt.Bean.*;
 import com.example.tt.OpenResult.AnyChooseCalWin;
 import com.example.tt.OpenResult.FixChooseCalWin;
 import com.example.tt.OpenResult.LotteryConfigGetter;
+import com.example.tt.OpenResult.SingleBetCalBetOrder;
 import com.example.tt.dao.*;
 import com.example.tt.utils.*;
 import com.google.gson.Gson;
@@ -39,9 +40,9 @@ public class QxcService {
 
     final String qxcUrl = "http://localhost:8653/fakeOpenResult?lotteryName=qxc";//假七星彩开奖地址
 
-    final String[] titles={"千位","百位","十位","个位"};
+    final String[] titles = {"千位", "百位", "十位", "个位"};
 
-    private static int check(JSONArray jsonArray, int type) {
+    private static int check(boolean isMultiBet,JSONArray jsonArray, int type) {
         int orderAmount = 0;
 
         if (jsonArray == null || jsonArray.length() < 1) {
@@ -50,22 +51,25 @@ public class QxcService {
 
         //都是数字 大小单双用0123 代替
         int mul = 1;
-        int sum=0;
+        int sum = 0;
         Map<Integer, String[]> codes = new HashMap<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.optJSONObject(i);
-            String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
-            String[] nums = str.split(",");
-            codes.put(jsonObject.optInt("pos", -1), nums);
-            if (nums.length == 0 || !Strings.isDigitOnly(nums)) {
-                return 0;
-            } else {
-                mul = mul * nums.length;
-                sum=sum+nums.length;
+        if(isMultiBet)
+        {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
+                String[] nums = str.split(",");
+                codes.put(jsonObject.optInt("pos", -1), nums);
+                if (nums.length == 0 || !Strings.isDigitOnly(nums)) {
+                    return 0;
+                } else {
+                    mul = mul * nums.length;
+                    sum = sum + nums.length;
+                }
             }
         }
 
-        if (codes.isEmpty()) {
+        if (isMultiBet && codes.isEmpty()) {
             return 0;
         }
 
@@ -77,13 +81,34 @@ public class QxcService {
                 orderAmount = calculateOrderAnyChoose(codes.get(0).length, 2);
                 break;
             case 3:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3) ? mul : 0;
+                if(isMultiBet)
+                {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2, 3) ? mul : 0;
+                }
+                else
+                {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(4,jsonArray);
+                }
                 break;
             case 4:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
+                if(isMultiBet)
+                {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
+                }
+                else
+                {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(3,jsonArray);
+                }
                 break;
             case 5:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
+                if(isMultiBet)
+                {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1) ? mul : 0;
+                }
+                else
+                {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(2,jsonArray);
+                }
                 break;
             case 6:
                 orderAmount = AnyChooseCalWin.checkFormatAnyPosition(codes, 0, 1, 2, 3) ? sum : 0;
@@ -153,6 +178,8 @@ public class QxcService {
                 }
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
+                boolean combineChatContent = jsonObject.optBoolean("combineChatContent", false);
+                boolean isMultiBet = jsonObject.optBoolean("isMultiBet", true);
 
                 GameIndex.QXCGameTypeCode qxcGameTypeCode = GameIndex.QXCGameTypeCode.getQXCGameTypeCode(gameName);
                 if (qxcGameTypeCode == null) {
@@ -160,7 +187,7 @@ public class QxcService {
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, qxcGameTypeCode.getCode());
+                int orderAmount = check(isMultiBet,codes, qxcGameTypeCode.getCode());
                 orderTotalMoney = orderTotalMoney + (unitPrice * orderAmount);
             }
         } catch (JSONException e) {
@@ -232,6 +259,8 @@ public class QxcService {
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
                 int singleOrderMoney = jsonObject.optInt("money", 0);
+                boolean combineChatContent = jsonObject.optBoolean("combineChatContent", false);
+                boolean isMultiBet = jsonObject.optBoolean("isMultiBet", true);
 
                 if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
@@ -251,48 +280,45 @@ public class QxcService {
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, qxcGameTypeCode.getCode());
+                int orderAmount = check(isMultiBet,codes, qxcGameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append(Strings.makeBoldSpan(qxcGameTypeCode.getExplain(),"blue","4rem"));
+                chatContent.append(Strings.makeBoldSpan(qxcGameTypeCode.getExplain(), "blue", "4rem"));
                 chatContent.append("<br>");
 
-                for (int j = 0; j < codes.length(); j++) {
-                    JSONObject temp = codes.optJSONObject(j);
+                if (combineChatContent) {
+                    chatContent.append(codes.toString());
+                } else {
+                    for (int j = 0; j < codes.length(); j++) {
+                        JSONObject temp = codes.optJSONObject(j);
 
-                    int pos=temp.optInt("pos",-1);
-                    if(qxcGameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
-                    {
-                        chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
-                    }
-
-                    if(qxcGameTypeCode.getCode()==GameIndex.QXCGameTypeCode.dxds.getCode())
-                    {
-                        String[] codesArray=temp.optString("code","").split(",");
-                        if(codesArray.length>0)
-                        {
-                            for(String str:codesArray)
-                            {
-                                int num=str.charAt(0)-'0';
-                                if(GameIndex.DXDS.length>num)
-                                {
-                                    chatContent.append(GameIndex.DXDS[num]);
-                                }
-                            }
-                            chatContent.append("<br>");
+                        int pos = temp.optInt("pos", -1);
+                        if (qxcGameTypeCode.getLine() > 1 && pos > -1 && pos < titles.length) {
+                            chatContent.append(Strings.makeSpan(titles[pos] + ":", "red", "4rem"));
                         }
-                    }
-                    else
-                    {
-                        chatContent.append(temp.optString("code","")).append("<br>");
-                    }
 
+                        if (qxcGameTypeCode.getCode() == GameIndex.QXCGameTypeCode.dxds.getCode()) {
+                            String[] codesArray = temp.optString("code", "").split(",");
+                            if (codesArray.length > 0) {
+                                for (String str : codesArray) {
+                                    int num = str.charAt(0) - '0';
+                                    if (GameIndex.DXDS.length > num) {
+                                        chatContent.append(GameIndex.DXDS[num]);
+                                    }
+                                }
+                                chatContent.append("<br>");
+                            }
+                        } else {
+                            chatContent.append(temp.optString("code", "")).append("<br>");
+                        }
+
+                    }
                 }
 
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
 
-                if (orderAmount>100) {
+                if (orderAmount > 100) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
                 }
 
@@ -306,7 +332,7 @@ public class QxcService {
 
 
                 //加入行数字段
-                jsonObject.put("lines",qxcGameTypeCode.getLine());
+                jsonObject.put("lines", qxcGameTypeCode.getLine());
 
                 float winRate = getWinRate(qxcGameTypeCode.getCode(), lottery20Setting);
                 QXCOrder qxcOrder = new QXCOrder();
@@ -326,7 +352,29 @@ public class QxcService {
                 qxcOrder.setJia(userBean.getJia());
                 qxcOrder.setUserid(userId);
                 qxcOrder.setRoomid(Integer.parseInt(roomId));
-                int status = qxcOrderMapper.insertSelective(qxcOrder);
+                int status = 0;
+
+                if(isMultiBet)
+                {
+                    status= qxcOrderMapper.insertSelective(qxcOrder);
+                }
+                else
+                {
+                    int len=0;
+                    switch (qxcGameTypeCode.getCode())
+                    {
+                        case 3:
+                            len=4;
+                            break;
+                        case 4:
+                            len=3;
+                            break;
+                        case 5:
+                            len=2;
+                            break;
+                    }
+                    status= qxcOrderMapper.insertOrderList(SingleBetCalBetOrder.getInstance().converterOrderJson(len,codes,qxcOrder));
+                }
 
 
                 if (status < 1) {
@@ -548,7 +596,7 @@ public class QxcService {
 
             String openResultCodes = LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.qxc.getCode(), qxcOrder.getTerm());
             if (Strings.isEmptyOrNullAmongOf(openResultCodes)) {
-                MyLog.e("第"+qxcOrder.getTerm()+"期,结算失败，获取开奖号码是空");
+                MyLog.e("第" + qxcOrder.getTerm() + "期,结算失败，获取开奖号码是空");
                 continue;
             }
 
@@ -731,7 +779,7 @@ public class QxcService {
         String remainTime = String.valueOf(reamain);
         Map<String, String> map = new HashMap<>();
         map.put("remainTime", remainTime);
-        map.put("codes",lotteryOpenBean.getCode());
+        map.put("codes", lotteryOpenBean.getCode());
         map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
         map.put("term", lotteryOpenBean.getTerm());
 

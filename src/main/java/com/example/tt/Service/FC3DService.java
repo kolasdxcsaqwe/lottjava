@@ -38,9 +38,9 @@ public class FC3DService {
 //    final String fc3dUrl="https://api.api68.com/QuanGuoCai/getLotteryInfo1.do?lotCode=10041";//福彩3D开奖地址
 
     final String fc3dUrl = "http://localhost:8653/fakeOpenResult?lotteryName=fc3d";//假福彩3d开奖地址
-    final String[] titles={"百位","十位","个位"};
+    final String[] titles = {"百位", "十位", "个位"};
 
-    private static int check(JSONArray jsonArray, int type) {
+    private static int check(boolean isMultiBet, JSONArray jsonArray, int type) {
         int orderAmount = 0;
 
         if (jsonArray == null || jsonArray.length() < 1) {
@@ -51,20 +51,23 @@ public class FC3DService {
         int mul = 1;
         int sum = 0;
         Map<Integer, String[]> codes = new HashMap<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.optJSONObject(i);
-            String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
-            String[] nums = str.split(",");
-            codes.put(jsonObject.optInt("pos", -1), nums);
-            if (nums.length == 0) {
-                return 0;
-            } else {
-                mul = mul * nums.length;
-                sum = sum + nums.length;
+        if(isMultiBet)
+        {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                String str = jsonObject.optString("code", "").trim().replaceAll(" ", "");
+                String[] nums = str.split(",");
+                codes.put(jsonObject.optInt("pos", -1), nums);
+                if (nums.length == 0) {
+                    return 0;
+                } else {
+                    mul = mul * nums.length;
+                    sum = sum + nums.length;
+                }
             }
         }
 
-        if (codes.isEmpty()) {
+        if (isMultiBet && codes.isEmpty()) {
             return 0;
         }
 
@@ -76,7 +79,11 @@ public class FC3DService {
                 orderAmount = calculateOrderAnyChoose(codes.get(0).length, 1);
                 break;
             case 3:
-                orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
+                if (isMultiBet) {
+                    orderAmount = FixChooseCalWin.checkFormatFixPosition(codes, 0, 1, 2) ? mul : 0;
+                } else {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(3, jsonArray);
+                }
                 break;
             case 4:
                 orderAmount = mul > 1 ? mul * (mul - 1) : 0;
@@ -110,7 +117,11 @@ public class FC3DService {
                 break;
             case 8:
             case 9:
-                orderAmount = mul;
+                if (isMultiBet) {
+                    orderAmount = mul;
+                } else {
+                    orderAmount = SingleBetCalBetOrder.getInstance().calOrder(2, jsonArray);
+                }
                 break;
             case 10:
                 orderAmount = sum;
@@ -235,9 +246,8 @@ public class FC3DService {
         int calTotalMoney = calTotalMoney(betArray);
         MyLog.e("totalMoney-->" + calTotalMoney);
 
-        if(calTotalMoney <= 0)
-        {
-            isFormatOk=false;
+        if (calTotalMoney <= 0) {
+            isFormatOk = false;
         }
 
         if (userBean.getMoney().compareTo(new BigDecimal(calTotalMoney)) < 0) {
@@ -257,6 +267,9 @@ public class FC3DService {
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
                 int singleOrderMoney = jsonObject.optInt("money", 0);
+                boolean combineChatContent = jsonObject.optBoolean("combineChatContent", false);
+                boolean isMultiBet = jsonObject.optBoolean("isMultiBet", true);
+
                 if (unitPrice < 1 || Strings.isEmptyOrNullAmongOf(gameName)) {
                     isFormatOk = false;
                 }
@@ -275,46 +288,43 @@ public class FC3DService {
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, fc3DGameTypeCode.getCode());
+                int orderAmount = check(isMultiBet, codes, fc3DGameTypeCode.getCode());
                 StringBuilder chatContent = new StringBuilder();
-                chatContent.append(Strings.makeBoldSpan(fc3DGameTypeCode.getExplain(),"#fe6c00","4rem"));
+                chatContent.append(Strings.makeBoldSpan(fc3DGameTypeCode.getExplain(), "#fe6c00", "4rem"));
                 chatContent.append("<br>");
 
-                for (int j = 0; j < codes.length(); j++) {
-                    JSONObject temp = codes.optJSONObject(j);
+                if (combineChatContent) {
+                    chatContent.append(codes.toString());
+                } else {
+                    for (int j = 0; j < codes.length(); j++) {
+                        JSONObject temp = codes.optJSONObject(j);
 
-                    int pos=temp.optInt("pos",-1);
-                    if(fc3DGameTypeCode.getLine()>1 && pos>-1 && pos<titles.length)
-                    {
-                        chatContent.append(Strings.makeSpan(titles[pos]+":","red","4rem"));
-                    }
-
-                    if(fc3DGameTypeCode.getCode()==GameIndex.FC3DGameTypeCode.dxds.getCode())
-                    {
-                        String[] codesArray=temp.optString("code","").split(",");
-                        if(codesArray.length>0)
-                        {
-                            for(String str:codesArray)
-                            {
-                                int num=str.charAt(0)-'0';
-                                if(GameIndex.DXDS.length>num)
-                                {
-                                    chatContent.append(GameIndex.DXDS[num]);
-                                }
-                            }
-                            chatContent.append("<br>");
+                        int pos = temp.optInt("pos", -1);
+                        if (fc3DGameTypeCode.getLine() > 1 && pos > -1 && pos < titles.length) {
+                            chatContent.append(Strings.makeSpan(titles[pos] + ":", "red", "4rem"));
                         }
-                    }
-                    else
-                    {
-                        chatContent.append(temp.optString("code","")).append("<br>");
+
+                        if (fc3DGameTypeCode.getCode() == GameIndex.FC3DGameTypeCode.dxds.getCode()) {
+                            String[] codesArray = temp.optString("code", "").split(",");
+                            if (codesArray.length > 0) {
+                                for (String str : codesArray) {
+                                    int num = str.charAt(0) - '0';
+                                    if (GameIndex.DXDS.length > num) {
+                                        chatContent.append(GameIndex.DXDS[num]);
+                                    }
+                                }
+                                chatContent.append("<br>");
+                            }
+                        } else {
+                            chatContent.append(temp.optString("code", "")).append("<br>");
+                        }
                     }
                 }
                 if (orderAmount < 1) {
                     isFormatOk = false;
                 }
 
-                if (orderAmount>100) {
+                if (orderAmount > 100) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S22);
                 }
 
@@ -328,7 +338,7 @@ public class FC3DService {
 
 
                 //加入行数字段
-                jsonObject.put("lines",fc3DGameTypeCode.getLine());
+                jsonObject.put("lines", fc3DGameTypeCode.getLine());
 
                 float winRate = getWinRate(fc3DGameTypeCode.getCode(), lottery21Setting);
                 FC3DOrder fc3DOrder = new FC3DOrder();
@@ -348,8 +358,27 @@ public class FC3DService {
                 fc3DOrder.setJia(userBean.getJia());
                 fc3DOrder.setUserid(userId);
                 fc3DOrder.setRoomid(Integer.parseInt(roomId));
-                int status = fc3DOrderMapper.insertSelective(fc3DOrder);
 
+                int status =0;
+                if(isMultiBet)
+                {
+                    status = fc3DOrderMapper.insertSelective(fc3DOrder);
+                }
+                else
+                {
+                    int len=0;
+                    switch (fc3DGameTypeCode.getCode())
+                    {
+                        case 3:
+                            len=3;
+                            break;
+                        case 8:
+                        case 9:
+                            len=2;
+                            break;
+                    }
+                    status= fc3DOrderMapper.insertOrderList(SingleBetCalBetOrder.getInstance().converterOrderJson(len,codes,fc3DOrder,fc3DGameTypeCode));
+                }
 
                 if (status < 1) {
                     return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
@@ -422,6 +451,8 @@ public class FC3DService {
                 }
                 String gameName = jsonObject.optString("gameName", "");
                 int unitPrice = jsonObject.optInt("unitPrice", 0);
+                boolean combineChatContent = jsonObject.optBoolean("combineChatContent", false);
+                boolean isMultiBet = jsonObject.optBoolean("isMultiBet", true);
 
                 GameIndex.FC3DGameTypeCode fc3DGameTypeCode = GameIndex.FC3DGameTypeCode.getFC3DGameTypeCode(gameName);
                 if (fc3DGameTypeCode == null) {
@@ -429,7 +460,7 @@ public class FC3DService {
                 }
 
                 JSONArray codes = jsonObject.optJSONArray("codes");
-                int orderAmount = check(codes, fc3DGameTypeCode.getCode());
+                int orderAmount = check(isMultiBet, codes, fc3DGameTypeCode.getCode());
                 orderTotalMoney = orderTotalMoney + (unitPrice * orderAmount);
             }
         } catch (JSONException e) {
@@ -582,7 +613,7 @@ public class FC3DService {
 
             String openResultCodes = LotteryConfigGetter.getInstance().getOpenResultCodes(GameIndex.LotteryTypeCodeList.fc3d.getCode(), fc3DOrder.getTerm());
             if (Strings.isEmptyOrNullAmongOf(openResultCodes)) {
-                MyLog.e("第"+fc3DOrder.getTerm()+"期,结算失败，获取开奖号码是空");
+                MyLog.e("第" + fc3DOrder.getTerm() + "期,结算失败，获取开奖号码是空");
                 continue;
             }
 
@@ -759,7 +790,7 @@ public class FC3DService {
         Map<String, String> map = new HashMap<>();
         map.put("remainTime", remainTime);
         map.put("openTime", String.valueOf(lotteryOpenBean.getNextTime().getTime()));
-        map.put("codes",lotteryOpenBean.getCode());
+        map.put("codes", lotteryOpenBean.getCode());
         map.put("term", lotteryOpenBean.getTerm());
 
         return ReturnDataBuilder.makeBaseJSON(map);

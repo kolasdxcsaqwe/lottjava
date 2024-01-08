@@ -2,7 +2,7 @@ package com.example.tt.Bean;
 
 import java.util.Date;
 
-public class QXCOrder {
+public class QXCOrder implements Cloneable{
     private Integer id;
 
     private String term;
@@ -181,5 +181,15 @@ public class QXCOrder {
 
     public void setJia(String jia) {
         this.jia = jia == null ? null : jia.trim();
+    }
+
+    @Override
+    public QXCOrder clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (QXCOrder) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

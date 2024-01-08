@@ -2,7 +2,7 @@ package com.example.tt.Bean;
 
 import java.util.Date;
 
-public class FC3DOrder {
+public class FC3DOrder implements Cloneable{
     private Integer id;
 
     private String term;
@@ -181,5 +181,15 @@ public class FC3DOrder {
 
     public void setJia(String jia) {
         this.jia = jia == null ? null : jia.trim();
+    }
+
+    @Override
+    public FC3DOrder clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (FC3DOrder) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

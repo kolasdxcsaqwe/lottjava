@@ -24,4 +24,6 @@ public interface FC3DOrderMapper {
     List<FC3DOrder> selectOrderByStatus(@Param("status")Integer status);
 
     List<FC3DOrder> selectOrderByStatusAndTerm(@Param("status")Integer status,@Param("term")String term);
+
+    int insertOrderList(List<FC3DOrder> fc3DOrderList);
 }

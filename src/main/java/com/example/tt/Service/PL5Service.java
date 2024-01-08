@@ -247,7 +247,7 @@ public class PL5Service {
                 chatContent.append(Strings.makeBoldSpan(pl5GameTypeCode.getExplain(),"#ec4127","4rem"));
                 chatContent.append("<br>");
 
-                if(!isMultiBet)
+                if(combineChatContent)
                 {
                     chatContent.append(codes.toString());
                 }
