@@ -149,7 +149,7 @@ public class FC3DService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
 
-        if(RedisCache.getInstance().get(userId)!=null)
+        if(RedisCache.getInstance().get(userId+"fc3dOrder")!=null)
         {
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
         }
@@ -167,7 +167,7 @@ public class FC3DService {
         }
         else
         {
-            RedisCache.getInstance().set(userId+"cancelOrder",id);
+            RedisCache.getInstance().set(userId+"fc3dOrder",id);
             fc3DOrder.setId(Integer.parseInt(id));
             fc3DOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
             int status = fc3DOrderMapper.updateByPrimaryKeySelective(fc3DOrder);
@@ -177,7 +177,7 @@ public class FC3DService {
                 userBeanMapper.addUserMoney(new BigDecimal(fc3DOrder.getMoney()),userId);
             }
         }
-        RedisCache.getInstance().delete(userId+"cancelOrder");
+        RedisCache.getInstance().delete(userId+"fc3dOrder");
 
         return ReturnDataBuilder.returnData(true);
     }
