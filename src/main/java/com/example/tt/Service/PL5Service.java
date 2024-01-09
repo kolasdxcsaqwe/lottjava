@@ -497,6 +497,7 @@ public class PL5Service {
         }
         else
         {
+            RedisCache.getInstance().set(userId+"cancelOrder",id);
             pl5Order.setId(Integer.parseInt(id));
             pl5Order.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
             int status = pl5OrderMapper.updateByPrimaryKeySelective(pl5Order);
@@ -506,7 +507,7 @@ public class PL5Service {
                 userBeanMapper.addUserMoney(new BigDecimal(pl5Order.getMoney()),userId);
             }
         }
-        RedisCache.getInstance().delete(userId);
+        RedisCache.getInstance().delete(userId+"cancelOrder");
 
         return ReturnDataBuilder.returnData(true);
     }
