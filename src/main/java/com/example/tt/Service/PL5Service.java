@@ -480,7 +480,7 @@ public class PL5Service {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
 
-        if(RedisCache.getInstance().get(userId)!=null)
+        if(RedisCache.getInstance().get(userId+"cancelOrder")!=null)
         {
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
         }
@@ -492,7 +492,7 @@ public class PL5Service {
         }
         if(pl5Order.getStatus()!=0)
         {
-            RedisCache.getInstance().delete(userId);
+            RedisCache.getInstance().delete(userId+"cancelOrder");
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
         }
         else
