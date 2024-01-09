@@ -480,7 +480,7 @@ public class PL5Service {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
 
-        if(RedisCache.getInstance().get(userId+"cancelOrder")!=null)
+        if(RedisCache.getInstance().get(userId+"pl5cancelOrder")!=null)
         {
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
         }
@@ -496,7 +496,7 @@ public class PL5Service {
         }
         else
         {
-            RedisCache.getInstance().set(userId+"cancelOrder",id);
+            RedisCache.getInstance().set(userId+"pl5cancelOrder",id);
             pl5Order.setId(Integer.parseInt(id));
             pl5Order.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
             int status = pl5OrderMapper.updateByPrimaryKeySelective(pl5Order);
@@ -506,7 +506,7 @@ public class PL5Service {
                 userBeanMapper.addUserMoney(new BigDecimal(pl5Order.getMoney()),userId);
             }
         }
-        RedisCache.getInstance().delete(userId+"cancelOrder");
+        RedisCache.getInstance().delete(userId+"pl5cancelOrder");
 
         return ReturnDataBuilder.returnData(true);
     }
