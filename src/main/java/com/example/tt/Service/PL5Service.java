@@ -492,7 +492,6 @@ public class PL5Service {
         }
         if(pl5Order.getStatus()!=0)
         {
-            RedisCache.getInstance().delete(userId+"cancelOrder");
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
         }
         else
