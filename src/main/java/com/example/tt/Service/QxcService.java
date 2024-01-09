@@ -791,7 +791,7 @@ public class QxcService {
             return ReturnDataBuilder.error(ReturnDataBuilder.GameListNameEnum.S9);
         }
 
-        if(RedisCache.getInstance().get(userId)!=null)
+        if(RedisCache.getInstance().get(userId+"cancelOrder")!=null)
         {
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S23);
         }
@@ -803,11 +803,12 @@ public class QxcService {
         }
         if(qxcOrder.getStatus()!=0)
         {
-            RedisCache.getInstance().delete(userId);
+            RedisCache.getInstance().delete(userId+"cancelOrder");
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
         }
         else
         {
+            RedisCache.getInstance().set(userId+"cancelOrder",id);
             qxcOrder.setId(Integer.parseInt(id));
             qxcOrder.setStatus(GameIndex.OrderCalculateStatus.quit.getCode());
             int status = qxcOrderMapper.updateByPrimaryKeySelective(qxcOrder);
@@ -815,7 +816,7 @@ public class QxcService {
             if(status>0)
             {
                 userBeanMapper.addUserMoney(new BigDecimal(qxcOrder.getMoney()),userId);
-                RedisCache.getInstance().delete(userId);
+                RedisCache.getInstance().delete(userId+"cancelOrder");
             }
         }
 
