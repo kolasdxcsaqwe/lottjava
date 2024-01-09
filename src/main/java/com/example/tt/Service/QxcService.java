@@ -803,7 +803,6 @@ public class QxcService {
         }
         if(qxcOrder.getStatus()!=0)
         {
-            RedisCache.getInstance().delete(userId+"cancelOrder");
             return ReturnDataBuilder.returnData(ReturnDataBuilder.GameListNameEnum.S24);
         }
         else
@@ -816,9 +815,9 @@ public class QxcService {
             if(status>0)
             {
                 userBeanMapper.addUserMoney(new BigDecimal(qxcOrder.getMoney()),userId);
-                RedisCache.getInstance().delete(userId+"cancelOrder");
             }
         }
+        RedisCache.getInstance().delete(userId+"cancelOrder");
 
         return ReturnDataBuilder.returnData(true);
     }
